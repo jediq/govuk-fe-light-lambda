@@ -5,7 +5,7 @@ phases:
     commands:
       # Install dependencies needed for running tests
       - npm install
-      - find $CODEBUILD_SRC_DIR/backend/node_modules -exec touch {} +
+      - find $CODEBUILD_SRC_DIR/node_modules -exec touch {} +
 
       # Upgrade AWS CLI to the latest version
       - pip install --upgrade pip
@@ -15,7 +15,6 @@ phases:
       - apt-get -q update && apt-get install -y libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 xvfb
   pre_build:
     commands:
-      # Run backend tests
       - npm run build
   build:
     commands:

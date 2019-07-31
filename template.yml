@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform:
+  - AWS::Serverless-2016-10-31
+  - AWS::CodeStar
+
+Parameters:
+  ProjectId:
+    Type: String
+    Description: AWS CodeStar projectID used to associate new resources to team members
+
+# Enable blue/green deployments using this Globals section. For instructions, see the AWS CodeStar User Guide:
+# https://docs.aws.amazon.com/codestar/latest/userguide/how-to-modify-serverless-project.html?icmpid=docs_acs_rm_tr
+#
+# Globals:
+#   Function:
+#     AutoPublishAlias: live
+#     DeploymentPreference:
+#       Enabled: true
+#       Type: Canary10Percent5Minutes
+
+Resources:
+  HireStApplication:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./build
+      Handler: index
+      Runtime: nodejs8.10
+      Environment:
+        Variables:
+          NODE_ENV: production
+          REGION: !Ref "AWS::Region"
+      Role:
+        Fn::ImportValue: !Join ["-", [!Ref "ProjectId", !Ref "AWS::Region", "LambdaTrustRole"]]
+      Events:
+        GetRoot:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
+        GetEvent:
+          Type: Api
+          Properties:
+            Path: /{param+}
+            Method: get
+        PostEvent:
+          Type: Api
+          Properties:
+            Path: /{param+}
+            Method: post
+        DeleteEvent:
+          Type: Api
+          Properties:
+            Path: /{param+}
+            Method: delete

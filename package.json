@@ -1,13 +1,63 @@
 {
-    "name": "hello-world",
-    "description": "Sample NodeJs web application",
-    "version": "0.0.1",
-    "private": true,
-    "devDependencies": {
-        "mocha": "5.0.0",
-        "unit.js": "2.0.0"
-    },
-    "scripts": {
-        "test": "mocha --recursive tests"
-    }
+  "name": "gds-fe",
+  "description": "",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "autoprefixer": "^9.6.0",
+    "aws-sdk": "2.486.0",
+    "aws-serverless-express": "3.3",
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "chokidar-cli": "^1.2.2",
+    "cookie-parser": "^1.4.4",
+    "crypto-js": "^3.1.9-1",
+    "csv": "^5.1.1",
+    "elasticsearch": "^16.1.1",
+    "express": "4.17.1",
+    "express-jwt": "^5.3.1",
+    "got": "^9.6.0",
+    "govuk-frontend": "^2.13.0",
+    "handlebars": "^4.1.2",
+    "http-aws-es": "^6.0.0",
+    "jwks-rsa": "^1.5.1",
+    "lodash.clonedeep": "^4.5.0",
+    "moment": "^2.24.0",
+    "moment-range": "^4.0.2",
+    "multer": "^1.4.1",
+    "node-sass-chokidar": "^1.3.5",
+    "npm-run-all": "^4.1.5",
+    "postcss-cli": "^6.1.2",
+    "v8n": "^1.3.2",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.27",
+    "@types/aws-sdk": "2.7.0",
+    "@types/body-parser": "^1.17.0",
+    "@types/express": "^4.17.0",
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.0.10",
+    "cors": "^2.8.5",
+    "jest": "^24.8.0",
+    "supertest": "4.0.2",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.2"
+  },
+  "scripts": {
+    "clean": "rm -rf build ; mkdir build",
+    "build-task:scss-compile": "node-sass-chokidar --source-map true src/scss/ -o build/assets/css",
+    "build-task:autoprefixer": "postcss build/assets/css/*.css --use autoprefixer -d build/assets/css",
+    "build-task:copy-assets": "cp -R node_modules/govuk-frontend/assets build ; cp -R src/assets build ; cp node_modules/govuk-frontend/all.js build/assets",
+    "build-task:copy-templates": "cp -R src/templates build/templates",
+    "build-task:compile-and-test": "tsc ; jest tests/unit",
+    "build": "npm-run-all -p build-task:*",
+    "sass:watch": "chokidar 'src/scss/**/*.scss' -c 'npm run sass:build'",
+    "local": "node build/local.js ${service}"
+  },
+  "engines": {
+    "node": ">= 6",
+    "npm": ">= 4",
+    "yarn": "^0.19.0"
+  }
 }

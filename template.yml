@@ -23,7 +23,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./build
-      Handler: index
+      Handler: index.handler
       Runtime: nodejs8.10
       Environment:
         Variables:

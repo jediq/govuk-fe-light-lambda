@@ -12,6 +12,7 @@ phases:
     commands:
       # Discover and run unit tests in the 'tests' directory
       - npm run build
+      - cp -R node_modules dist/
   build:
     commands:
       # Use AWS SAM to package the application by using AWS CloudFormation

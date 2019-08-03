@@ -12,6 +12,7 @@ phases:
     commands:
       # Discover and run unit tests in the 'tests' directory
       - npm run build
+      - npm prune --production
       - cp -R node_modules dist/
   build:
     commands:

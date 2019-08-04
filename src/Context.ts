@@ -1,6 +1,7 @@
 import cloneDeep from "lodash/cloneDeep";
 
 import logger from "./util/logger";
+import environment from "./util/environment";
 import CryptoJS from "crypto-js";
 
 var serviceConfig = process.env.npm_config_service || process.env.service || "./configuration";
@@ -55,7 +56,7 @@ export class Context {
   }
 
   public encode(obj: any, secret: string) {
-    if (process.env.npm_config_debug == "true") {
+    if (environment.debug) {
       return JSON.stringify(obj);
     }
     logger.debug(`encoding : ${JSON.stringify(obj)} with ${secret}`);
@@ -63,7 +64,7 @@ export class Context {
   }
 
   public decode(str: string, secret: string) {
-    if (process.env.npm_config_debug == "true") {
+    if (environment.debug) {
       return JSON.parse(str);
     }
     var bytes = CryptoJS.AES.decrypt(str, secret);

@@ -17,7 +17,8 @@ function createDataCookie(context: Context, res: express.Response) {
     res.cookie(context.service.hash, data);
 }
 
-app.use("/public", express.static(path.join(__dirname, "/public")));
+app.use("/public", express.static(path.join(__dirname, "../public")));
+app.use("/assets", express.static(path.join(__dirname, "../assets")));
 
 app.use(bodyParser.json({ type: "application/json" }));
 app.use(cookieParser(context.service.cookieSecret));

@@ -19,8 +19,7 @@ module.exports = {
           label: "Registration number (number plate)",
           hint: "For example, CU57ABC",
           width: "one-third",
-          validator:
-            "(^[A-Z]{2}[0-9]{2} [A-Z]{3}$)|(^[A-Z][0-9]{1,3} [A-Z]{3}$)|(^[A-Z]{3} [0-9]{1,3}[A-Z]$)|(^[0-9]{1,4} [A-Z]{1,2}$)|(^[0-9]{1,3} [A-Z]{1,3}$)|(^[A-Z]{1,2} [0-9]{1,4}$)|(^[A-Z]{1,3} [0-9]{1,3}$)",
+          validator: "^[A-Za-z0-9]{0,7}$",
           error: "Enter the vehicle’s registration"
         }
       ],

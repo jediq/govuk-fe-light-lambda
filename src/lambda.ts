@@ -1,9 +1,8 @@
 "use strict";
 import { Context } from "aws-lambda";
 import * as awsServerlessExpress from "aws-serverless-express";
-import app from "./app";
+import app from "./app/app";
 
 var server = awsServerlessExpress.createServer(app);
 
-exports.handler = (event: any, context: Context) =>
-    awsServerlessExpress.proxy(server, event, context);
+exports.handler = (event: any, context: Context) => awsServerlessExpress.proxy(server, event, context);

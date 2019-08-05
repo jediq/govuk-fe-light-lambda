@@ -5,11 +5,10 @@ import * as path from "path";
 import * as renderer from "./renderer";
 import * as validator from "./validator";
 import { Context } from "./Context";
-
-import globalService from "./configuration";
 import logger from "./util/logger";
 
 const app = express();
+const context = new Context(null);
 
 function createDataCookie(context: Context, res: express.Response) {
   var data = context.getEncodedData();
@@ -21,7 +20,7 @@ function createDataCookie(context: Context, res: express.Response) {
 app.use("/public", express.static(path.join(__dirname, "/public")));
 
 app.use(bodyParser.json({ type: "application/json" }));
-app.use(cookieParser(globalService.cookieSecret));
+app.use(cookieParser(context.service.cookieSecret));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req: express.Request, res: express.Response) => {

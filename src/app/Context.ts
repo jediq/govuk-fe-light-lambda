@@ -4,7 +4,7 @@ import logger from "./util/logger";
 import environment from "./util/environment";
 import CryptoJS from "crypto-js";
 
-var serviceConfig = process.env.npm_config_service || process.env.service || "./configuration";
+var serviceConfig = process.env.npm_config_service || process.env.service || "../testservice";
 logger.info("serviceConfig : " + serviceConfig);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const globalService = require(serviceConfig);
@@ -28,10 +28,12 @@ export class Context {
     this.service = cloneDeep(globalService);
     this.service.hash = hashCode(this.service.name);
     logger.debug("service hash : " + this.service.hash);
+    if (!req) return;
+
     this.data = this.getDataFromReq(req);
     logger.debug("this.data after cookie : " + JSON.stringify(this.data));
 
-    const pageId = req.params["page"] || this.service.firstPage;
+    const pageId = req.params["page"];
     this.page = this.service.pages.find((page: any) => page.id === pageId);
 
     req.body && Object.keys(req.body).forEach(key => (this.data[key] = req.body[key]));

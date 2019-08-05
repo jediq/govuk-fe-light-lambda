@@ -73,6 +73,7 @@ app.post("/:page", async (req: express.Request, res: express.Response) => {
     validator.enrichPage(context.page, context);
     validator.executePostValidation(context);
   } catch (error) {
+    logger.debug("error during validation : " + JSON.stringify(error));
     context.page.valid = false;
     context.page.invalid = true;
   }

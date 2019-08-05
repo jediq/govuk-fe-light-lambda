@@ -4,11 +4,12 @@ import * as handlebars from "handlebars";
 import got from "got";
 
 function validateItem(item: any, value: any) {
-  logger.debug(`validating ${value} against ${item.validator}`);
   if (undefined === value) {
     value = "";
   }
-  return new RegExp(item.validator).test(value);
+  var isValid = new RegExp(item.validator).test(value);
+  logger.debug(`validating ${value} against ${item.validator} ? ${isValid}`);
+  return isValid;
 }
 
 function enrichPage(page: any, context: any) {

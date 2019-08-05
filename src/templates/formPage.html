@@ -46,12 +46,17 @@
         <form method="POST">
           <div class="govuk-form-group {{#if page.invalid}}govuk-form-group--error{{/if}}">
             {{#each page.items}}
+
             {{#if_eq this.type 'text'}}
             {{> textField ..}}
             {{/if_eq}}
 
             {{#if_eq this.type 'radio'}}
             {{> radioField ..}}
+            {{/if_eq}}
+
+            {{#if_eq this.type 'datePicker'}}
+            {{> datePickerField ..}}
             {{/if_eq}}
 
             {{/each}}

@@ -58,9 +58,10 @@ function renderConfirmation(context: any) {
 
 registerPartial("govHeader");
 registerPartial("govFooter");
-registerPartial("textField");
-registerPartial("radioField");
 registerPartial("phaseBanner");
+registerPartial("radioField");
+registerPartial("textField");
+registerPartial("datePickerField");
 
 handlebars.registerHelper("if_eq", function(a, b, opts) {
     if (a == b) {

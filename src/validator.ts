@@ -50,7 +50,7 @@ async function executePreValidation(context: any) {
         logger.debug(`added to context.data[${pre.id}]: ` + context.data[pre.id]);
         logger.debug("context.data after pre validation : " + JSON.stringify(context.data));
       } catch (error) {
-        logger.error("here's the error: " + error);
+        logger.error("here's the error: " + error.toString());
         logger.error(error.response);
       }
     }

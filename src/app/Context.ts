@@ -33,9 +33,18 @@ export class Context {
         this.data = this.getDataFromReq(req);
         logger.debug("this.data after cookie : " + JSON.stringify(this.data));
 
+        // create the page object
         const pageId = req.params["page"];
         this.page = this.service.pages.find((page: any) => page.id === pageId);
 
+        //   if (items[i].type == "inputSelect" && !Array.isArray(item.options)) {
+        //     console.log("context.data", context.data);
+        //     console.log("[item.options] ", item.options);
+        //     console.log("context.data[item.options] ", context.data[item.options]);
+        //     items[i].options = context.data[item.options];
+        // }
+
+        // add any form data into the context
         req.body && Object.keys(req.body).forEach(key => (this.data[key] = req.body[key]));
 
         logger.debug("this.data after fields: " + JSON.stringify(this.data));

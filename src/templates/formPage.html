@@ -59,6 +59,10 @@
             {{> datePickerField ..}}
             {{/if_eq}}
 
+            {{#if_eq this.type 'inputSelect'}}
+            {{> inputSelectField ..}}
+            {{/if_eq}}
+
             {{/each}}
           </div>
           <div class="govuk-form-group">

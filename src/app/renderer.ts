@@ -62,6 +62,7 @@ registerPartial("phaseBanner");
 registerPartial("radioField");
 registerPartial("textField");
 registerPartial("datePickerField");
+registerPartial("inputSelectField");
 
 handlebars.registerHelper("if_eq", function(a, b, opts) {
     if (a == b) {

@@ -34,7 +34,7 @@ module.exports = {
                     label: "First Name",
                     width: "one-third",
                     validator: "^.+$",
-                    error: "Enter the your first name"
+                    error: "Enter your first name"
                 },
                 {
                     id: "lastNameField",
@@ -42,7 +42,7 @@ module.exports = {
                     label: "Last Name",
                     width: "one-third",
                     validator: "^.+$",
-                    error: "Enter the your last name"
+                    error: "Enter your last name"
                 }
             ]
         },
@@ -50,10 +50,10 @@ module.exports = {
             id: "dateofbirth",
             description: "What's your date of birth?",
             nextPage: () => "addressLookup",
-            preRequisiteData: ["typeField", "firstNameField", "lastNameField"],
+            preRequisiteData: ["firstNameField", "lastNameField"],
             items: [
                 {
-                    id: "dateofBirthField",
+                    id: "dateOfBirthField",
                     type: "datePicker",
                     label: "We use this information to find out if you're eligible for a senior or junior concession.",
                     hint: "For example, 23 3 1972",
@@ -65,24 +65,47 @@ module.exports = {
             id: "addressLookup",
             description: "What's your home address?",
             nextPage: () => "chooseAddress",
-            preRequisiteData: ["typeField", "firstNameField", "lastNameField", "dateOfBirthField"],
+            preRequisiteData: ["dateOfBirthField-day", "dateOfBirthField-month", "dateOfBirthField-year"],
             items: [
                 {
                     id: "homePostcodeField",
                     type: "text",
+                    width: "one-third",
                     validator: "^.+$"
                 }
-            ]
+            ],
+            preValidation: [
+                {
+                    id: "addressList",
+                    url: "https://api.getAddress.io/find/{{homePostcodeField}}?api-key=z3s2qP97vkWJN7gyhpFtaQ14238",
+
+                    debugUrl: "https://api.getAddress.io/find/HU120HE?api-key=z3s2qP97vkWJN7gyhpFtaQ14238",
+                    headers: {
+                        accept: "application/json"
+                    }
+                }
+            ],
+            validation: {
+                validator: (context: any) => {
+                    return context.data.addressList && context.data.addressList.addresses.length > 0;
+                },
+                error: "We don't hold information about this vehicle"
+            }
         },
         {
             id: "chooseAddress",
-            description: "What's your home address?",
+            description: "Select your address",
             nextPage: () => "chooseAddress",
-            preRequisiteData: ["typeField", "firstNameField", "lastNameField", "dateOfBirthField", "postcodeField"],
+            preRequisiteData: ["addressList"],
             items: [
                 {
-                    id: "homeAddressField",
-                    type: "addressChooser"
+                    id: "address",
+                    options: "context.data.addressList.addresses",
+                    type: "inputSelect",
+                    label: "Choose your address from the list",
+                    width: "one-third",
+                    validator: "^.+$",
+                    error: "Please choose an address"
                 }
             ]
         }

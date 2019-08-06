@@ -35,11 +35,13 @@ function findItem(id: any, context: Context) {
 }
 
 function renderConfirmation(context: any) {
-    console.log("items : ", JSON.stringify(context.page));
+    logger.debug("items : " + JSON.stringify(context.page));
     for (var group of context.page.groups) {
         var items = group.items;
         for (var i = 0; i < items.length; i++) {
             var id = items[i];
+            logger.debug("item : " + JSON.stringify(id));
+
             var { page, item }: any = findItem(id, context);
             if (item) {
                 items[i] = {

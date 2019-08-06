@@ -33,21 +33,26 @@ export class Context {
         this.data = this.getDataFromReq(req);
         logger.debug("this.data after cookie : " + JSON.stringify(this.data));
 
+        // add any form data into the context
+        req.body && Object.keys(req.body).forEach(key => (this.data[key] = req.body[key]));
+        logger.debug("this.data after fields: " + JSON.stringify(this.data));
+
         // create the page object
         const pageId = req.params["page"];
         this.page = this.service.pages.find((page: any) => page.id === pageId);
+        this.page && this.augmentPage();
+    }
 
-        //   if (items[i].type == "inputSelect" && !Array.isArray(item.options)) {
-        //     console.log("context.data", context.data);
-        //     console.log("[item.options] ", item.options);
-        //     console.log("context.data[item.options] ", context.data[item.options]);
-        //     items[i].options = context.data[item.options];
-        // }
-
-        // add any form data into the context
-        req.body && Object.keys(req.body).forEach(key => (this.data[key] = req.body[key]));
-
-        logger.debug("this.data after fields: " + JSON.stringify(this.data));
+    private augmentPage() {
+        for (var i = 0; i < this.page.items.length; i++) {
+            var item = this.page.items[i];
+            if (item.options && !Array.isArray(item.options)) {
+                console.log("context.data", this.data);
+                console.log("[item.options] ", item.options);
+                console.log("context.data[item.options] ", this.data[item.options]);
+                item.options = this.data[item.options];
+            }
+        }
     }
 
     public getEncodedData() {
@@ -56,7 +61,6 @@ export class Context {
 
     public getDataFromReq(req: any) {
         if (this.service.hash in req.cookies) {
-            logger.debug("we have a service cookie");
             var encrypted = req.cookies[this.service.hash];
             logger.debug("encrypted cookie : " + encrypted);
             var decrypted = this.decode(encrypted, this.service.cookieSecret);
@@ -70,7 +74,6 @@ export class Context {
         if (environment.debug) {
             return JSON.stringify(obj);
         }
-        logger.debug(`encoding : ${JSON.stringify(obj)} with ${secret}`);
         return CryptoJS.AES.encrypt(JSON.stringify(obj), secret).toString();
     }
 
@@ -80,7 +83,6 @@ export class Context {
         }
         var bytes = CryptoJS.AES.decrypt(str, secret);
         var asString = bytes.toString(CryptoJS.enc.Utf8);
-        logger.debug("decoded to string: " + asString);
         return JSON.parse(asString);
     }
 

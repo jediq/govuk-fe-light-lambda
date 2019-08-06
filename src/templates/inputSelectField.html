@@ -1,1 +1,10 @@
-{{options}}
+<div class="govuk-form-group">
+  <label class="govuk-label" for="{{id}}">
+    Sort by
+  </label>
+  <select class="govuk-select" id="{{id}}" name="{{id}}">
+    {{#each options}}
+    <option>{{this}}</option>
+    {{/each}}
+  </select>
+</div>

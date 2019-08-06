@@ -42,11 +42,15 @@ async function executePreValidation(context: any) {
                 var urlTemplate = handlebars.compile(!environment.debug ? pre.url : pre.debugUrl);
                 var url = urlTemplate({ context });
                 logger.info("calling preValidation url : " + url);
-                //var response = await superagent.get(url);
                 const response = await got(url);
 
                 logger.debug("response.body : " + response.body);
                 context.data[pre.id] = JSON.parse(response.body);
+
+                if (pre.postProcess) {
+                    context.data[pre.id] = pre.postProcess(context.data[pre.id]);
+                }
+
                 logger.debug(`added to context.data[${pre.id}]: ` + context.data[pre.id]);
                 logger.debug("context.data after pre validation : " + JSON.stringify(context.data));
             } catch (error) {

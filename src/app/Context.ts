@@ -39,6 +39,7 @@ export class Context {
 
         // create the page object
         const pageId = req.params["page"];
+        logger.debug("looking in service for page : " + pageId);
         this.page = this.service.pages.find((page: any) => page.id === pageId);
         this.page && this.augmentPage();
     }
@@ -46,11 +47,17 @@ export class Context {
     private augmentPage() {
         for (var i = 0; i < this.page.items.length; i++) {
             var item = this.page.items[i];
+            // Add dynamic options if specificed as a data entry
             if (item.options && !Array.isArray(item.options)) {
                 console.log("context.data", this.data);
                 console.log("[item.options] ", item.options);
                 console.log("context.data[item.options] ", this.data[item.options]);
                 item.options = this.data[item.options];
+            }
+
+            // Conflate date fields together
+            if (item.type === "datePicker") {
+                this.data[item.id] = this.data[item.id + "-day"] + " - " + this.data[item.id + "-month"] + " - " + this.data[item.id + "-year"];
             }
         }
     }

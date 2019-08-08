@@ -1,7 +1,7 @@
 "use strict";
 import { Context } from "aws-lambda";
 import * as awsServerlessExpress from "aws-serverless-express";
-import app from "./app/app";
+import app from "./app";
 
 var server = awsServerlessExpress.createServer(app);
 

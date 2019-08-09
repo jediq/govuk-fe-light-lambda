@@ -1,4 +1,6 @@
-module.exports = {
+import FrameworkService from "../types/framework";
+
+const service: FrameworkService = {
     name: "Get an annual MOT reminder",
     targetUrl: "https://someurl.gov.uk",
     gdsPhase: "alpha",
@@ -19,8 +21,10 @@ module.exports = {
                     label: "Registration number (number plate)",
                     hint: "For example, CU57ABC",
                     width: "one-third",
-                    validator: "^[A-Za-z0-9]{0,7}$",
-                    error: "Enter the vehicle’s registration"
+                    validation: {
+                        regex: "^[A-Za-z0-9]{0,7}$",
+                        error: "Enter the vehicle’s registration"
+                    }
                 }
             ],
             preValidation: [
@@ -58,8 +62,11 @@ module.exports = {
                     id: "channelField",
                     type: "radio",
                     options: ["Email", "Text to my mobile phone"],
-                    validator: ".+",
-                    error: "Choose one reminder you want"
+                    label: "Reminder type",
+                    validation: {
+                        regex: ".+",
+                        error: "Choose one reminder you want"
+                    }
                 }
             ]
         },
@@ -75,8 +82,10 @@ module.exports = {
                     label: "Email address",
                     hint: "Your reminder will be sent here",
                     width: "one-third",
-                    validator: "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$",
-                    error: "Enter your email address"
+                    validation: {
+                        regex: "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$",
+                        error: "Enter your email address"
+                    }
                 }
             ]
         },
@@ -92,8 +101,10 @@ module.exports = {
                     label: "Mobile phone number",
                     hint: "Your reminder will be sent here",
                     width: "one-third",
-                    validator: "^d{5} ?d{3} ?d{3}$",
-                    error: "Enter your mobile number"
+                    validation: {
+                        regex: "^d{5} ?d{3} ?d{3}$",
+                        error: "Enter your mobile number"
+                    }
                 }
             ]
         },
@@ -108,8 +119,11 @@ module.exports = {
                     label: "Tax reminder?",
                     type: "radio",
                     options: ["Yes", "No"],
-                    validator: ".+",
-                    error: "Choose if you'd like a tax reminder"
+
+                    validation: {
+                        regex: ".+",
+                        error: "Choose if you'd like a tax reminder"
+                    }
                 }
             ]
         }
@@ -136,3 +150,5 @@ module.exports = {
         ]
     }
 };
+
+export default service;

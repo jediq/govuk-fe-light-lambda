@@ -1,4 +1,6 @@
-module.exports = {
+import FrameworkService from "../types/framework";
+
+const service: FrameworkService = {
     name: "Get a fishing licence",
     targetUrl: "https://someurl.gov.uk",
     gdsPhase: "beta",
@@ -18,8 +20,10 @@ module.exports = {
                     label: "Licence duration",
                     type: "radio",
                     options: ["1 day", "8 days", "12 months"],
-                    validator: ".+",
-                    error: "Choose the duration"
+                    validation: {
+                        regex: ".+",
+                        error: "Choose the duration"
+                    }
                 }
             ]
         },
@@ -34,16 +38,20 @@ module.exports = {
                     type: "text",
                     label: "First Name",
                     width: "one-third",
-                    validator: "^.+$",
-                    error: "Enter your first name"
+                    validation: {
+                        regex: "^.+$",
+                        error: "Enter your first name"
+                    }
                 },
                 {
                     id: "lastNameField",
                     type: "text",
                     label: "Last Name",
                     width: "one-third",
-                    validator: "^.+$",
-                    error: "Enter your last name"
+                    validation: {
+                        regex: "^.+$",
+                        error: "Enter your last name"
+                    }
                 }
             ]
         },
@@ -59,7 +67,10 @@ module.exports = {
                     type: "datePicker",
                     label: "Date of Birth",
                     hint: "For example, 23 3 1972",
-                    error: "Enter your date of birth"
+                    validation: {
+                        regex: "^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}$",
+                        error: "Enter your date of birth"
+                    }
                 }
             ]
         },
@@ -73,7 +84,11 @@ module.exports = {
                     id: "homePostcodeField",
                     type: "text",
                     width: "one-third",
-                    validator: "^.+$"
+                    label: "postcode",
+                    validation: {
+                        regex: "^.+$",
+                        error: "Choose an address"
+                    }
                 }
             ],
             preValidation: [
@@ -111,8 +126,10 @@ module.exports = {
                     type: "inputSelect",
                     label: "Home address",
                     width: "one-third",
-                    validator: "^(?!select one address).*",
-                    error: "Please choose an address"
+                    validation: {
+                        regex: "^(?!select one address).*",
+                        error: "Please choose an address"
+                    }
                 }
             ]
         },
@@ -133,8 +150,10 @@ module.exports = {
                     label: "Start type",
                     type: "radio",
                     options: ["30 minutes after payment", "Another time or date"],
-                    validator: ".+",
-                    error: "Choose the start type"
+                    validation: {
+                        regex: ".+",
+                        error: "Choose the start type"
+                    }
                 }
             ]
         },
@@ -149,7 +168,10 @@ module.exports = {
                     label: "Start date",
                     type: "datePicker",
                     hint: "For example, 23 3 1972",
-                    error: "Enter your date of birth"
+                    validation: {
+                        regex: "^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}$",
+                        error: "Enter the date to start your licence"
+                    }
                 }
             ]
         },
@@ -164,15 +186,17 @@ module.exports = {
                     type: "radio",
                     label: "Licence type",
                     options: ["Trout and coarse", "Salmon and sea trout"],
-                    validator: ".+",
-                    error: "Choose the type"
+                    validation: {
+                        regex: ".+",
+                        error: "Choose the type"
+                    }
                 }
             ]
         },
         {
             id: "channel-selection",
             description: "How can we send you your licence details?",
-            preRequisiteData: ["typeField"],
+            preRequisiteData: ["startTypeField"],
             nextPage(context: any) {
                 if (context.data.channelField === "Email") {
                     return "email";
@@ -186,8 +210,10 @@ module.exports = {
                     type: "radio",
                     label: "Contact type",
                     options: ["Email", "Text to my mobile phone"],
-                    validator: ".+",
-                    error: "Choose which channel you want"
+                    validation: {
+                        regex: ".+",
+                        error: "Choose which channel you want"
+                    }
                 }
             ]
         },
@@ -203,8 +229,10 @@ module.exports = {
                     label: "Email address",
                     hint: "Your licence will be sent here",
                     width: "one-third",
-                    validator: "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$",
-                    error: "Enter your email address"
+                    validation: {
+                        regex: "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$",
+                        error: "Enter your email address"
+                    }
                 }
             ]
         },
@@ -220,8 +248,10 @@ module.exports = {
                     label: "Mobile phone number",
                     hint: "Your licence will be sent here",
                     width: "one-third",
-                    validator: "^d{5} ?d{3} ?d{3}$",
-                    error: "Enter your mobile number"
+                    validation: {
+                        regex: "^d{5} ?d{3} ?d{3}$",
+                        error: "Enter your mobile number"
+                    }
                 }
             ]
         }
@@ -243,3 +273,5 @@ module.exports = {
         ]
     }
 };
+
+export default service;

@@ -4,10 +4,12 @@ import logger from "./util/logger";
 import environment from "./util/environment";
 import CryptoJS from "crypto-js";
 
-var serviceConfig = process.env.npm_config_service || process.env.service || "../testservice";
+import FrameworkService from "../types/framework";
+
+var serviceConfig = process.env.npm_config_service || process.env.service || "../examples/testservice";
 logger.info("serviceConfig : " + serviceConfig);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const globalService = require(serviceConfig);
+const globalService: FrameworkService = require(serviceConfig).default;
 
 function hashCode(str: string) {
     var hash = 0;
@@ -20,14 +22,15 @@ function hashCode(str: string) {
 }
 
 export class Context {
-    public service: any;
+    public service: FrameworkService;
+
     public page: any;
     public data: any;
 
     public constructor(req: any) {
         this.service = cloneDeep(globalService);
-        this.service.hash = hashCode(this.service.name);
-        logger.debug("service hash : " + this.service.hash);
+        this.service.hash = this.service.hash || hashCode(this.service.name);
+        logger.debug(`service hash for ${this.service.name} is ${this.service.hash}`);
         if (!req) return;
 
         this.data = this.getDataFromReq(req);
@@ -49,15 +52,12 @@ export class Context {
             var item = this.page.items[i];
             // Add dynamic options if specificed as a data entry
             if (item.options && !Array.isArray(item.options)) {
-                console.log("context.data", this.data);
-                console.log("[item.options] ", item.options);
-                console.log("context.data[item.options] ", this.data[item.options]);
                 item.options = this.data[item.options];
             }
 
             // Conflate date fields together
             if (item.type === "datePicker") {
-                this.data[item.id] = this.data[item.id + "-day"] + " - " + this.data[item.id + "-month"] + " - " + this.data[item.id + "-year"];
+                this.data[item.id] = this.data[item.id + "-day"] + "-" + this.data[item.id + "-month"] + "-" + this.data[item.id + "-year"];
             }
         }
     }
@@ -102,7 +102,7 @@ export class Context {
         if (!this.page.preRequisiteData) {
             return true;
         }
-        logger.info(`page ${this.page.id} has pre-requisite data`);
+        logger.info(`page ${this.page.id} has pre-requisite data: ` + JSON.stringify(this.page.preRequisiteData));
         return this.page.preRequisiteData.every((key: string) => {
             logger.info(`key ${key} in data? ` + JSON.stringify(this.data));
             return key in this.data;

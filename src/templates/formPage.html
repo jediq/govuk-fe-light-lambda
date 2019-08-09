@@ -29,7 +29,7 @@
               {{#each page.items as | item |}}
               {{#if this.invalid}}
               <li>
-                <a href="#{{ this.id }}-input">{{ this.error }}</a>
+                <a href="#{{ this.id }}-input">{{ this.validation.error }}</a>
               </li>
               {{/if}}
               {{/each}}

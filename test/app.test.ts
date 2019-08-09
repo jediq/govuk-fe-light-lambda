@@ -1,8 +1,8 @@
 import request from "supertest";
-import app from "../src/app/app";
+import app from "../src/framework/app";
 import assert from "jest";
 
-process.env.service = "../src/testservice";
+process.env.service = "../src/examples/testservice";
 
 describe("GET /", () => {
     it("should return redirect", done => {
@@ -24,8 +24,10 @@ describe("GET /random-url", () => {
     });
 });
 
+var tag = "WG1649AX";
+
 describe("POST /random-url", () => {
-    it("should return false from assert when no message is found", done => {
+    it("should redirect to the first page", done => {
         request(app)
             .post("/random-url")
             .field("name", "John Doe")

@@ -14,7 +14,7 @@ function createDataCookie(context: Context, res: express.Response) {
     var data = context.getEncodedData();
     logger.info("created cookie : " + data.length + " bytes");
     logger.debug("cookie data : " + data);
-    res.cookie(context.service.hash, data);
+    res.cookie("" + context.service.hash, data);
 }
 
 app.use("/public", express.static(path.join(__dirname, "../public")));
@@ -71,7 +71,6 @@ app.post("/:page", async (req: express.Request, res: express.Response) => {
     try {
         await validator.executePreValidation(context);
         validator.enrichPage(context.page, context);
-        validator.executePostValidation(context);
     } catch (error) {
         logger.debug("error during validation : " + error.toString());
         context.page.valid = false;

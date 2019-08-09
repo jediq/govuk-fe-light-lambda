@@ -1,4 +1,6 @@
-module.exports = {
+import FrameworkService from "../types/framework";
+
+const service: FrameworkService = {
     name: "Test Service",
     targetUrl: "https://someurl.gov.uk",
     gdsPhase: "alpha",
@@ -19,12 +21,13 @@ module.exports = {
                     label: "Field1?",
                     hint: "For example, f.i.e.l.d.1",
                     width: "one-third",
-                    validator: ".+",
-                    error: "Enter the field"
+                    validation: {
+                        regex: ".+",
+                        error: "Enter the field"
+                    }
                 }
             ],
-            preValidation: [],
-            validation: {}
+            preValidation: []
         },
         {
             id: "field2",
@@ -35,9 +38,12 @@ module.exports = {
                 {
                     id: "field2Field",
                     type: "radio",
+                    label: "field2",
                     options: ["option1", "option2"],
-                    validator: ".+",
-                    error: "Choose the option you want"
+                    validation: {
+                        regex: ".+",
+                        error: "Choose the option you want"
+                    }
                 }
             ]
         }
@@ -54,3 +60,4 @@ module.exports = {
         ]
     }
 };
+export default service;

@@ -2,12 +2,12 @@
 
 import "jest";
 import CryptoJS from "crypto-js";
-import { Context } from "../src/app/Context";
+import { Context } from "../src/framework/Context";
 
 (function() {
     test("test context creation", () => {
         jest.resetModules();
-        process.env.service = "../src/testservice";
+        process.env.service = "../src/examples/testservice";
         var req = {
             params: {
                 page: "vrn"

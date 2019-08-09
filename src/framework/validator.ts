@@ -2,13 +2,23 @@ import logger from "./util/logger";
 import environment from "./util/environment";
 import * as handlebars from "handlebars";
 import got from "got";
+import { Validation, FunctionValidation, RegexValidation } from "../types/framework";
 
-function validateItem(item: any, value: any) {
+function validate(validation: Validation, value: any): boolean {
+    if (!validation) {
+        logger.info("No validation, so returning true");
+        return true;
+    }
     if (undefined === value) {
         value = "";
     }
-    var isValid = new RegExp(item.validator).test(value);
-    logger.debug(`validating ${value} against ${item.validator} ? ${isValid}`);
+    if ((validation as FunctionValidation).validator) {
+        var isValid: boolean = (validation as FunctionValidation).validator(value);
+        logger.info(`validating ${value} against function ? ${isValid}`);
+        return (validation as FunctionValidation).validator(value);
+    }
+    var isValid = new RegExp((validation as RegexValidation).regex).test(value);
+    logger.debug(`validating ${value} against ${(validation as RegexValidation).regex} ? ${isValid}`);
     return isValid;
 }
 
@@ -17,7 +27,7 @@ function enrichPage(page: any, context: any) {
 
     for (var item of page.items) {
         item.value = context.data[item.id];
-        item.valid = validateItem(item, context.data[item.id]);
+        item.valid = validate(item.validation, context.data[item.id]);
         item.invalid = !item.valid;
         page.valid = page.valid && item.valid;
         page.invalid = !page.valid;
@@ -61,10 +71,4 @@ async function executePreValidation(context: any) {
     }
 }
 
-async function executePostValidation(context: any) {
-    if (context.page.postValidation) {
-        logger.info("PostV : " + context.page.postValidation);
-    }
-}
-
-export { validateItem, enrichPage, executePreValidation, executePostValidation };
+export { validate, enrichPage, executePreValidation };

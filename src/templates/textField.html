@@ -2,7 +2,8 @@
   <label class="govuk-label" for="{{ id }}-input"> {{ label }} </label>
   <span class="govuk-hint">{{ hint }}</span>
   {{#if invalid }}
-  <span class="govuk-error-message"> <span class="govuk-visually-hidden">Error:</span> {{ error }} </span>
+  <span class="govuk-error-message"> <span class="govuk-visually-hidden">Error:</span> {{ validation.error }} </span>
   {{/if}}
-  <input class="govuk-input govuk-!-width-{{ width }}" id="{{ id }}-input" name="{{ id }}" type="text" value="{{ value }}" />
+  <input class="govuk-input govuk-!-width-{{ width }}" id="{{ id }}-input" name="{{ id }}" type="text"
+    value="{{ value }}" />
 </div>

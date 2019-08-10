@@ -2,13 +2,17 @@ import express from "express";
 import * as bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import * as path from "path";
-import * as renderer from "./renderer";
+import HandlebarsRenderer from "./HandlebarsRenderer";
+import NunchucksRenderer from "./NunchucksRenderer";
 import * as validator from "./validator";
 import { Context } from "./Context";
 import logger from "./util/logger";
+import Renderer from "./Renderer";
 
 const app = express();
 const context = new Context(null);
+
+const renderer: Renderer = new HandlebarsRenderer();
 
 function createDataCookie(context: Context, res: express.Response) {
     var data = context.getEncodedData();

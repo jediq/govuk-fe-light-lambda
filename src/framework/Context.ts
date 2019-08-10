@@ -11,16 +11,6 @@ logger.info("serviceConfig : " + serviceConfig);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const globalService: FrameworkService = require(serviceConfig).default;
 
-function hashCode(str: string) {
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-        var character = str.charCodeAt(i);
-        hash = (hash << 5) - hash + character;
-        hash = hash & hash; // Convert to 32bit integer
-    }
-    return hash;
-}
-
 export class Context {
     public service: FrameworkService;
 
@@ -29,7 +19,7 @@ export class Context {
 
     public constructor(req: any) {
         this.service = cloneDeep(globalService);
-        this.service.hash = this.service.hash || hashCode(this.service.name);
+        this.service.hash = this.service.hash || this.hashCode(this.service.name);
         logger.debug(`service hash for ${this.service.name} is ${this.service.hash}`);
         if (!req) return;
 
@@ -107,5 +97,15 @@ export class Context {
             logger.info(`key ${key} in data? ` + JSON.stringify(this.data));
             return key in this.data;
         });
+    }
+
+    private hashCode(str: string) {
+        var hash = 0;
+        for (var i = 0; i < str.length; i++) {
+            var character = str.charCodeAt(i);
+            hash = (hash << 5) - hash + character;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash;
     }
 }

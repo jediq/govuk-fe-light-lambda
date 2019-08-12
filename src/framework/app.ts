@@ -7,12 +7,13 @@ import NunchucksRenderer from "./NunchucksRenderer";
 import * as validator from "./validator";
 import { Context } from "./Context";
 import logger from "./util/logger";
+import environment from "./util/environment";
 import Renderer from "./Renderer";
 
 const app = express();
 const context = new Context(null);
 
-const renderer: Renderer = new HandlebarsRenderer();
+const renderer: Renderer = environment.renderer === "nunchucks" ? new NunchucksRenderer() : new HandlebarsRenderer();
 
 function createDataCookie(context: Context, res: express.Response) {
     var data = context.getEncodedData();

@@ -4,13 +4,13 @@ const service: FrameworkService = {
     name: "Test Service",
     targetUrl: "https://someurl.gov.uk",
     gdsPhase: "alpha",
-    firstPage: "field1",
+    firstPage: "page1",
     successMessage: "Your details where saved correctly",
     failureMessage: "Your details failed to be saved",
     cookieSecret: "8y/B?D(G+KbPeShHmYq3t6w9z$C&F)H@",
     pages: [
         {
-            id: "field1",
+            id: "page1",
             description: "Please enter field one",
             nextPage: () => "field2",
             preRequisiteData: [],
@@ -30,7 +30,7 @@ const service: FrameworkService = {
             preValidation: []
         },
         {
-            id: "field2",
+            id: "page2",
             description: "Please enter field two",
             preRequisiteData: ["field1Field"],
             nextPage: () => "confirmation",

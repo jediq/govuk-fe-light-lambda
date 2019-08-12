@@ -57,7 +57,7 @@ export class Context {
     }
 
     public getDataFromReq(req: any) {
-        if (this.service.hash in req.cookies) {
+        if (req.cookies && this.service.hash in req.cookies) {
             var encrypted = req.cookies[this.service.hash];
             logger.debug("encrypted cookie : " + encrypted);
             var decrypted = this.decode(encrypted, this.service.cookieSecret);

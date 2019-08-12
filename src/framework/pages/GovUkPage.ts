@@ -6,32 +6,22 @@ import fs from "fs";
 
 export class GovUkPage extends Page {
     public render(context: Context): string {
-        nunjucks.configure(["node_modules/govuk-frontend/"], {
-            autoescape: true
+        nunjucks.configure(["node_modules/govuk-frontend/", "dist/framework/", "framework/"], {
+            autoescape: false
         });
 
         var opts = {
-            pageTitle: context.service.name
+            pageTitle: context.service.name,
+            phase: context.service.gdsPhase,
+            content: this.renderContent(context)
         };
 
-        var output = nunjucks.renderString(this.template, opts);
+        var output = nunjucks.render("pages/GovUkPage.njk", opts);
 
         return output;
     }
 
-    private template = `
-{% extends "govuk/template.njk" %}
-
-{% block pageTitle %}
-  <title>{{pageTitle}}</title>
-{% endblock %}
-
-{% block header %}
-{{ govukHeader({
-  homepageUrl: "#",
-  serviceName: "{{pageTitle}}",
-  serviceUrl: "#"}) }}
-{% endblock %}
-
-`;
+    public renderContent(context: Context): string {
+        return "";
+    }
 }

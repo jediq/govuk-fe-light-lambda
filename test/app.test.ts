@@ -9,7 +9,7 @@ describe("GET /", () => {
         return request(app)
             .get("/")
             .expect(302)
-            .expect("Location", "field1")
+            .expect("Location", "page1")
             .end(done);
     });
 });
@@ -19,7 +19,7 @@ describe("GET /random-url", () => {
         request(app)
             .get("/reset")
             .expect(302)
-            .expect("Location", "field1")
+            .expect("Location", "page1")
             .end(done);
     });
 });
@@ -33,7 +33,7 @@ describe("POST /random-url", () => {
             .field("name", "John Doe")
             .field("email", "john@me.com")
             .expect(302)
-            .expect("Location", "field1")
+            .expect("Location", "page1")
             .end(done);
     });
 });

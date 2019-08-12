@@ -1,0 +1,15 @@
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "components/componentRenderer.njk" import componentRenderer %}
+
+{% block content %}
+<form>
+
+  {% if errorSummary %}
+    {{ govukErrorSummary(errorSummary) }}
+  {% endif %}
+
+  {{ componentRenderer(context) }}
+
+</form>
+{% endblock %}

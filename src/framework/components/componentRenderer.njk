@@ -1,0 +1,28 @@
+{% macro componentRenderer(context) %}
+
+{% from "components/textFieldComponent.njk" import textFieldComponent %}
+
+
+{% for component in context.page.items %}
+
+{% if component.type === 'text' %}
+  {{ textFieldComponent(context, component) }}
+{% endif %}
+
+{% if component.type === 'radio' %}
+  radio field
+{% endif %}
+
+{% if component.type === 'datePicker' %}
+  datePicker field
+{% endif %}
+
+{% if component.type === 'inputSelect' %}
+  inputSelect field
+{% endif %}
+
+{% endfor %}
+
+{% endmacro %}
+
+ 

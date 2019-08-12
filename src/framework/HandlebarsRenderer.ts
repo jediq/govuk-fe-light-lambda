@@ -45,11 +45,7 @@ handlebars.registerHelper("if_eq", function(a, b, opts) {
 
 export default class HandlebarsRenderer extends Renderer {
     public renderDocument(context: Context): string {
-        if (context.page) {
-            return formPageTemplate(context);
-        } else {
-            return notFoundPageTemplate(context);
-        }
+        return formPageTemplate(context);
     }
 
     public renderConfirmation(context: Context): string {

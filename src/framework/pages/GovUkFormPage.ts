@@ -57,7 +57,7 @@ export class GovUkFormPage extends GovUkPage {
                 };
 
                 component.items = [];
-                for (var option in item.options) {
+                for (var option of item.options) {
                     var compItem: any = {
                         value: option,
                         text: option

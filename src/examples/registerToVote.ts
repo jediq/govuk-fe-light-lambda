@@ -153,7 +153,7 @@ const service: FrameworkService = {
             items: [
                 {
                     id: "homePostcodeField",
-                    label: "",
+                    label: "Enter your postcode",
                     type: "text",
                     width: "one-third",
                     validation: {
@@ -236,11 +236,11 @@ const service: FrameworkService = {
                 {
                     id: "openRegisterField",
                     label: "Open register?",
-                    type: "radio",
+                    type: "checkbox",
                     options: ["No, I don’t want my name and address on the open register"],
 
                     validation: {
-                        regex: ".+",
+                        regex: ".",
                         error: "Choose a open register option"
                     }
                 }

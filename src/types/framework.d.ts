@@ -33,6 +33,7 @@ interface Item {
   options?: Array<string> | string;
   width?: string;
   placeholder?: string;
+  value?: string;
 }
 
 interface BaseValidation {

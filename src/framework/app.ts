@@ -2,13 +2,13 @@ import express from "express";
 import * as bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import * as path from "path";
-import HandlebarsRenderer from "./HandlebarsRenderer";
-import NunchucksRenderer from "./NunchucksRenderer";
+import { Renderer } from "./Renderer";
+import { HandlebarsRenderer } from "./HandlebarsRenderer";
+import { NunchucksRenderer } from "./NunchucksRenderer";
 import * as validator from "./validator";
 import { Context } from "./Context";
 import logger from "./util/logger";
 import environment from "./util/environment";
-import Renderer from "./Renderer";
 
 const app = express();
 const context = new Context(null);

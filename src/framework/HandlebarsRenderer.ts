@@ -4,7 +4,7 @@ import logger from "./util/logger";
 import * as handlebars from "handlebars";
 import * as fs from "fs";
 import * as path from "path";
-import Renderer from "./Renderer";
+import { Renderer } from "./Renderer";
 
 function registerPartial(name: string) {
     handlebars.registerPartial(name, fs.readFileSync(path.join(__dirname, `../templates/${name}.html`), "utf8"));
@@ -43,7 +43,7 @@ handlebars.registerHelper("if_eq", function(a, b, opts) {
     }
 });
 
-export default class HandlebarsRenderer extends Renderer {
+export class HandlebarsRenderer extends Renderer {
     public renderDocument(context: Context): string {
         return formPageTemplate(context);
     }

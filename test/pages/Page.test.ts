@@ -17,6 +17,9 @@ import fs from "fs";
     });
 
     test("test gov uk page rendering", () => {
+        nunjucks.configure(["node_modules/govuk-frontend/", "src/framework/"], {
+            autoescape: true
+        });
         let context = new Context(null);
         let page = new GovUkPage();
         var output = page.render(context);

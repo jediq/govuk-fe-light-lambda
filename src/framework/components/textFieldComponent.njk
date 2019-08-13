@@ -1,22 +1,7 @@
-{% macro textFieldComponent(context, item) %}
+{% macro textFieldComponent(context, component) %}
 
   {% from "govuk/components/input/macro.njk" import govukInput %}
-
-
-
-  {{ govukInput({
-    label: {
-      text: item.label
-    },
-    id: item.name,
-    name: item.name,
-    hint: {
-      text: "werc"
-    },
-    errorMessage: {
-      text: undefined
-    }
-  }) }}
+  {{ govukInput(component) }}
 
 {% endmacro %}
 

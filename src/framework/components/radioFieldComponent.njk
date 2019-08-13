@@ -1,0 +1,8 @@
+{% macro radioFieldComponent(context, component) %}
+
+  {% from "govuk/components/radios/macro.njk" import govukRadios %}
+  {{ govukRadios(component) }}
+
+{% endmacro %}
+
+

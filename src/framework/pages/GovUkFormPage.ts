@@ -12,38 +12,62 @@ export class GovUkFormPage extends GovUkPage {
         });
 
         var opts = this.transformContext(context);
-
-        var optsOld = {
-            context: context,
-            content: "some content",
-            errorSummaryX: {
-                titleText: "There is a problem",
-                errorList: [
-                    {
-                        text: "The date your passport was issued must be in the past",
-                        href: "#passport-issued-error"
-                    },
-                    {
-                        text: "Enter a postcode, like AA1 1AA",
-                        href: "#postcode-error"
-                    }
-                ]
-            }
-        };
-
         return nunjucks.render("pages/GovUkFormPage.njk", opts);
     }
 
     public transformContext(context: Context): any {
         var options: any = {
-            title: context.page.description,
-            components: []
+            heading: context.page.description,
+            subHeading: context.page.hint,
+            components: [],
+            pageErrors: []
         };
 
         for (var item of context.page.items) {
-            options.components.push({
-                name: item.name
-            });
+            let component: any = {
+                id: item.id,
+                name: item.id,
+                namePrefix: item.id,
+                hint: {
+                    text: item.hint
+                },
+                label: {
+                    text: item.label
+                },
+                type: item.type,
+                value: item.value
+            };
+
+            if (item.invalid) {
+                component.errorMessage = {
+                    text: item.validation.error
+                };
+                options.pageErrors.push({
+                    text: item.validation.error,
+                    href: "#" + item.id
+                });
+            }
+            options.components.push(component);
+
+            if (["radio", "checkbox", "inputSelect"].includes(item.type)) {
+                component.fieldset = {
+                    legend: {
+                        text: item.label
+                    }
+                };
+
+                component.items = [];
+                for (var option in item.options) {
+                    var compItem: any = {
+                        value: option,
+                        text: option
+                    };
+                    if (item.value === option) {
+                        compItem.checked = true;
+                    }
+                    component.items.push(compItem);
+                }
+            }
         }
 
         return options;

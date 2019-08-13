@@ -43,7 +43,7 @@ handlebars.registerHelper("if_eq", function(a, b, opts) {
     }
 });
 
-export class HandlebarsRenderer extends Renderer {
+export class HandlebarsRenderer implements Renderer {
     public renderDocument(context: Context): string {
         return formPageTemplate(context);
     }

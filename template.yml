@@ -28,7 +28,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./dist
-      Handler: lambda.handler
+      Handler: framework/lambda.handler
       Runtime: nodejs8.10
       Role:
         Fn::GetAtt:

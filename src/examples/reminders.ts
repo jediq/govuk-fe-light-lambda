@@ -12,7 +12,7 @@ const service: FrameworkService = {
         {
             id: "vrn",
             description: "What is the vehicle’s registration number?",
-            nextPage: () => "channel-selection",
+            nextPage: () => "chanel-selnection",
             preRequisiteData: [],
             items: [
                 {

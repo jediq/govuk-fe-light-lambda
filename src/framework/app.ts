@@ -2,7 +2,7 @@ import express from "express";
 import * as bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import * as path from "path";
-import { Renderer } from "./Renderer";
+import { Renderer } from "../types/Renderer";
 import { HandlebarsRenderer } from "./HandlebarsRenderer";
 import { NunchucksRenderer } from "./NunchucksRenderer";
 import * as validator from "./validator";

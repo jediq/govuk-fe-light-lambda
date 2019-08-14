@@ -4,7 +4,7 @@ import logger from "./util/logger";
 import * as handlebars from "handlebars";
 import * as fs from "fs";
 import * as path from "path";
-import { Renderer } from "./Renderer";
+import { Renderer } from "../types/Renderer";
 
 function registerPartial(name: string) {
     handlebars.registerPartial(name, fs.readFileSync(path.join(__dirname, `../templates/${name}.html`), "utf8"));

@@ -1,6 +1,6 @@
 import { Context } from "./Context";
 import logger from "./util/logger";
-import { Renderer } from "./Renderer";
+import { Renderer } from "../types/Renderer";
 import { GovUkFormPage } from "./pages/GovUkFormPage";
 import { GovUkConfirmationPage } from "./pages/GovUkConfirmationPage";
 

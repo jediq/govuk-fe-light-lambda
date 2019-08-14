@@ -10,7 +10,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "npm run serve",
-    "build": "npm run build-sass && npm run build-ts && npm run lint && npm run copy-static-assets",
+    "build": "npm run version-ts && npm run build-sass && npm run build-ts && npm run lint && npm run copy-static-assets",
     "serve": "node dist/framework/server.js",
     "watch-node": "nodemon dist/framework/server.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run watch-node\"",
@@ -18,6 +18,7 @@
     "watch-test": "npm run test -- --watchAll",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
+    "version-ts": "echo 'TSC version:' && tsc -version",
     "build-sass": "node-sass src/public/css/main.scss dist/public/css/main.css",
     "watch-sass": "node-sass -w src/public/css/main.scss dist/public/css/main.css",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",

@@ -1,4 +1,5 @@
 import FrameworkService from "../types/framework";
+import { ENGINE_METHOD_PKEY_ASN1_METHS } from "constants";
 
 const service: FrameworkService = {
     name: "Get an annual MOT reminder",
@@ -12,7 +13,7 @@ const service: FrameworkService = {
         {
             id: "vrn",
             description: "What is the vehicle’s registration number?",
-            nextPage: () => "chanel-selnection",
+            nextPage: () => "channel-selection",
             preRequisiteData: [],
             items: [
                 {
@@ -36,12 +37,24 @@ const service: FrameworkService = {
                     debugUrl: "http://jediq.com/ZZ99ABC.json",
                     headers: {
                         accept: "application/json"
+                    },
+                    postProcess(data: any) {
+                        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                        data = data[0];
+                        data.yomDate = "" + new Date(data.manufactureDate).getFullYear();
+                        var dates: Date[] = data.motTests
+                            .filter((test: any) => test.testResult == "PASSED")
+                            .map((test: any) => new Date(test.expiryDate))
+                            .sort();
+
+                        data.motDate = dates[0].getDate() + " " + months[dates[0].getMonth()] + " " + dates[0].getFullYear();
+                        return data;
                     }
                 }
             ],
             validation: {
                 validator: (context: any) => {
-                    return context.data.vehicleData && context.data.vehicleData[0].registration;
+                    return context.data.vehicleData && context.data.vehicleData.registration;
                 },
                 error: "We don't hold information about this vehicle"
             }
@@ -142,8 +155,24 @@ const service: FrameworkService = {
                 items: ["vrnField"],
                 ancillary: [
                     {
-                        name: "Make",
-                        location: "data.vehicleData[0].make"
+                        label: "Make",
+                        location: "data.vehicleData.make"
+                    },
+                    {
+                        label: "Model",
+                        location: "data.vehicleData.model"
+                    },
+                    {
+                        label: "Colour",
+                        location: "data.vehicleData.primaryColour"
+                    },
+                    {
+                        label: "Year of manufacture",
+                        location: "data.vehicleData.yomDate"
+                    },
+                    {
+                        label: "MOT due date",
+                        location: "data.vehicleData.motDate"
                     }
                 ]
             }

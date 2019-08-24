@@ -29,7 +29,6 @@ import fs from "fs";
         expect(opts.groups.length).toBe(2);
 
         let group = opts.groups[0];
-        console.log("GROUP : " + JSON.stringify(group));
 
         expect(group.heading).toBe("Fields 1 & 2");
         expect(group.rows.length).toBe(2);

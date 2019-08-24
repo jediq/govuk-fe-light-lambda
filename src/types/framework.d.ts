@@ -58,8 +58,12 @@ interface Confirmation {
 
 interface Group {
   title: string;
-  items: Array<string>;
-  ancillary: Array<any>;
+  items: Array<any>;
+  ancillary: Array<GroupAncillaryItem>;
+}
+interface GroupAncillaryItem {
+  label: string;
+  location: string;
 }
 
 interface HttpLookup {

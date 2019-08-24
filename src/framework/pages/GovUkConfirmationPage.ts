@@ -1,9 +1,8 @@
 import { Context } from "../Context";
-import { Page } from "./Page";
 import logger from "../util/logger";
 import nunjucks from "nunjucks";
-import fs from "fs";
 import { GovUkPage } from "./GovUkPage";
+import _ from "lodash";
 
 export class GovUkConfirmationPage extends GovUkPage {
     private findItem(id: any, context: Context) {
@@ -60,11 +59,17 @@ export class GovUkConfirmationPage extends GovUkPage {
                             ]
                         }
                     };
-
                     group.rows.push(row);
-
-                    console.log("row : " + JSON.stringify(row));
                 }
+            }
+
+            for (var serviceAncillaryItem of serviceGroup.ancillary) {
+                var ancillaryRow = {
+                    key: { text: serviceAncillaryItem.label },
+                    value: { text: _.get(context, serviceAncillaryItem.location) }
+                };
+
+                group.rows.push(ancillaryRow);
             }
             options.groups.push(group);
             logger.debug(`Group has ${group.rows.length} rows.`);

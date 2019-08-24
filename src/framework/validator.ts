@@ -14,7 +14,6 @@ function validate(validation: Validation, value: any): boolean {
     }
     if ((validation as FunctionValidation).validator) {
         var isValid: boolean = (validation as FunctionValidation).validator(value);
-        logger.info(`validating ${value} against function ? ${isValid}`);
         return (validation as FunctionValidation).validator(value);
     }
     var isValid = new RegExp((validation as RegexValidation).regex).test(value);

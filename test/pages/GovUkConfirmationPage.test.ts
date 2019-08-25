@@ -4,14 +4,11 @@ import "jest";
 import { GovUkConfirmationPage } from "../../src/framework/pages/GovUkConfirmationPage";
 import { Context } from "../../src/framework/Context";
 
-import nunjucks from "nunjucks";
-import fs from "fs";
-
 (function() {
-    test("test transformContect", () => {
+    test("test transformContext", () => {
         jest.resetModules();
         process.env.service = "../src/examples/testservice";
-        let req = {
+        let req: any = {
             params: {
                 page: "confirmation"
             }

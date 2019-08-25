@@ -1,30 +1,35 @@
 import cloneDeep from "lodash/cloneDeep";
+import express from "express";
 
 import logger from "./util/logger";
-import environment from "./util/environment";
-import CryptoJS from "crypto-js";
 
 import FrameworkService from "../types/framework";
+import { SessionManager } from "./SessionManager";
 
 var serviceConfig = process.env.npm_config_service || process.env.service || "../examples/testservice";
 logger.info("serviceConfig : " + serviceConfig);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const globalService: FrameworkService = require(serviceConfig).default;
 
+const sessionManager: SessionManager = new SessionManager();
+
 export class Context {
     public service: FrameworkService;
 
     public page: any;
-    public data: any;
+    public data: any = {};
 
-    public constructor(req: any) {
+    public constructor(req: express.Request) {
         this.service = cloneDeep(globalService);
         this.service.hash = this.service.hash || this.hashCode(this.service.name);
         logger.debug(`service hash for ${this.service.name} is ${this.service.hash}`);
         if (!req) return;
 
-        this.data = this.getDataFromReq(req);
-        logger.debug("this.data after cookie : " + JSON.stringify(this.data));
+        if (req.cookies && this.service.hash in req.cookies) {
+            var encryptedReference: string = req.cookies[this.service.hash];
+            this.data = sessionManager.loadSession(encryptedReference, this.service);
+            logger.debug("this.data after cookie : " + JSON.stringify(this.data));
+        }
 
         // add any form data into the context
         req.body && Object.keys(req.body).forEach(key => (this.data[key] = req.body[key]));
@@ -52,37 +57,6 @@ export class Context {
         }
     }
 
-    public getEncodedData() {
-        return this.encode(this.data, this.service.cookieSecret);
-    }
-
-    public getDataFromReq(req: any) {
-        if (req.cookies && this.service.hash in req.cookies) {
-            var encrypted = req.cookies[this.service.hash];
-            logger.debug("encrypted cookie : " + encrypted);
-            var decrypted = this.decode(encrypted, this.service.cookieSecret);
-            logger.debug("decrypted cookie : " + decrypted);
-            return decrypted;
-        }
-        return {};
-    }
-
-    public encode(obj: any, secret: string) {
-        if (environment.debug) {
-            return JSON.stringify(obj);
-        }
-        return CryptoJS.AES.encrypt(JSON.stringify(obj), secret).toString();
-    }
-
-    public decode(str: string, secret: string) {
-        if (environment.debug) {
-            return JSON.parse(str);
-        }
-        var bytes = CryptoJS.AES.decrypt(str, secret);
-        var asString = bytes.toString(CryptoJS.enc.Utf8);
-        return JSON.parse(asString);
-    }
-
     public isValid() {
         if (!this.page) {
             logger.info("context invalid : no page found");
@@ -97,6 +71,10 @@ export class Context {
             logger.info(`key ${key} in data? ` + JSON.stringify(this.data));
             return key in this.data;
         });
+    }
+
+    public getCookieData() {
+        return sessionManager.saveSession(this.data, this.service);
     }
 
     private hashCode(str: string) {

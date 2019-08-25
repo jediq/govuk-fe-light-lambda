@@ -13,6 +13,7 @@ rm -rf dist && npm run build && npm run start --service=../examples/reminders --
 - [ ] Google Analytics
 - [ ] Text or object in select options
 - [x] Implement summary in Nunjucks
+- [ ] Implement post processing before final call
 - [ ] Implement final call out
 - [ ] Implement finished page
 - [ ] Implement retry for external calls
@@ -20,7 +21,7 @@ rm -rf dist && npm run build && npm run start --service=../examples/reminders --
 - [x] Add ancillary field rendering into summary page
 - [ ] Add ancillary field rendering into form page
 - [ ] Development rules / coding standards
-- [ ] Change HTML head page title
+- [x] Change HTML head page title
 - [ ] A / B testing
 - [ ] Versioning of services
 - [ ] Offloading session to http post / get for larger than 4k

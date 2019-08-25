@@ -16,7 +16,7 @@ const context = new Context(null);
 const renderer: Renderer = environment.renderer === "nunchucks" ? new NunchucksRenderer() : new HandlebarsRenderer();
 
 function createDataCookie(context: Context, res: express.Response) {
-    var data = context.getEncodedData();
+    var data = context.getCookieData();
     logger.info("created cookie : " + data.length + " bytes");
     logger.debug("cookie data : " + data);
     res.cookie("" + context.service.hash, data);

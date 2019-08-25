@@ -11,7 +11,7 @@ import fs from "fs";
     test("test transformContect page 1", () => {
         jest.resetModules();
         process.env.service = "../src/examples/testservice";
-        let req = {
+        let req: any = {
             params: {
                 page: "page1"
             }
@@ -35,7 +35,7 @@ import fs from "fs";
     test("test transformContect page 1 with error", () => {
         jest.resetModules();
         process.env.service = "../src/examples/testservice";
-        let req = {
+        let req: any = {
             params: {
                 page: "page1",
                 field1: "banana"

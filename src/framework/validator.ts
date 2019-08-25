@@ -1,8 +1,10 @@
 import logger from "./util/logger";
-import environment from "./util/environment";
-import * as handlebars from "handlebars";
-import got from "got";
-import { Validation, FunctionValidation, RegexValidation } from "../types/framework";
+
+import { Validation, FunctionValidation, RegexValidation, HttpCall } from "../types/framework";
+
+import { HttpCallout } from "./HttpCallout";
+
+const httpCallout: HttpCallout = new HttpCallout();
 
 function validate(validation: Validation, value: any): boolean {
     if (!validation) {
@@ -46,21 +48,11 @@ function enrichPage(page: any, context: any) {
 async function executePreValidation(context: any) {
     logger.debug("Page has prevalidation? " + context.page.preValidation);
     if (context.page.preValidation) {
-        for (var pre of context.page.preValidation) {
+        for (var httpCall of context.page.preValidation) {
             try {
-                var urlTemplate = handlebars.compile(!environment.debug ? pre.url : pre.debugUrl);
-                var url = urlTemplate({ context });
-                logger.info("calling preValidation url : " + url);
-                const response = await got(url);
+                context.data[httpCall.id] = await httpCallout.call(httpCall, context);
 
-                logger.debug("response.body : " + response.body);
-                context.data[pre.id] = JSON.parse(response.body);
-
-                if (pre.postProcess) {
-                    context.data[pre.id] = pre.postProcess(context.data[pre.id]);
-                }
-
-                logger.debug(`added to context.data[${pre.id}]: ` + context.data[pre.id]);
+                logger.debug(`added to context.data[${httpCall.id}]: ` + context.data[httpCall.id]);
                 logger.debug("context.data after pre validation : " + JSON.stringify(context.data));
             } catch (error) {
                 logger.error("here's the error: " + error.toString());

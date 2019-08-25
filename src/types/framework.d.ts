@@ -8,10 +8,13 @@ export default class FrameworkService {
   successMessage: string;
   failureMessage: string;
   cookieSecret: string;
+  session?: Session;
   pages: Array<Page>;
   confirmation: Confirmation;
   hash?: number;
 }
+
+interface Session {}
 
 interface Page {
   id: string;
@@ -20,7 +23,7 @@ interface Page {
   preRequisiteData: Array<string>;
   items: Array<Item>;
   hint?: string;
-  preValidation?: Array<HttpLookup>;
+  preValidation?: Array<HttpCall>;
   validation?: Validation;
 }
 
@@ -66,10 +69,12 @@ interface GroupAncillaryItem {
   location: string;
 }
 
-interface HttpLookup {
+interface HttpCall {
   id: string;
   url: string;
   debugUrl: string;
   headers: any;
+  method?: string;
+  bodySelector?: string; // dot notation selector used against context
   postProcess?: (data: any) => any;
 }

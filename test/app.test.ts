@@ -2,7 +2,7 @@ import request from "supertest";
 import app from "../src/framework/app";
 import assert from "jest";
 
-process.env.service = "../src/examples/testservice";
+process.env.service = "examples/testservice";
 
 describe("GET /", () => {
     it("should return redirect", done => {

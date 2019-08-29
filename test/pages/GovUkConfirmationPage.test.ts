@@ -7,7 +7,7 @@ import { Context } from "../../src/framework/Context";
 (function() {
     test("test transformContext", () => {
         jest.resetModules();
-        process.env.service = "../src/examples/testservice";
+        process.env.service = "examples/testservice";
         let req: any = {
             params: {
                 page: "confirmation"

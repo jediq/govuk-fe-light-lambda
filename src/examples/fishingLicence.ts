@@ -2,6 +2,7 @@ import FrameworkService from "../types/framework";
 
 const service: FrameworkService = {
     name: "Get a fishing licence",
+    slug: "fishing-licence",
     targetUrl: "https://someurl.gov.uk",
     gdsPhase: "beta",
     firstPage: "duration",

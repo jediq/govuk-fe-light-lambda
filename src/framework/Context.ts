@@ -5,11 +5,14 @@ import logger from "./util/logger";
 
 import FrameworkService from "../types/framework";
 import { SessionManager } from "./SessionManager";
+import { ServiceManager } from "./ServiceManager";
 
-var serviceConfig = process.env.npm_config_service || process.env.service || "../examples/testservice";
+var serviceConfig = process.env.npm_config_service || process.env.service || "examples/testservice";
 logger.info("serviceConfig : " + serviceConfig);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const globalService: FrameworkService = require(serviceConfig).default;
+//const globalService: FrameworkService = require("../" + serviceConfig).default;
+const serviceManager: ServiceManager = new ServiceManager(serviceConfig);
+const globalService: FrameworkService = serviceManager.getDefaultService();
 
 const sessionManager: SessionManager = new SessionManager();
 

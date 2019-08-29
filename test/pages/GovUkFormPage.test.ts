@@ -10,7 +10,7 @@ import fs from "fs";
 (function() {
     test("test transformContect page 1", () => {
         jest.resetModules();
-        process.env.service = "../src/examples/testservice";
+        process.env.service = "examples/testservice";
         let req: any = {
             params: {
                 page: "page1"

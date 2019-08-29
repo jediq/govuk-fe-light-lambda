@@ -3,6 +3,7 @@ import { ENGINE_METHOD_PKEY_ASN1_METHS } from "constants";
 
 const service: FrameworkService = {
     name: "Get an annual MOT reminder",
+    slug: "reminders",
     targetUrl: "https://someurl.gov.uk",
     gdsPhase: "alpha",
     firstPage: "vrn",

@@ -2,7 +2,13 @@
 
 Read.me stolen from the typescript starter. Needs updating.
 
-rm -rf dist && npm run build && npm run start --service=../examples/reminders --debug=true
+## Build and run the mot-reminders service example
+
+`rm -rf dist && npm run build && npm run start --service=examples/reminders --debug=true`
+
+## Build and run all services in the `examples` folder
+
+`rm -rf dist && npm run build && npm run start --service=examples/reminders --debug=true`
 
 # TODO
 

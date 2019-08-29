@@ -2,6 +2,7 @@ import FrameworkService from "../types/framework";
 
 const service: FrameworkService = {
     name: "Register to vote",
+    slug: "register-to-vote",
     targetUrl: "https://someurl.gov.uk",
     gdsPhase: "alpha",
     firstPage: "location",

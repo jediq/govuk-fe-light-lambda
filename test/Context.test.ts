@@ -7,8 +7,8 @@ import { Context } from "../src/framework/Context";
 (function() {
     test("test context creation", () => {
         jest.resetModules();
-        process.env.service = "../src/examples/testservice";
-        var req = {
+        process.env.service = "examples/testservice";
+        var req: any = {
             params: {
                 page: "vrn"
             },

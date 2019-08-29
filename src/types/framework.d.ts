@@ -2,6 +2,7 @@ import { Context } from "../framework/Context";
 
 export default class FrameworkService {
   name: string;
+  slug: string;
   targetUrl: string;
   gdsPhase: string;
   firstPage: string;

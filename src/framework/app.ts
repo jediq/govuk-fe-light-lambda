@@ -32,11 +32,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req: express.Request, res: express.Response) => {
     logger.debug("root page requested");
     const context = new Context(req);
-    logger.debug("redirecting to : " + context.service.firstPage);
-    res.redirect(context.service.firstPage);
+    logger.debug("redirecting to : " + context.service.slug);
+    res.redirect(context.service.slug);
 });
 
-app.get("/confirmation", (req: express.Request, res: express.Response) => {
+app.get("/:slug/confirmation", (req: express.Request, res: express.Response) => {
     logger.info("rendering confirmation page");
     const context = new Context(req);
     context.page = context.service.confirmation;
@@ -50,12 +50,19 @@ app.get("/confirmation", (req: express.Request, res: express.Response) => {
     res.send(document);
 });
 
-app.get("/:page", (req: express.Request, res: express.Response) => {
-    logger.info(`Get request to page ${req.params["page"]}`);
+app.get("/:slug", (req: express.Request, res: express.Response) => {
+    logger.debug("root page requested");
+    const context = new Context(req);
+    logger.debug("redirecting to : " + context.service.slug);
+    res.redirect(context.service.slug + "/" + context.service.firstPage);
+});
+
+app.get("/:slug/:page", (req: express.Request, res: express.Response) => {
+    logger.info(`Get request to page ${req.params["page"]} in ${req.params["slug"]}`);
     const context = new Context(req);
     if (!context.isValid()) {
         logger.debug("invalid context, redirecting to : " + context.service.firstPage);
-        res.redirect(context.service.firstPage);
+        res.redirect(context.service.slug + "/" + context.service.firstPage);
         return;
     }
     const document = renderer.renderDocument(context);
@@ -64,12 +71,12 @@ app.get("/:page", (req: express.Request, res: express.Response) => {
     res.send(document);
 });
 
-app.post("/:page", async (req: express.Request, res: express.Response) => {
+app.post("/:slug/:page", async (req: express.Request, res: express.Response) => {
     logger.info(`Posted to page ${req.params["page"]} : ` + JSON.stringify(req.body));
     var context = new Context(req);
     if (!context.isValid()) {
         logger.debug("invalid context, redirecting to : " + context.service.firstPage);
-        res.redirect(context.service.firstPage);
+        res.redirect(context.service.slug + "/" + context.service.firstPage);
         return;
     }
 

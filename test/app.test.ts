@@ -9,17 +9,27 @@ describe("GET /", () => {
         return request(app)
             .get("/")
             .expect(302)
-            .expect("Location", "page1")
+            .expect("Location", "test-service")
             .end(done);
     });
 });
 
 describe("GET /random-url", () => {
+    it("should redirect to the default service", done => {
+        request(app)
+            .get("/random-url")
+            .expect(302)
+            .expect("Location", "test-service/page1")
+            .end(done);
+    });
+});
+
+describe("GET test-service/random-url", () => {
     it("should redirect to the first page", done => {
         request(app)
-            .get("/reset")
+            .get("/test-service/random-url")
             .expect(302)
-            .expect("Location", "page1")
+            .expect("Location", "test-service/page1")
             .end(done);
     });
 });
@@ -27,13 +37,25 @@ describe("GET /random-url", () => {
 var tag = "WG1649AX";
 
 describe("POST /random-url", () => {
-    it("should redirect to the first page", done => {
+    it("should redirect to the service", done => {
         request(app)
-            .post("/random-url")
+            .post("/test-service/random-url")
             .field("name", "John Doe")
             .field("email", "john@me.com")
             .expect(302)
-            .expect("Location", "page1")
+            .expect("Location", "test-service/page1")
+            .end(done);
+    });
+});
+
+describe("POST /", () => {
+    it("should redirect to the first page", done => {
+        request(app)
+            .post("/test-service/random-url")
+            .field("name", "John Doe")
+            .field("email", "john@me.com")
+            .expect(302)
+            .expect("Location", "test-service/page1")
             .end(done);
     });
 });

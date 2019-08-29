@@ -23,7 +23,8 @@ export class Context {
     public data: any = {};
 
     public constructor(req: express.Request) {
-        this.service = cloneDeep(globalService);
+        this.service = cloneDeep(serviceManager.getService(req && req.params["slug"]));
+
         this.service.hash = this.service.hash || this.hashCode(this.service.name);
         logger.debug(`service hash for ${this.service.name} is ${this.service.hash}`);
         if (!req) return;

@@ -1,5 +1,5 @@
-import { Context } from "./Context";
-import logger from "./util/logger";
+import { Context } from "../framework/Context";
+import logger from "../framework/util/logger";
 
 import * as handlebars from "handlebars";
 import * as fs from "fs";
@@ -7,10 +7,10 @@ import * as path from "path";
 import { Renderer } from "../types/Renderer";
 
 function registerPartial(name: string) {
-    handlebars.registerPartial(name, fs.readFileSync(path.join(__dirname, `../templates/${name}.html`), "utf8"));
+    handlebars.registerPartial(name, fs.readFileSync(path.join(__dirname, `../rendering/html/${name}.html`), "utf8"));
 }
 function compile(name: string) {
-    return handlebars.compile(fs.readFileSync(path.join(__dirname, `../templates/${name}.html`), "utf8"));
+    return handlebars.compile(fs.readFileSync(path.join(__dirname, `../rendering/html/${name}.html`), "utf8"));
 }
 
 const formPageTemplate = compile("formPage");
@@ -43,7 +43,7 @@ handlebars.registerHelper("if_eq", function(a, b, opts) {
     }
 });
 
-export class HandlebarsRenderer implements Renderer {
+export class HtmlRenderer implements Renderer {
     public renderDocument(context: Context): string {
         return formPageTemplate(context);
     }

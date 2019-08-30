@@ -1,11 +1,12 @@
 "use strict";
 
 import "jest";
-import { GovUkFormPage } from "../../src/framework/pages/GovUkFormPage";
+import { GovUkFormPage } from "../../src/rendering/govuk/pages/GovUkFormPage";
 import { Context } from "../../src/framework/Context";
 
 import nunjucks from "nunjucks";
 import fs from "fs";
+import path from "path";
 
 function clean(str: string) {
     return str.replace(/(\r\n|\n|\r)/gm, "");
@@ -13,8 +14,8 @@ function clean(str: string) {
 
 (function() {
     test("test render text component", () => {
-        nunjucks.configure(["node_modules/govuk-frontend/", "src/framework/"], {
-            autoescape: false
+        nunjucks.configure(["node_modules/govuk-frontend/", "src/rendering/govuk/"], {
+            autoescape: true
         });
 
         let opts = {
@@ -42,9 +43,11 @@ function clean(str: string) {
     });
 
     test("test render text component with error", () => {
-        nunjucks.configure(["node_modules/govuk-frontend/", "src/framework/"], {
-            autoescape: false
+        nunjucks.configure(["node_modules/govuk-frontend/", "src/rendering/govuk/"], {
+            autoescape: true
         });
+
+        console.log("NORMALISE : :   : : : : : :  : :" + path.normalize("src/rendering/govuk/"));
 
         let opts = {
             components: [

@@ -3,8 +3,8 @@ import * as bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import * as path from "path";
 import { Renderer } from "../types/Renderer";
-import { HandlebarsRenderer } from "./HandlebarsRenderer";
-import { NunchucksRenderer } from "./NunchucksRenderer";
+import { HtmlRenderer } from "../rendering/HtmlRenderer";
+import { GovUkRenderer } from "../rendering/GovUkRenderer";
 import * as validator from "./validator";
 import { Context } from "./Context";
 import logger from "./util/logger";
@@ -13,7 +13,7 @@ import environment from "./util/environment";
 const app = express();
 const context = new Context(null);
 
-const renderer: Renderer = environment.renderer === "nunchucks" ? new NunchucksRenderer() : new HandlebarsRenderer();
+const renderer: Renderer = environment.renderer === "govuk" ? new GovUkRenderer() : new HtmlRenderer();
 
 function createDataCookie(context: Context, res: express.Response) {
     var data = context.getCookieData();

@@ -1,7 +1,7 @@
 "use strict";
 
 import "jest";
-import { GovUkFormPage } from "../../src/framework/pages/GovUkFormPage";
+import { GovUkFormPage } from "../../src/rendering/govuk/pages/GovUkFormPage";
 import { Context } from "../../src/framework/Context";
 
 import nunjucks from "nunjucks";
@@ -18,7 +18,7 @@ import fs from "fs";
         };
         let context = new Context(req);
 
-        let formPage = new GovUkFormPage();
+        let formPage = new GovUkFormPage(null);
         let opts = formPage.transformContext(context);
         expect(opts.heading).toBe("Please enter field one");
         expect(opts.components.length).toBe(1);
@@ -44,7 +44,7 @@ import fs from "fs";
         let context = new Context(req);
         context.page.items[0].invalid = true;
 
-        let formPage = new GovUkFormPage();
+        let formPage = new GovUkFormPage(null);
         let opts = formPage.transformContext(context);
         expect(opts.heading).toBe("Please enter field one");
         expect(opts.components.length).toBe(1);

@@ -1,6 +1,7 @@
-import { Context } from "../Context";
-import logger from "../util/logger";
-import nunjucks from "nunjucks";
+import { Context } from "../../../framework/Context";
+
+import logger from "../../../framework/util/logger";
+
 import { GovUkPage } from "./GovUkPage";
 import _ from "lodash";
 
@@ -15,12 +16,8 @@ export class GovUkConfirmationPage extends GovUkPage {
         }
     }
     public renderContent(context: Context): string {
-        nunjucks.configure(["node_modules/govuk-frontend/", "dist/framework/", "framework/"], {
-            autoescape: false
-        });
-
         var opts = this.transformContext(context);
-        return nunjucks.render("pages/GovUkConfirmationPage.njk", opts);
+        return this.nunjucks.render("pages/GovUkConfirmationPage.njk", opts);
     }
 
     public transformContext(context: Context): any {

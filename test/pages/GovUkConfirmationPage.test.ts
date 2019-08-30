@@ -1,7 +1,7 @@
 "use strict";
 
 import "jest";
-import { GovUkConfirmationPage } from "../../src/framework/pages/GovUkConfirmationPage";
+import { GovUkConfirmationPage } from "../../src/rendering/govuk/pages/GovUkConfirmationPage";
 import { Context } from "../../src/framework/Context";
 
 (function() {
@@ -20,7 +20,7 @@ import { Context } from "../../src/framework/Context";
         context.data.field3Field = "Field three";
         context.data.field4Field = "Field four";
 
-        let page = new GovUkConfirmationPage();
+        let page = new GovUkConfirmationPage(null);
         let opts = page.transformContext(context);
         expect(opts.heading).toBe("Make sure the details are correct.");
         expect(opts.groups.length).toBe(2);

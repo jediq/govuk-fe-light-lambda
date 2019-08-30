@@ -1,18 +1,10 @@
-import { Context } from "../Context";
-import { Page } from "./Page";
-import logger from "../util/logger";
-import nunjucks from "nunjucks";
-import fs from "fs";
+import { Context } from "../../../framework/Context";
 import { GovUkPage } from "./GovUkPage";
 
 export class GovUkFormPage extends GovUkPage {
     public renderContent(context: Context): string {
-        nunjucks.configure(["node_modules/govuk-frontend/", "dist/framework/", "framework/"], {
-            autoescape: false
-        });
-
         var opts = this.transformContext(context);
-        return nunjucks.render("pages/GovUkFormPage.njk", opts);
+        return this.nunjucks.render("pages/GovUkFormPage.njk", opts);
     }
 
     public transformContext(context: Context): any {

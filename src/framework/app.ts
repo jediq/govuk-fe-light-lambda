@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import * as path from "path";
 import { Renderer } from "../types/Renderer";
 import { HtmlRenderer } from "../rendering/HtmlRenderer";
+import { NhsRenderer } from "../rendering/NhsRenderer";
 import { GovUkRenderer } from "../rendering/GovUkRenderer";
 import * as validator from "./validator";
 import { Context } from "./Context";
@@ -13,7 +14,15 @@ import environment from "./util/environment";
 const app = express();
 const context = new Context(null);
 
-const renderer: Renderer = environment.renderer === "govuk" ? new GovUkRenderer() : new HtmlRenderer();
+function selectRenderer(): Renderer {
+    var renderer: Renderer = undefined;
+    if (environment.renderer == "govuk") renderer = new GovUkRenderer();
+    if (environment.renderer == "nhs") renderer = new NhsRenderer();
+    if (renderer == undefined) renderer = new HtmlRenderer();
+    return renderer;
+}
+
+var renderer: Renderer = selectRenderer();
 
 function createDataCookie(context: Context, res: express.Response) {
     var data = context.getCookieData();
@@ -33,7 +42,7 @@ app.get("/", (req: express.Request, res: express.Response) => {
     logger.debug("root page requested");
     const context = new Context(req);
     logger.debug("redirecting to : " + context.service.slug);
-    res.redirect(context.service.slug);
+    res.redirect("/" + context.service.slug);
 });
 
 app.get("/:slug/confirmation", (req: express.Request, res: express.Response) => {
@@ -41,7 +50,7 @@ app.get("/:slug/confirmation", (req: express.Request, res: express.Response) => 
     const context = new Context(req);
     context.page = context.service.confirmation;
     if (!context.isValid()) {
-        res.redirect(context.service.firstPage);
+        res.redirect("/" + context.service.slug + "/" + context.service.firstPage);
         return;
     }
 
@@ -54,7 +63,7 @@ app.get("/:slug", (req: express.Request, res: express.Response) => {
     logger.debug("root page requested");
     const context = new Context(req);
     logger.debug("redirecting to : " + context.service.slug);
-    res.redirect(context.service.slug + "/" + context.service.firstPage);
+    res.redirect("/" + context.service.slug + "/" + context.service.firstPage);
 });
 
 app.get("/:slug/:page", (req: express.Request, res: express.Response) => {
@@ -62,7 +71,7 @@ app.get("/:slug/:page", (req: express.Request, res: express.Response) => {
     const context = new Context(req);
     if (!context.isValid()) {
         logger.debug("invalid context, redirecting to : " + context.service.firstPage);
-        res.redirect(context.service.slug + "/" + context.service.firstPage);
+        res.redirect("/" + context.service.slug + "/" + context.service.firstPage);
         return;
     }
     const document = renderer.renderDocument(context);
@@ -76,7 +85,7 @@ app.post("/:slug/:page", async (req: express.Request, res: express.Response) => 
     var context = new Context(req);
     if (!context.isValid()) {
         logger.debug("invalid context, redirecting to : " + context.service.firstPage);
-        res.redirect(context.service.slug + "/" + context.service.firstPage);
+        res.redirect("/" + context.service.slug + "/" + context.service.firstPage);
         return;
     }
 

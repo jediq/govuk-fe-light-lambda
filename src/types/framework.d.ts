@@ -31,7 +31,7 @@ interface Page {
 interface Item {
   id: string;
   type: string;
-  label: string;
+  label?: string;
   hint?: string;
   validation?: Validation;
   options?: Array<string> | string;

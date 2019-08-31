@@ -1,0 +1,4 @@
+{% macro checkboxFieldComponent(context, component) %}
+  {% from "nhs/components/checkboxes/macro.njk" import nhsCheckboxes %}
+  {{ nhsCheckboxes(component) }}
+{% endmacro %}

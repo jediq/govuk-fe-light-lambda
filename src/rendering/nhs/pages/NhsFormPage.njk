@@ -1,0 +1,33 @@
+
+{% from "components/error-summary/macro.njk" import errorSummary %}
+{% from "components/componentRenderer.njk" import componentRenderer %}
+{% from "components/button/macro.njk" import button %}
+{% from "components/fieldset/macro.njk" import fieldset %}
+
+{% block content %}
+<form method="POST" class="nhsuk-width-container">
+
+{% call fieldset({
+  legend: {
+    text: heading,
+    classes: "nhs-fieldset__legend--xl",
+    isPageHeading: true
+  }
+}) %}
+
+  {% if pageErrors %}
+    {{ errorSummary(pageErrors) }}
+  {% endif %}
+
+  {{ componentRenderer(components) }}
+
+
+{{ button({
+  text: "Save and continue"
+}) }}
+
+
+{% endcall %}
+
+</form>
+{% endblock %}

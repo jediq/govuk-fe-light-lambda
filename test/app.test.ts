@@ -9,7 +9,7 @@ describe("GET /", () => {
         return request(app)
             .get("/")
             .expect(302)
-            .expect("Location", "test-service")
+            .expect("Location", "/test-service")
             .end(done);
     });
 });
@@ -19,7 +19,7 @@ describe("GET /random-url", () => {
         request(app)
             .get("/random-url")
             .expect(302)
-            .expect("Location", "test-service/page1")
+            .expect("Location", "/test-service/page1")
             .end(done);
     });
 });
@@ -29,7 +29,7 @@ describe("GET test-service/random-url", () => {
         request(app)
             .get("/test-service/random-url")
             .expect(302)
-            .expect("Location", "test-service/page1")
+            .expect("Location", "/test-service/page1")
             .end(done);
     });
 });
@@ -43,7 +43,7 @@ describe("POST /random-url", () => {
             .field("name", "John Doe")
             .field("email", "john@me.com")
             .expect(302)
-            .expect("Location", "test-service/page1")
+            .expect("Location", "/test-service/page1")
             .end(done);
     });
 });
@@ -55,7 +55,19 @@ describe("POST /", () => {
             .field("name", "John Doe")
             .field("email", "john@me.com")
             .expect(302)
-            .expect("Location", "test-service/page1")
+            .expect("Location", "/test-service/page1")
             .end(done);
+    });
+
+    describe("/confirmation with invalid data", () => {
+        it("should redirect to the first page", done => {
+            request(app)
+                .post("/test-service/confirmation")
+                .field("name", "John Doe")
+                .field("email", "john@me.com")
+                .expect(302)
+                .expect("Location", "/test-service/page1")
+                .end(done);
+        });
     });
 });

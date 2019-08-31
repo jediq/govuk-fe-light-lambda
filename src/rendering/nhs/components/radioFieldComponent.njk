@@ -1,0 +1,8 @@
+{% macro radioFieldComponent(context, component) %}
+
+  {% from "components/radios/macro.njk" import radios %}
+  {{ radios(component) }}
+
+{% endmacro %}
+
+

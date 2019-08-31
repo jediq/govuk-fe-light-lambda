@@ -1,0 +1,33 @@
+{% macro componentRenderer(components) %}
+
+{% from "components/textFieldComponent.njk" import textFieldComponent %}
+{% from "components/radioFieldComponent.njk" import radioFieldComponent %}
+{% from "components/checkboxFieldComponent.njk" import checkboxFieldComponent %}
+{% from "components/selectFieldComponent.njk" import selectFieldComponent %}
+{% from "components/datePickerComponent.njk" import datePickerComponent %}
+
+{% for component in components %}
+
+{% if component.type === 'text' %}
+  {{ textFieldComponent(context, component) }}
+{% endif %}
+
+{% if component.type === 'radio' %}
+  {{ radioFieldComponent(context, component) }}
+{% endif %}
+
+{% if component.type === 'checkbox' %}
+  {{ checkboxFieldComponent(context, component) }}
+{% endif %}
+
+{% if component.type === 'inputSelect' %}
+  {{ selectFieldComponent(context, component) }}
+{% endif %}
+
+{% if component.type === 'datePicker' %}
+  {{ datePickerComponent(context, component) }}
+{% endif %}
+
+{% endfor %}
+
+{% endmacro %}

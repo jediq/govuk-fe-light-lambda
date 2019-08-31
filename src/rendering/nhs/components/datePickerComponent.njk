@@ -1,0 +1,5 @@
+{% macro datePickerComponent(context, component) %}
+
+  {% from "components/date-input/macro.njk" import nhsDateInput %}
+  {{ nhsDateInput(component) }}
+{% endmacro %}

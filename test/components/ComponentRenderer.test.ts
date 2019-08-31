@@ -47,8 +47,6 @@ function clean(str: string) {
             autoescape: true
         });
 
-        console.log("NORMALISE : :   : : : : : :  : :" + path.normalize("src/rendering/govuk/"));
-
         let opts = {
             components: [
                 {

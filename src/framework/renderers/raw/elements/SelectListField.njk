@@ -1,0 +1,21 @@
+{% macro element(elementData) %}
+
+<fieldset>
+
+<label for="{{elementData.name}}">{{elementData.displayText}}</label>
+<select name="{{elementData.name}}">
+{% for eachOption in elementData.options %}
+
+<option {% if eachOption.value === elementData.value %} selected="true" {%endif%}>{{eachOption.value}}<option>
+
+{% endfor %}
+</select>
+
+{% if elementData.invalid %}
+  error : {{ elementData.validation.error }}
+{% endif %}
+  
+</fieldset>
+{% endmacro %}
+
+

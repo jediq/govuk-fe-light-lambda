@@ -37,7 +37,7 @@ export class NhsConfirmationPage extends NhsPage {
             for (var i = 0; i < items.length; i++) {
                 var id = items[i];
                 var { page, item }: any = this.findItem(id, context);
-                logger.debug(`found item ${id}? ${JSON.stringify(item)}`);
+                logger.debug(`found item ${id}: ` + "/" + context.service.slug);
                 if (item) {
                     var row = {
                         key: {
@@ -49,7 +49,7 @@ export class NhsConfirmationPage extends NhsPage {
                         actions: {
                             items: [
                                 {
-                                    href: "/" + page.id,
+                                    href: "/" + context.service.slug + "/" + page.id,
                                     text: "Change",
                                     visuallyHiddenText: "name"
                                 }

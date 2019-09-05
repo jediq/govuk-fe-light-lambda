@@ -8,7 +8,9 @@ import _ from "lodash";
 export class GovUkConfirmationPage extends GovUkPage {
     private findItem(id: any, context: Context) {
         for (var page of context.service.pages) {
-            for (var item of page.items) {
+            var items = page.items;
+            if (!items) return;
+            for (var item of items) {
                 if (item.id == id) {
                     return { page, item };
                 }
@@ -33,11 +35,13 @@ export class GovUkConfirmationPage extends GovUkPage {
                 rows: []
             };
 
+            console.log("rendering group : " + serviceGroup.title);
+
             var items = serviceGroup.items;
             for (var i = 0; i < items.length; i++) {
                 var id = items[i];
                 var { page, item }: any = this.findItem(id, context);
-                logger.debug(`found item ${id}? ${JSON.stringify(item)}`);
+                logger.debug(`found item ${id}? ` + "\"/\" + context.service.slug + \"/\" + page.id");
                 if (item) {
                     var row = {
                         key: {
@@ -49,7 +53,7 @@ export class GovUkConfirmationPage extends GovUkPage {
                         actions: {
                             items: [
                                 {
-                                    href: "/" + page.id,
+                                    href: "/" + context.service.slug + "/" + page.id,
                                     text: "Change",
                                     visuallyHiddenText: "name"
                                 }

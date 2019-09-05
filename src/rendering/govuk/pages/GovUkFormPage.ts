@@ -15,7 +15,8 @@ export class GovUkFormPage extends GovUkPage {
             pageErrors: []
         };
 
-        for (var item of context.page.items) {
+        var items = context.page.items || context.page.elements;
+        for (var item of items) {
             let component: any = {
                 id: item.id,
                 name: item.id,

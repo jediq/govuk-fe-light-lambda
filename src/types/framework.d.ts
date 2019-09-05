@@ -22,10 +22,36 @@ interface Page {
   description: string;
   nextPage: (context: Context) => string;
   preRequisiteData: Array<string>;
-  items: Array<Item>;
+  items?: Array<Item>;
+  elements?: Array<Element>;
   hint?: string;
   preValidation?: Array<HttpCall>;
   validation?: Validation;
+}
+
+interface Element {
+  type: string;
+  context?: Context;
+}
+
+interface ContainerElement extends Element {
+  elements: Array<Element>;
+}
+
+interface DisplayElement extends Element {}
+
+interface ValueElement extends Element {
+  name: string;
+  displayText: string;
+  shortText?: string;
+  hint?: string;
+  value?: string;
+  validation?: Validation;
+}
+
+interface FixedOptionValueElement extends Element {
+  options: Array<object | string>;
+  multiplicity?: boolean;
 }
 
 interface Item {

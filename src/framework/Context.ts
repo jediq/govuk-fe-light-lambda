@@ -9,8 +9,7 @@ import { ServiceManager } from "./ServiceManager";
 
 var serviceConfig = process.env.npm_config_service || process.env.service || "examples/testservice";
 logger.info("serviceConfig : " + serviceConfig);
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-//const globalService: FrameworkService = require("../" + serviceConfig).default;
+
 const serviceManager: ServiceManager = new ServiceManager(serviceConfig);
 const globalService: FrameworkService = serviceManager.getDefaultService();
 
@@ -47,16 +46,25 @@ export class Context {
     }
 
     private augmentPage() {
-        for (var i = 0; i < this.page.items.length; i++) {
-            var item = this.page.items[i];
-            // Add dynamic options if specificed as a data entry
-            if (item.options && !Array.isArray(item.options)) {
-                item.options = this.data[item.options];
-            }
+        this.page.items && this.page.items.forEach(() => this.augmentItem);
+        this.page.elements && this.page.elements.forEach(() => this.augmentItem);
+    }
 
-            // Conflate date fields together
-            if (item.type === "datePicker") {
-                this.data[item.id] = this.data[item.id + "-day"] + "-" + this.data[item.id + "-month"] + "-" + this.data[item.id + "-year"];
+    private augmentItem(item: any) {
+        console.log("XXthis is : " + this);
+        if (item.options && !Array.isArray(item.options)) {
+            item.options = this.data[item.options];
+        }
+        // Conflate date fields together
+        if (item.type === "datePicker") {
+            this.data[item.id] = this.data[item.id + "-day"] + "-" + this.data[item.id + "-month"] + "-" + this.data[item.id + "-year"];
+        }
+        console.log("item.elements : " + item.elements);
+        if (item.elements) {
+            for (var child of item.elements) {
+                console.log("item element : " + child);
+                console.log("this is : " + this);
+                this.augmentItem(child);
             }
         }
     }

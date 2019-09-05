@@ -4,5 +4,5 @@ function env(str: string, defalt: string): string {
 
 export default {
     debug: env("debug", "false") === "true",
-    renderer: env("renderer", "handlebars")
+    renderer: env("renderer", "raw")
 };

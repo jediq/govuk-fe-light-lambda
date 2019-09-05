@@ -1,5 +1,4 @@
 import FrameworkService from "../types/framework";
-import { ENGINE_METHOD_PKEY_ASN1_METHS } from "constants";
 
 const service: FrameworkService = {
     name: "Get an annual MOT reminder",

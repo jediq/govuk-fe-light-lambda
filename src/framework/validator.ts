@@ -1,6 +1,6 @@
 import logger from "./util/logger";
-
-import { Validation, FunctionValidation, RegexValidation, HttpCall } from "../types/framework";
+import { Context } from "./Context";
+import { Validation, FunctionValidation, RegexValidation, Element } from "../types/framework";
 
 import { HttpCallout } from "./HttpCallout";
 
@@ -23,15 +23,41 @@ function validate(validation: Validation, value: any): boolean {
     return isValid;
 }
 
+function recursivelyValidateElements(elements: any[], context: Context, page: any) {
+    console.log("we have elements: " + elements.length);
+    for (var element of elements) {
+        console.log("checking element: " + element.type);
+        if (["CheckboxField", "DatePickerField", "RadioField", "SelectListField", "TextField"].includes(element.type)) {
+            console.log("Element is a field : " + element.type);
+
+            element.value = context.data[element.name];
+
+            element.valid = validate(element.validation, element.value);
+            element.invalid = !element.valid;
+            page.valid = page.valid && element.valid;
+            page.invalid = !page.valid;
+        }
+
+        if (element.elements) {
+            recursivelyValidateElements(element.elements, context, page);
+        }
+    }
+}
+
 function enrichPage(page: any, context: any) {
     page.valid = true;
+    if (page.items) {
+        for (var item of page.items) {
+            item.value = context.data[item.id];
+            item.valid = validate(item.validation, context.data[item.id]);
+            item.invalid = !item.valid;
+            page.valid = page.valid && item.valid;
+            page.invalid = !page.valid;
+        }
+    }
 
-    for (var item of page.items) {
-        item.value = context.data[item.id];
-        item.valid = validate(item.validation, context.data[item.id]);
-        item.invalid = !item.valid;
-        page.valid = page.valid && item.valid;
-        page.invalid = !page.valid;
+    if (page.elements) {
+        recursivelyValidateElements(page.elements, context, page);
     }
 
     if (context.page.validation && context.page.validation.validator) {

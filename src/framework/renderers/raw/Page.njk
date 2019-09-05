@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{{service.name}}</title>
+</head>
+<body>  
+
+{% for eachElement in page.elements %}
+{% from "elements/" + eachElement.type + ".njk" import element %}
+{{ element(eachElement) }}
+{% endfor %}
+
+
+</body>
+</html>   

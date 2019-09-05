@@ -10,15 +10,20 @@ import * as validator from "./validator";
 import { Context } from "./Context";
 import logger from "./util/logger";
 import environment from "./util/environment";
+import { NunjucksRenderer } from "./renderers/NunjucksRenderer";
 
 const app = express();
 const context = new Context(null);
 
 function selectRenderer(): Renderer {
     var renderer: Renderer = undefined;
-    if (environment.renderer == "govuk") renderer = new GovUkRenderer();
-    if (environment.renderer == "nhs") renderer = new NhsRenderer();
-    if (renderer == undefined) renderer = new HtmlRenderer();
+    if (false) {
+        if (environment.renderer == "govuk") renderer = new GovUkRenderer();
+        if (environment.renderer == "nhs") renderer = new NhsRenderer();
+        if (renderer == undefined) renderer = new HtmlRenderer();
+    } else {
+        renderer = new NunjucksRenderer();
+    }
     return renderer;
 }
 
@@ -104,8 +109,8 @@ app.post("/:slug/:page", async (req: express.Request, res: express.Response) => 
         logger.debug("posted data not valid, re-rendering document");
         res.send(renderer.renderDocument(context));
     } else {
-        logger.debug("post successful, redirecting to : " + context.service.firstPage);
-        res.redirect(context.page.nextPage(context));
+        logger.debug("post successful, redirecting to : " + context.page.nextPage(context));
+        res.redirect("/" + context.service.slug + "/" + context.page.nextPage(context));
     }
 });
 

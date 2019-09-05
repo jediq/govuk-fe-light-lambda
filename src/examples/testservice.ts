@@ -1,4 +1,14 @@
 import FrameworkService from "../types/framework";
+import TextField from "../framework/elements/TextField";
+import SubmitButton from "../framework/elements/SubmitButton";
+import Form from "../framework/elements/Form";
+import Heading from "../framework/elements/Heading";
+import RadioField from "../framework/elements/RadioField";
+import CheckboxField from "../framework/elements/CheckboxField";
+import SelectlistField from "../framework/elements/SelectListField";
+import Paragraph from "../framework/elements/Paragraph";
+import Phase from "../framework/elements/Phase";
+import DatePickerField from "../framework/elements/DataPickerField";
 
 const service: FrameworkService = {
     name: "Test Service",
@@ -15,18 +25,32 @@ const service: FrameworkService = {
             description: "Please enter field one",
             nextPage: () => "page2",
             preRequisiteData: [],
-            items: [
-                {
-                    id: "field1Field",
-                    type: "text",
-                    label: "Field1?",
-                    hint: "For example, FIELD1",
-                    width: "one-third",
-                    validation: {
-                        regex: "FIELD1",
-                        error: "Enter the field as : FIELD1"
-                    }
-                }
+
+            elements: [
+                new Phase("BETA", "This is a beta project"),
+                new Heading("Please enter field one"),
+                ({
+                    type: "Form",
+                    elements: [
+                        ({
+                            name: "textField",
+                            type: "TextField",
+                            displayText: "Text Field",
+                            shortText: "Txt Fld",
+                            hint: "The text field",
+                            validation: {
+                                regex: "^[A-Za-z0-9]{0,7}$",
+                                error: "Enter the vehicle’s registration"
+                            }
+                        } as any) as TextField,
+                        new RadioField("radios", "Radio buttons", ["radio 1", "radio 2", "radio 3"]),
+                        new Paragraph("This is the paragraph in the middle of the form"),
+                        new CheckboxField("checkboxes", "Checkbox"),
+                        new SelectlistField("selectlist", "Select list", ["select 1", "select 2", "select 3"]),
+                        new DatePickerField("datePicker", "Date Picker"),
+                        new SubmitButton("Save and Continue")
+                    ]
+                } as any) as Form
             ],
             preValidation: []
         },
@@ -34,58 +58,13 @@ const service: FrameworkService = {
             id: "page2",
             description: "Please enter field two",
             preRequisiteData: ["field1Field"],
-            nextPage: () => "page3",
-            items: [
-                {
-                    id: "field2Field",
-                    type: "radio",
-                    label: "field2",
-                    options: ["option1", "option2"],
-                    validation: {
-                        regex: ".+",
-                        error: "Choose the option you want"
-                    }
-                },
-                {
-                    id: "field3Field",
-                    type: "checkbox",
-                    label: "field3",
-                    options: ["option1", "option2"],
-                    validation: {
-                        regex: ".+",
-                        error: "Choose the option you want"
-                    }
-                },
-                {
-                    id: "field4Field",
-                    type: "inputSelect",
-                    label: "field4",
-                    options: ["option1", "option2"],
-                    validation: {
-                        regex: ".+",
-                        error: "Choose the option you want"
-                    }
-                }
-            ]
+            nextPage: () => "page3"
         },
         {
             id: "page3",
             description: "What is your date of birth?",
             nextPage: () => "confirmation",
-            preRequisiteData: ["field3Field"],
-            items: [
-                {
-                    id: "field4Field",
-                    type: "datePicker",
-                    label: "Date of Birth",
-                    hint: "For example, 31 12 1970",
-
-                    validation: {
-                        regex: "^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}$",
-                        error: "Enter your date of birth"
-                    }
-                }
-            ]
+            preRequisiteData: ["field3Field"]
         }
     ],
     confirmation: {

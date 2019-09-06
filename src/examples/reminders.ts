@@ -1,4 +1,12 @@
 import FrameworkService from "../types/framework";
+import Heading from "../framework/elements/Heading";
+import Form from "../framework/elements/Form";
+import TextField from "../framework/elements/TextField";
+import SubmitButton from "../framework/elements/SubmitButton";
+import CheckboxField from "../framework/elements/CheckboxField";
+import RadioField from "../framework/elements/RadioField";
+import ErrorList from "../framework/elements/ErrorList";
+import Summary from "../framework/elements/Summary";
 
 const service: FrameworkService = {
     name: "Get an annual MOT reminder",
@@ -15,18 +23,23 @@ const service: FrameworkService = {
             description: "What is the vehicle’s registration number?",
             nextPage: () => "channel-selection",
             preRequisiteData: [],
-            items: [
-                {
-                    id: "vrnField",
-                    type: "text",
-                    label: "Registration number (number plate)",
-                    hint: "For example, CU57ABC",
-                    width: "one-third",
-                    validation: {
-                        regex: "^[A-Za-z0-9]{0,7}$",
-                        error: "Enter the vehicle’s registration"
-                    }
-                }
+            elements: [
+                new Heading("What is the vehicle’s registration number?"),
+                new ErrorList("There is a problem"),
+                new Form([
+                    ({
+                        name: "vrnField",
+                        type: "TextField",
+                        displayText: "Registration number (number plate)",
+                        shortText: "Number Plate",
+                        hint: "For example, CU57ABC",
+                        validation: {
+                            regex: "[A-Za-z0-9]{5,7}",
+                            error: "Enter the vehicle’s registration"
+                        }
+                    } as any) as TextField,
+                    new SubmitButton("Save and Continue")
+                ])
             ],
             preValidation: [
                 {
@@ -70,17 +83,22 @@ const service: FrameworkService = {
                     return "phone-number";
                 }
             },
-            items: [
-                {
-                    id: "channelField",
-                    type: "radio",
-                    options: ["Email", "Text to my mobile phone"],
-                    label: "Reminder type",
-                    validation: {
-                        regex: ".+",
-                        error: "Choose one reminder you want"
-                    }
-                }
+            elements: [
+                new Heading("What type of reminder do you want to get?"),
+                new ErrorList("There is a problem"),
+                new Form([
+                    ({
+                        name: "channelField",
+                        type: "RadioField",
+                        hint: "Reminder type",
+                        validation: {
+                            regex: ".+",
+                            error: "Choose one reminder you want"
+                        },
+                        options: [{ value: "Email", text: "Email" }, { value: "Text to my mobile phone", text: "Text to my mobile phone" }]
+                    } as any) as RadioField,
+                    new SubmitButton("Save and Continue")
+                ])
             ]
         },
         {
@@ -88,18 +106,21 @@ const service: FrameworkService = {
             description: "What is your email address?",
             preRequisiteData: ["vrnField", "channelField"],
             nextPage: () => "tax-reminder",
-            items: [
-                {
-                    id: "contactField",
-                    type: "text",
-                    label: "Email address",
-                    hint: "Your reminder will be sent here",
-                    width: "one-third",
-                    validation: {
-                        regex: "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$",
-                        error: "Enter your email address"
-                    }
-                }
+            elements: [
+                new Heading("What is your email address?"),
+                new ErrorList("There is a problem"),
+                new Form([
+                    ({
+                        name: "emailField",
+                        type: "TextField",
+                        hint: "Your reminder will be sent here",
+                        validation: {
+                            regex: "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$",
+                            error: "Enter your email address"
+                        }
+                    } as any) as TextField,
+                    new SubmitButton("Save and Continue")
+                ])
             ]
         },
         {
@@ -107,47 +128,68 @@ const service: FrameworkService = {
             description: "What is your mobile number?",
             preRequisiteData: ["vrnField", "channelField"],
             nextPage: () => "tax-reminder",
-            items: [
-                {
-                    id: "contactField",
-                    type: "text",
-                    label: "Mobile phone number",
-                    hint: "Your reminder will be sent here",
-                    width: "one-third",
-                    validation: {
-                        regex: "^d{5} ?d{3} ?d{3}$",
-                        error: "Enter your mobile number"
-                    }
-                }
+            elements: [
+                new Heading("What is your mobile phone number?"),
+                new ErrorList("There is a problem"),
+                new Form([
+                    ({
+                        name: "phoneField",
+                        type: "TextField",
+                        hint: "Your reminder will be sent here",
+                        validation: {
+                            regex: "[ 0-9]{5,17}",
+                            error: "Enter your mobile number"
+                        }
+                    } as any) as TextField,
+                    new SubmitButton("Save and Continue")
+                ])
             ]
         },
         {
             id: "tax-reminder",
             description: "Do you also want a reminder about the vehicle tax?",
             preRequisiteData: ["vrnField"],
-            nextPage: () => "confirmation",
-            items: [
-                {
-                    id: "taxField",
-                    label: "Tax reminder?",
-                    type: "radio",
-                    options: ["Yes", "No"],
-
-                    validation: {
-                        regex: ".+",
-                        error: "Choose if you'd like a tax reminder"
-                    }
-                }
+            nextPage: () => "summary",
+            elements: [
+                new Heading("Do you also want a reminder about the vehicle tax?"),
+                new ErrorList("There is a problem"),
+                new Form([
+                    ({
+                        name: "taxField",
+                        type: "RadioField",
+                        hint: "Reminder type",
+                        validation: {
+                            regex: ".+",
+                            error: "Choose if you'd like a tax reminder"
+                        },
+                        options: [{ value: "Yes", text: "Yes" }, { value: "No", text: "No" }]
+                    } as any) as RadioField,
+                    new SubmitButton("Save and Continue")
+                ])
+            ]
+        },
+        {
+            id: "summary",
+            preRequisiteData: ["vrnField", "channelField"],
+            nextPage: () => null,
+            elements: [
+                new Form([
+                    new Heading("Make sure the vehicle and your contact details are correct"),
+                    new Summary("Personal details", ["channelField", "emailField", "phoneField", "taxField"]),
+                    new Summary("Vehicle details", ["vrnField"]),
+                    new SubmitButton("Finish")
+                ])
             ]
         }
     ],
+
     confirmation: {
         description: "Make sure the vehicle and your contact details are correct.",
-        preRequisiteData: ["vrnField", "channelField", "contactField"],
+        preRequisiteData: ["vrnField", "channelField"],
         groups: [
             {
                 title: "Personal details",
-                items: ["contactField", "taxField"],
+                items: ["channelField", "emailField", "phoneField", "taxField"],
                 ancillary: []
             },
             {

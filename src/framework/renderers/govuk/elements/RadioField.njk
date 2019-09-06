@@ -1,18 +1,14 @@
 {% macro element(elementData) %}
 
-<fieldset>
-<label for="{{elementData.name}}">{{elementData.displayText}}</label>
-{% for eachOption in elementData.options %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-<input type="radio" name="{{elementData.name}}" value="{{eachOption.value}}"  {% if eachOption.value === elementData.value %} checked="true" {%endif%}>{{eachOption.value}}
+{{ govukRadios({
+  idPrefix: elementData.name,
+  name: elementData.name,
+  items: elementData.options
+}) }}
 
-{% endfor %}
 
-{% if elementData.invalid %}
-  error : {{ elementData.validation.error }}
-{% endif %}
-  
-</fieldset>
 {% endmacro %}
 
 

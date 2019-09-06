@@ -1,15 +1,13 @@
 {% macro element(elementData) %}
 
-<fieldset>
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 
-<label for="{{elementData.name}}">{{elementData.displayText}}</label>
-<input type="checkbox" name="{{elementData.name}}" value="{{elementData.value}}"  {% if elementData.value %} checked="true" {%endif%}">{{elementData.value}}
+{{ govukCheckboxes({
+  idPrefix: elementData.name,
+  name: elementData.name,
+  items: elementData.options
+}) }}
 
-{% if elementData.invalid %}
-  error : {{ elementData.validation.error }}
-{% endif %}
-  
-</fieldset>
 {% endmacro %}
 
 

@@ -1,12 +1,12 @@
 {% macro element(elementData) %}
 
 {% if elementData.errorItems|length %}
-<h2>List of errors</h2>
+<h3>{{elementData.title}}</h3>
 <ul>
 
-{% for eachElement in elementData.errorItems %}
+{% for eachItem in elementData.errorItems %}
 <li>
-<a href="#{{eachElement.name}}">{{eachElement.name}} : {{ eachElement.validation.error}}</a>
+<a href="#{{eachItem.element.name}}">{{eachItem.element.name}} : {{ eachItem.element.validation.error}}</a>
 </li>
 {% endfor %}
 

@@ -1,12 +1,31 @@
 {% macro element(elementData) %}
-<form method="POST">
-  
-{% for eachElement in elementData.elements %}
 
-{% from "elements/" + eachElement.type + ".njk" import element %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+
+<form method="POST">
+
+{% call govukFieldset({
+  legend: {
+    text: heading,
+    classes: "govuk-fieldset__legend--xl",
+    isPageHeading: true
+  }
+}) %}
   
+
+{% for eachElement in elementData.elements %}
+{% from "elements/" + eachElement.type + ".njk" import element %}
 {{ element(eachElement) }}
 {% endfor %}
+
+
+
+
+{% endcall %}
+
+</form>
+
 
 </form>
 {% endmacro %}

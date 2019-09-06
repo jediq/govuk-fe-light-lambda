@@ -24,23 +24,18 @@
 
 {{ govukHeader({
   homepageUrl: "#",
-  serviceName: pageTitle,
+  serviceName: service.name,
   serviceUrl: "#"
 }) }}
 {% endblock %}
 
-{% block beforeContent %}
-{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
-{{ govukPhaseBanner({
-  tag: {
-    text: phase
-  },
-  html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
-}) }}
-{% endblock %}
-
 {% block content %}
-  {{content}}
+  
+{% for eachElement in page.elements %}
+{% from "elements/" + eachElement.type + ".njk" import element %}
+{{ element(eachElement) }}
+{% endfor %}
+
 {% endblock %}
 
 {% block bodyEnd %}

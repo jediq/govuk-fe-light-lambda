@@ -1,18 +1,15 @@
 {% macro element(elementData) %}
 
-<fieldset>
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 
-<label for="{{elementData.name}}">{{elementData.displayText}}</label>
-Day:<input type="text" name="{{elementData.name}}-day">
-Month:<input type="text" name="{{elementData.name}}-month">
-Year:<input type="text" name="{{elementData.name}}-year">
+{{ govukDateInput({
+  id: elementData.name,
+  namePrefix:elementData.name,
+  hint: {
+    text: elementData.hint
+  }
+}) }}
 
-
-{% if elementData.invalid %}
-  error : {{ elementData.validation.error }}
-{% endif %}
-  
-</fieldset>
 {% endmacro %}
 
 

@@ -1,6 +1,9 @@
+{% macro element(elementData) %}
 
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {{ govukButton({
-  text: text
+  text: elementData.displayText
 }) }}
+
+{% endmacro %}

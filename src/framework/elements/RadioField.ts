@@ -10,11 +10,11 @@ export default class RadioField implements ValueElement {
         this.type = "RadioField";
         this.name = name;
         this.displayText = displayText;
-        stringOptions.forEach(option => this.options.push({ value: option }));
+        stringOptions.forEach(option => this.options.push({ value: option, text: option }));
     }
 }
 
 export class RadioOption {
     public value: string;
-    public explain?: string;
+    public text: string;
 }

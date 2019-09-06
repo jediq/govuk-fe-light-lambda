@@ -2,9 +2,17 @@ import { Element, ContainerElement, ValueElement } from "framework";
 
 export default class ErrorList implements Element {
     public type: string;
-    public errorItems: ValueElement[] = [];
+    public title: string;
+    public errorItems: ErrorItem[] = [];
 
-    public constructor() {
+    public constructor(title: string) {
         this.type = "ErrorList";
+        this.title = title;
     }
+}
+
+export class ErrorItem {
+    public element: ValueElement;
+    public text: string;
+    public href: string;
 }

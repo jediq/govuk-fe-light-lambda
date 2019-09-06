@@ -1,8 +1,11 @@
 {% macro element(elementData) %}
-<div>
-<strong>{{elementData.name}}</strong>
-{{elementData.displayText}}
-</div>
+{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+{{ govukPhaseBanner({
+  tag: {
+    text: elementData.name
+  },
+  html: elementData.displayText
+}) }}
 {% endmacro %}
 
 

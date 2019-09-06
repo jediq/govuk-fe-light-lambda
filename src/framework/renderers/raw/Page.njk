@@ -3,7 +3,9 @@
 <head>
   <title>{{service.name}}</title>
 </head>
-<body>  
+<body>
+
+<h1>{{service.name}}</h1>
 
 {% for eachElement in page.elements %}
 {% from "elements/" + eachElement.type + ".njk" import element %}

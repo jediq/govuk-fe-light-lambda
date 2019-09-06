@@ -1,13 +1,42 @@
 {% macro element(elementData) %}
-<fieldset>
-<label for="{{elementData.name}}">{{elementData.displayText}}</label>
-<input type="text" id="{{elementData.id}}" name="{{elementData.name}}" value="{{elementData.value}}"/>
 
-{% if elementData.invalid %}
-  error : {{ elementData.validation.error }}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+
+{% if elementData.valid %}
+
+{{ govukInput({
+  label: {
+    text: elementData.displayText
+  },
+  id: elementData.name,
+  name: elementData.name,
+  hint: {
+    text: elementData.hint
+  },
+  value: elementData.value
+}) }}
+
+{% else %}
+
+{{ govukInput({
+  label: {
+    text: elementData.displayText
+  },
+  id: elementData.name,
+  name: elementData.name,
+  hint: {
+    text: elementData.hint
+  },
+  errorMessage: {
+    text: elementData.validation.error
+  },
+  value: elementData.value
+}) }}
+
+
 {% endif %}
-  
-</fieldset>
+
 {% endmacro %}
 
 

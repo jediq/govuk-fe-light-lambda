@@ -1,18 +1,16 @@
 {% macro element(elementData) %}
 
+
 {% if elementData.errorItems|length %}
-<h2>List of errors</h2>
-<ul>
 
-{% for eachElement in elementData.errorItems %}
-<li>
-<a href="#{{eachElement.name}}">{{eachElement.name}} : {{ eachElement.validation.error}}</a>
-</li>
-{% endfor %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
-</ul>
+{{ govukErrorSummary({
+  titleText: elementData.title,
+  errorList: elementData.errorItems
+}) }}
+
 {% endif %}
-  
 
 {% endmacro %}
 

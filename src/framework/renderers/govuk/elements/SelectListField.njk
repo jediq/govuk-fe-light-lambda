@@ -1,21 +1,15 @@
 {% macro element(elementData) %}
 
-<fieldset>
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{{ govukSelect({
+  id: elementData.name,
+  name: elementData.name,
+  label: {
+    text: elementData.displayText
+  },
+  items: elementData.options
+}) }}
 
-<label for="{{elementData.name}}">{{elementData.displayText}}</label>
-<select name="{{elementData.name}}">
-{% for eachOption in elementData.options %}
-
-<option {% if eachOption.value === elementData.value %} selected="true" {%endif%}>{{eachOption.value}}<option>
-
-{% endfor %}
-</select>
-
-{% if elementData.invalid %}
-  error : {{ elementData.validation.error }}
-{% endif %}
-  
-</fieldset>
 {% endmacro %}
 
 

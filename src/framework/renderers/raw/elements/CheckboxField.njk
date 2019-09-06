@@ -3,11 +3,17 @@
 <fieldset>
 
 <label for="{{elementData.name}}">{{elementData.displayText}}</label>
-<input type="checkbox" name="{{elementData.name}}" value="{{elementData.value}}"  {% if elementData.value %} checked="true" {%endif%}">{{elementData.value}}
+
+{% for eachOption in elementData.options %}
+
+<input type="checkbox" name="{{elementData.name}}-{{eachOption.value}}" value="{{eachOption.value}}"  {% if eachOption.value %} checked="true" {%endif%}">{{eachOption.value}}
+
+{% endfor %}
 
 {% if elementData.invalid %}
   error : {{ elementData.validation.error }}
 {% endif %}
+
   
 </fieldset>
 {% endmacro %}

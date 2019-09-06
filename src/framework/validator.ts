@@ -13,7 +13,6 @@ function validate(validation: Validation, value: any): boolean {
         logger.info("No validation, so returning true");
         return true;
     }
-    value = value ? value : "";
     if ((validation as FunctionValidation).validator) {
         var isValid: boolean = (validation as FunctionValidation).validator(value);
         return (validation as FunctionValidation).validator(value);
@@ -31,7 +30,7 @@ function enrichSummaryElements(element: Element, page: Page, context: Context) {
                 var sumElement: any = context.allElements.find(element => fieldName === (element as ValueElement).name);
                 if (sumElement) {
                     summary.summaryDataItems.push({
-                        key: sumElement.shortText ? sumElement.shortText : sumElement.displayText,
+                        key: sumElement.hasOwnProperty("shortText") ? sumElement.shortText : sumElement.displayText,
                         value: sumElement.value,
                         link: "/" + context.service.slug + "/" + sumElement.page.id,
                         linkText: "change"
@@ -45,7 +44,11 @@ function enrichSummaryElements(element: Element, page: Page, context: Context) {
             for (var el2 of page.allElements) {
                 var vel2 = el2 as ValueElement;
                 if (vel2.invalid) {
-                    errorListElement.errorItems.push(vel2);
+                    errorListElement.errorItems.push({
+                        href: "#" + vel2.name,
+                        text: vel2.validation.error,
+                        element: vel2
+                    });
                 }
             }
             logger.debug("elements in error list : " + errorListElement.errorItems.length);
@@ -60,15 +63,17 @@ function validateElements(context: Context, page: any) {
     for (var element of context.allElements) {
         if (["CheckboxField", "DatePickerField", "RadioField", "SelectListField", "TextField"].includes(element.type)) {
             var valueElement = element as ValueElement;
-            valueElement.value = context.data[valueElement.name];
-
-            valueElement.valid = validate(valueElement.validation, valueElement.value);
-            valueElement.invalid = !valueElement.valid;
-            if (valueElement.invalid) {
-                page.invalidElements.push(valueElement);
+            if (context.data.hasOwnProperty(valueElement.name)) {
+                console.log("Validating field " + valueElement.name + " with value " + context.data[valueElement.name]);
+                valueElement.value = context.data[valueElement.name];
+                valueElement.valid = validate(valueElement.validation, valueElement.value);
+                valueElement.invalid = !valueElement.valid;
+                if (valueElement.invalid) {
+                    page.invalidElements.push(valueElement);
+                }
+                page.valid = page.valid && valueElement.valid;
+                page.invalid = !page.valid;
             }
-            page.valid = page.valid && valueElement.valid;
-            page.invalid = !page.valid;
         }
     }
 

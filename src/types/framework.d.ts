@@ -28,6 +28,7 @@ interface Page {
   hint?: string;
   preValidation?: Array<HttpCall>;
   validation?: Validation;
+  invalidElements?: Array<Element>;
 }
 
 interface Element {

@@ -10,6 +10,7 @@ import Paragraph from "../framework/elements/Paragraph";
 import Phase from "../framework/elements/Phase";
 import DatePickerField from "../framework/elements/DataPickerField";
 import Summary from "../framework/elements/Summary";
+import ErrorList from "../framework/elements/ErrorList";
 
 const service: FrameworkService = {
     name: "Test Service",
@@ -29,6 +30,7 @@ const service: FrameworkService = {
             elements: [
                 new Phase("BETA", "This is a beta project"),
                 new Heading("Please enter field one"),
+                new ErrorList(),
                 ({
                     type: "Form",
                     elements: [

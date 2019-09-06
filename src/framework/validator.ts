@@ -1,9 +1,10 @@
 import logger from "./util/logger";
 import { Context } from "./Context";
-import { Validation, FunctionValidation, RegexValidation, Element, ValueElement } from "../types/framework";
+import { Validation, FunctionValidation, RegexValidation, Page, Element, ValueElement } from "../types/framework";
 
 import { HttpCallout } from "./HttpCallout";
 import Summary from "./elements/Summary";
+import ErrorList from "./elements/ErrorList";
 
 const httpCallout: HttpCallout = new HttpCallout();
 
@@ -22,7 +23,7 @@ function validate(validation: Validation, value: any): boolean {
     return isValid;
 }
 
-function enrichSummaryElements(element: Element, page: any, context: Context) {
+function enrichSummaryElements(element: Element, page: Page, context: Context) {
     for (element of page.allElements) {
         if (["Summary"].includes(element.type)) {
             var summary: Summary = element as Summary;
@@ -38,10 +39,24 @@ function enrichSummaryElements(element: Element, page: any, context: Context) {
                 }
             }
         }
+
+        if (["ErrorList"].includes(element.type)) {
+            var errorListElement = element as ErrorList;
+            for (var el2 of page.allElements) {
+                var vel2 = el2 as ValueElement;
+                if (vel2.invalid) {
+                    errorListElement.errorItems.push(vel2);
+                }
+            }
+            logger.debug("elements in error list : " + errorListElement.errorItems.length);
+        }
     }
 }
+
+// TODO remove valid and invalid usage from page, then the constructor can be typed correctly
 function validateElements(context: Context, page: any) {
     // configure value elements
+    page.invalidElements = [];
     for (var element of context.allElements) {
         if (["CheckboxField", "DatePickerField", "RadioField", "SelectListField", "TextField"].includes(element.type)) {
             var valueElement = element as ValueElement;
@@ -49,6 +64,9 @@ function validateElements(context: Context, page: any) {
 
             valueElement.valid = validate(valueElement.validation, valueElement.value);
             valueElement.invalid = !valueElement.valid;
+            if (valueElement.invalid) {
+                page.invalidElements.push(valueElement);
+            }
             page.valid = page.valid && valueElement.valid;
             page.invalid = !page.valid;
         }
@@ -86,7 +104,7 @@ function enrichPage(page: any, context: any) {
 }
 
 async function executePreValidation(context: any) {
-    logger.debug("Page has prevalidation? " + context.page.preValidation);
+    logger.debug("Page has prevalidation? " + !!context.page.preValidation);
     if (context.page.preValidation) {
         for (var httpCall of context.page.preValidation) {
             try {

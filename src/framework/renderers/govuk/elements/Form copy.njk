@@ -1,6 +1,11 @@
 {% macro element(elementData) %}
 <form method="POST">
   
+
+{% if elementData.context.page.invalid %}
+  error : form invalid
+{% endif %}
+  
 {% for eachElement in elementData.elements %}
 
 {% from "elements/" + eachElement.type + ".njk" import element %}

@@ -1,7 +1,9 @@
 {% macro element(elementData) %}
+
 <fieldset>
+
 <label for="{{elementData.name}}">{{elementData.displayText}}</label>
-<input type="text" id="{{elementData.name}}" name="{{elementData.name}}" value="{{elementData.value}}"/>
+<input type="checkbox" name="{{elementData.name}}" value="{{elementData.value}}"  {% if elementData.value %} checked="true" {%endif%}">{{elementData.value}}
 
 {% if elementData.invalid %}
   error : {{ elementData.validation.error }}

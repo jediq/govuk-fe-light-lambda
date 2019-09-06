@@ -79,6 +79,7 @@ app.get("/:slug/:page", (req: express.Request, res: express.Response) => {
         res.redirect("/" + context.service.slug + "/" + context.service.firstPage);
         return;
     }
+    validator.enrichPage(context.page, context);
     const document = renderer.renderDocument(context);
     createDataCookie(context, res);
     logger.debug("get request successful, rendering page");

@@ -1,0 +1,10 @@
+{% macro element(elementData) %}
+
+<ul>
+{% for summaryDataItem in elementData.summaryDataItems %}
+<li>
+   {{ summaryDataItem.key }} = {{ summaryDataItem.value }} : <a href="{{summaryDataItem.link}}">{{summaryDataItem.linkText}}</a>
+</li>
+{% endfor %}
+</ul>
+{% endmacro %}

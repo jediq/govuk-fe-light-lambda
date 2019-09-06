@@ -9,6 +9,7 @@ import SelectlistField from "../framework/elements/SelectListField";
 import Paragraph from "../framework/elements/Paragraph";
 import Phase from "../framework/elements/Phase";
 import DatePickerField from "../framework/elements/DataPickerField";
+import Summary from "../framework/elements/Summary";
 
 const service: FrameworkService = {
     name: "Test Service",
@@ -22,8 +23,7 @@ const service: FrameworkService = {
     pages: [
         {
             id: "page1",
-            description: "Please enter field one",
-            nextPage: () => "page2",
+            nextPage: () => "summary",
             preRequisiteData: [],
 
             elements: [
@@ -55,16 +55,18 @@ const service: FrameworkService = {
             preValidation: []
         },
         {
-            id: "page2",
-            description: "Please enter field two",
-            preRequisiteData: ["field1Field"],
-            nextPage: () => "page3"
-        },
-        {
-            id: "page3",
-            description: "What is your date of birth?",
-            nextPage: () => "confirmation",
-            preRequisiteData: ["field3Field"]
+            id: "summary",
+            preRequisiteData: ["textField"],
+            nextPage: () => null,
+            elements: [
+                new Form([
+                    new Heading("Please check your info"),
+                    new Summary(["textField", "checkboxes", "selectlist"]),
+                    new Paragraph("spacer"),
+                    new Summary(["radios"]),
+                    new SubmitButton("Finish")
+                ])
+            ]
         }
     ],
     confirmation: {

@@ -1,8 +1,9 @@
 import logger from "./util/logger";
 import { Context } from "./Context";
-import { Validation, FunctionValidation, RegexValidation, Element } from "../types/framework";
+import { Validation, FunctionValidation, RegexValidation, Element, ValueElement } from "../types/framework";
 
 import { HttpCallout } from "./HttpCallout";
+import Summary from "./elements/Summary";
 
 const httpCallout: HttpCallout = new HttpCallout();
 
@@ -11,9 +12,7 @@ function validate(validation: Validation, value: any): boolean {
         logger.info("No validation, so returning true");
         return true;
     }
-    if (undefined === value) {
-        value = "";
-    }
+    value = value ? value : "";
     if ((validation as FunctionValidation).validator) {
         var isValid: boolean = (validation as FunctionValidation).validator(value);
         return (validation as FunctionValidation).validator(value);
@@ -23,25 +22,40 @@ function validate(validation: Validation, value: any): boolean {
     return isValid;
 }
 
-function recursivelyValidateElements(elements: any[], context: Context, page: any) {
-    console.log("we have elements: " + elements.length);
-    for (var element of elements) {
-        console.log("checking element: " + element.type);
-        if (["CheckboxField", "DatePickerField", "RadioField", "SelectListField", "TextField"].includes(element.type)) {
-            console.log("Element is a field : " + element.type);
-
-            element.value = context.data[element.name];
-
-            element.valid = validate(element.validation, element.value);
-            element.invalid = !element.valid;
-            page.valid = page.valid && element.valid;
-            page.invalid = !page.valid;
-        }
-
-        if (element.elements) {
-            recursivelyValidateElements(element.elements, context, page);
+function enrichSummaryElements(element: Element, page: any, context: Context) {
+    for (element of page.allElements) {
+        if (["Summary"].includes(element.type)) {
+            var summary: Summary = element as Summary;
+            for (var fieldName of summary.fieldNames) {
+                var sumElement: any = context.allElements.find(element => fieldName === (element as ValueElement).name);
+                if (sumElement) {
+                    summary.summaryDataItems.push({
+                        key: sumElement.shortText ? sumElement.shortText : sumElement.displayText,
+                        value: sumElement.value,
+                        link: "/" + context.service.slug + "/" + sumElement.page.id,
+                        linkText: "change"
+                    });
+                }
+            }
         }
     }
+}
+function validateElements(context: Context, page: any) {
+    // configure value elements
+    for (var element of context.allElements) {
+        if (["CheckboxField", "DatePickerField", "RadioField", "SelectListField", "TextField"].includes(element.type)) {
+            var valueElement = element as ValueElement;
+            valueElement.value = context.data[valueElement.name];
+
+            valueElement.valid = validate(valueElement.validation, valueElement.value);
+            valueElement.invalid = !valueElement.valid;
+            page.valid = page.valid && valueElement.valid;
+            page.invalid = !page.valid;
+        }
+    }
+
+    // configure summary elements, needs to happen after value elements have been processed
+    enrichSummaryElements(element, page, context);
 }
 
 function enrichPage(page: any, context: any) {
@@ -57,7 +71,7 @@ function enrichPage(page: any, context: any) {
     }
 
     if (page.elements) {
-        recursivelyValidateElements(page.elements, context, page);
+        validateElements(context, page);
     }
 
     if (context.page.validation && context.page.validation.validator) {

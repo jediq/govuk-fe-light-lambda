@@ -19,11 +19,12 @@ interface Session {}
 
 interface Page {
   id: string;
-  description: string;
+  description?: string;
   nextPage: (context: Context) => string;
   preRequisiteData: Array<string>;
   items?: Array<Item>;
   elements?: Array<Element>;
+  allElements?: Array<Element>;
   hint?: string;
   preValidation?: Array<HttpCall>;
   validation?: Validation;
@@ -32,6 +33,7 @@ interface Page {
 interface Element {
   type: string;
   context?: Context;
+  page?: Page;
 }
 
 interface ContainerElement extends Element {
@@ -47,6 +49,8 @@ interface ValueElement extends Element {
   hint?: string;
   value?: string;
   validation?: Validation;
+  valid?: boolean;
+  invalid?: boolean;
 }
 
 interface FixedOptionValueElement extends Element {

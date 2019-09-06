@@ -3,7 +3,7 @@ import express from "express";
 
 import logger from "./util/logger";
 
-import FrameworkService from "../types/framework";
+import FrameworkService, { Page, Element, ContainerElement } from "../types/framework";
 import { SessionManager } from "./SessionManager";
 import { ServiceManager } from "./ServiceManager";
 
@@ -20,11 +20,18 @@ export class Context {
 
     public page: any;
     public data: any = {};
+    public allElements: Element[] = [];
 
     public constructor(req: express.Request) {
         this.service = cloneDeep(serviceManager.getService(req && req.params["slug"]));
-
         this.service.hash = this.service.hash || this.hashCode(this.service.name);
+        this.service.pages.forEach(page => {
+            var flat: Element[] = this.flattenElements(page.elements, page);
+            page.allElements = flat;
+            this.allElements.push(...flat);
+            logger.debug(`page ${page.id} has ${flat.length} elements`);
+        });
+
         logger.debug(`service hash for ${this.service.name} is ${this.service.hash}`);
         if (!req) return;
 
@@ -43,6 +50,20 @@ export class Context {
         logger.debug("looking in service for page : " + pageId);
         this.page = this.service.pages.find((page: any) => page.id === pageId);
         this.page && this.augmentPage();
+    }
+
+    private flattenElements(elements: Element[], page: Page) {
+        const flat: Element[] = [];
+        if (!elements) return flat;
+        console.log(`flattening ${elements.length} elements`);
+        elements.forEach(item => {
+            item.page = page;
+            flat.push(item);
+            if (Array.isArray((item as ContainerElement).elements)) {
+                flat.push(...this.flattenElements((item as ContainerElement).elements, page));
+            }
+        });
+        return flat;
     }
 
     private augmentPage() {

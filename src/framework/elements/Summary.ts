@@ -4,6 +4,7 @@ export default class Summary implements DisplayElement {
     public type: string;
     public title: string;
     public fieldNames: string[];
+    public ancillaryItems: AncillaryDataItem[] = [];
     public summaryDataItems: SummaryDataItem[] = [];
 
     public constructor(title: string, fieldNames: string[]) {
@@ -18,4 +19,9 @@ export class SummaryDataItem {
     public value: string;
     public link: string;
     public linkText: string;
+}
+
+export class AncillaryDataItem {
+    public displayText: string;
+    public location: string;
 }

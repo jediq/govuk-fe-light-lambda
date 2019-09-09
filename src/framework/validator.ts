@@ -5,6 +5,7 @@ import { Validation, FunctionValidation, RegexValidation, Page, Element, ValueEl
 import { HttpCallout } from "./HttpCallout";
 import Summary from "./elements/Summary";
 import ErrorList from "./elements/ErrorList";
+import _ from "lodash";
 
 const httpCallout: HttpCallout = new HttpCallout();
 
@@ -26,6 +27,9 @@ function enrichSummaryElements(element: Element, page: Page, context: Context) {
     for (element of page.allElements) {
         if (["Summary"].includes(element.type)) {
             var summary: Summary = element as Summary;
+
+            if (!summary.summaryDataItems) summary.summaryDataItems = [];
+            if (!summary.fieldNames) summary.fieldNames = [];
             for (var fieldName of summary.fieldNames) {
                 var sumElement: any = context.allElements.find(element => {
                     return fieldName === (element as ValueElement).name;
@@ -39,22 +43,32 @@ function enrichSummaryElements(element: Element, page: Page, context: Context) {
                     });
                 }
             }
-        }
 
-        if (["ErrorList"].includes(element.type)) {
-            var errorListElement = element as ErrorList;
-            for (var el2 of page.allElements) {
-                var vel2 = el2 as ValueElement;
-                if (vel2.invalid) {
-                    errorListElement.errorItems.push({
-                        href: "#" + vel2.name,
-                        text: vel2.validation.error,
-                        element: vel2
-                    });
-                }
+            if (!summary.ancillaryItems) summary.ancillaryItems = [];
+            for (var ancillaryItem of summary.ancillaryItems) {
+                summary.summaryDataItems.push({
+                    key: ancillaryItem.displayText,
+                    value: _.get(context, ancillaryItem.location),
+                    link: "",
+                    linkText: ""
+                });
             }
-            logger.debug("elements in error list : " + errorListElement.errorItems.length);
         }
+    }
+
+    if (["ErrorList"].includes(element.type)) {
+        var errorListElement = element as ErrorList;
+        for (var el2 of page.allElements) {
+            var vel2 = el2 as ValueElement;
+            if (vel2.invalid) {
+                errorListElement.errorItems.push({
+                    href: "#" + vel2.name,
+                    text: vel2.validation.error,
+                    element: vel2
+                });
+            }
+        }
+        logger.debug("elements in error list : " + errorListElement.errorItems.length);
     }
 }
 

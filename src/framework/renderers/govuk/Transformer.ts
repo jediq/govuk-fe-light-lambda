@@ -14,6 +14,7 @@ export default class Transformer implements ElementTransformer {
 
     private transformSummary(element: Summary): any {
         var rows = [];
+        if (!element.summaryDataItems) element.summaryDataItems = [];
         for (var summaryDataItem of element.summaryDataItems) {
             rows.push({
                 key: {

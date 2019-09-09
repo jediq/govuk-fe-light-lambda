@@ -3,10 +3,10 @@ import Heading from "../framework/elements/Heading";
 import Form from "../framework/elements/Form";
 import TextField from "../framework/elements/TextField";
 import SubmitButton from "../framework/elements/SubmitButton";
-import CheckboxField from "../framework/elements/CheckboxField";
 import RadioField from "../framework/elements/RadioField";
 import ErrorList from "../framework/elements/ErrorList";
 import Summary from "../framework/elements/Summary";
+import Paragraph from "../framework/elements/Paragraph";
 
 const service: FrameworkService = {
     name: "Get an annual MOT reminder",
@@ -89,6 +89,7 @@ const service: FrameworkService = {
                 new Form([
                     ({
                         name: "channelField",
+                        displayText: "Contact channel",
                         type: "RadioField",
                         hint: "Reminder type",
                         validation: {
@@ -112,6 +113,7 @@ const service: FrameworkService = {
                 new Form([
                     ({
                         name: "emailField",
+                        displayText: "Email address",
                         type: "TextField",
                         hint: "Your reminder will be sent here",
                         validation: {
@@ -134,6 +136,7 @@ const service: FrameworkService = {
                 new Form([
                     ({
                         name: "phoneField",
+                        displayText: "Telephone number",
                         type: "TextField",
                         hint: "Your reminder will be sent here",
                         validation: {
@@ -157,7 +160,8 @@ const service: FrameworkService = {
                     ({
                         name: "taxField",
                         type: "RadioField",
-                        hint: "Reminder type",
+                        displayText: "Tax reminder",
+                        hint: "Tax reminder",
                         validation: {
                             regex: ".+",
                             error: "Choose if you'd like a tax reminder"
@@ -174,9 +178,10 @@ const service: FrameworkService = {
             nextPage: () => null,
             elements: [
                 new Form([
-                    new Heading("Make sure the vehicle and your contact details are correct"),
-                    new Summary("Personal details", ["channelField", "emailField", "phoneField", "taxField"]),
+                    new Heading("Check your details"),
+                    new Paragraph("Make sure the vehicle and your email address are correct."),
                     new Summary("Vehicle details", ["vrnField"]),
+                    new Summary("Your details", ["channelField", "emailField", "phoneField", "taxField"]),
                     new SubmitButton("Finish")
                 ])
             ]

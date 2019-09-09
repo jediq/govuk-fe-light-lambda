@@ -27,13 +27,15 @@ function enrichSummaryElements(element: Element, page: Page, context: Context) {
         if (["Summary"].includes(element.type)) {
             var summary: Summary = element as Summary;
             for (var fieldName of summary.fieldNames) {
-                var sumElement: any = context.allElements.find(element => fieldName === (element as ValueElement).name);
+                var sumElement: any = context.allElements.find(element => {
+                    return fieldName === (element as ValueElement).name;
+                });
                 if (sumElement) {
                     summary.summaryDataItems.push({
-                        key: sumElement.hasOwnProperty("shortText") ? sumElement.shortText : sumElement.displayText,
+                        key: sumElement.displayText,
                         value: sumElement.value,
                         link: "/" + context.service.slug + "/" + sumElement.page.id,
-                        linkText: "change"
+                        linkText: "Change"
                     });
                 }
             }
@@ -64,7 +66,6 @@ function validateElements(context: Context, page: any) {
         if (["CheckboxField", "DatePickerField", "RadioField", "SelectListField", "TextField"].includes(element.type)) {
             var valueElement = element as ValueElement;
             if (context.data.hasOwnProperty(valueElement.name)) {
-                console.log("Validating field " + valueElement.name + " with value " + context.data[valueElement.name]);
                 valueElement.value = context.data[valueElement.name];
                 valueElement.valid = validate(valueElement.validation, valueElement.value);
                 valueElement.invalid = !valueElement.valid;
@@ -73,6 +74,9 @@ function validateElements(context: Context, page: any) {
                 }
                 page.valid = page.valid && valueElement.valid;
                 page.invalid = !page.valid;
+            } else {
+                valueElement.valid = true;
+                valueElement.invalid = false;
             }
         }
     }

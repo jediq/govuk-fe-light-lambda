@@ -35,6 +35,7 @@ interface Element {
   type: string;
   context?: Context;
   page?: Page;
+  transformed?: any;
 }
 
 interface ContainerElement extends Element {
@@ -57,6 +58,10 @@ interface ValueElement extends Element {
 interface FixedOptionValueElement extends Element {
   options: Array<object | string>;
   multiplicity?: boolean;
+}
+
+interface ElementTransformer {
+  transform(element: Element): any;
 }
 
 interface Item {

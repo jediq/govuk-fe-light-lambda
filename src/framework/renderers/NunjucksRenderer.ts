@@ -5,12 +5,20 @@ import environment from "../util/environment";
 import { Element, ContainerElement } from "../../types/framework";
 import _ from "lodash";
 
+// TODO work out dynamic loading of transformers
+const transformerName = "./" + environment.renderer + "/Transformer";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+import Transformer from "./govuk/Transformer";
+
 const allNunjucksPaths = {
     govuk: ["node_modules/govuk-frontend/"]
 };
 
 export class NunjucksRenderer implements Renderer {
     public renderDocument(context: Context): string {
+        var transformer = new Transformer();
+        context.allElements.forEach(element => (element.transformed = transformer.transform(element)));
+
         context.page.elements && this.recurseElementsAddingContext(context.page.elements, context);
         this.configureNunjucks();
         return nunjucks.render("Page.njk", context);

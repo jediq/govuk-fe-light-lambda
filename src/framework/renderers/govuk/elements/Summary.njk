@@ -1,10 +1,14 @@
 {% macro element(elementData) %}
-<h3>{{elementData.title}}</h3>
-<ul>
-{% for summaryDataItem in elementData.summaryDataItems %}
-<li>
-   {{ summaryDataItem.key }} = {{ summaryDataItem.value }} : <a href="{{summaryDataItem.link}}">{{summaryDataItem.linkText}}</a>
-</li>
-{% endfor %}
-</ul>
+
+<h2 class="govuk-heading-l">{{elementData.title}}</h2>
+
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{{ govukSummaryList({
+   rows: elementData.transformed
+})
+}}
+
+
+
 {% endmacro %}

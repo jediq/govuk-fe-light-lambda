@@ -3,31 +3,15 @@ import * as bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import * as path from "path";
 import { Renderer } from "../types/Renderer";
-import { HtmlRenderer } from "../rendering/HtmlRenderer";
-import { NhsRenderer } from "../rendering/NhsRenderer";
-import { GovUkRenderer } from "../rendering/GovUkRenderer";
 import * as validator from "./validator";
 import { Context } from "./Context";
 import logger from "./util/logger";
-import environment from "./util/environment";
 import { NunjucksRenderer } from "./renderers/NunjucksRenderer";
 
 const app = express();
 const context = new Context(null);
 
-function selectRenderer(): Renderer {
-    var renderer: Renderer = undefined;
-    if (false) {
-        if (environment.renderer == "govuk") renderer = new GovUkRenderer();
-        if (environment.renderer == "nhs") renderer = new NhsRenderer();
-        if (renderer == undefined) renderer = new HtmlRenderer();
-    } else {
-        renderer = new NunjucksRenderer();
-    }
-    return renderer;
-}
-
-var renderer: Renderer = selectRenderer();
+var renderer: Renderer = new NunjucksRenderer();
 
 function createDataCookie(context: Context, res: express.Response) {
     var data = context.getCookieData();
@@ -48,20 +32,6 @@ app.get("/", (req: express.Request, res: express.Response) => {
     const context = new Context(req);
     logger.debug("redirecting to : " + context.service.slug);
     res.redirect("/" + context.service.slug);
-});
-
-app.get("/:slug/confirmation", (req: express.Request, res: express.Response) => {
-    logger.info("rendering confirmation page");
-    const context = new Context(req);
-    context.page = context.service.confirmation;
-    if (!context.isValid()) {
-        res.redirect("/" + context.service.slug + "/" + context.service.firstPage);
-        return;
-    }
-
-    const document = renderer.renderConfirmation(context);
-    createDataCookie(context, res);
-    res.send(document);
 });
 
 app.get("/:slug", (req: express.Request, res: express.Response) => {

@@ -11,7 +11,6 @@ export default class FrameworkService {
   cookieSecret: string;
   session?: Session;
   pages: Array<Page>;
-  confirmation: Confirmation;
   hash?: number;
 }
 
@@ -89,12 +88,6 @@ interface FunctionValidation extends BaseValidation {
 }
 
 type Validation = RegexValidation | FunctionValidation;
-
-interface Confirmation {
-  description: string;
-  preRequisiteData: Array<string>;
-  groups: Array<Group>;
-}
 
 interface Group {
   title: string;

@@ -1,0 +1,14 @@
+{% macro element(elementData) %}
+<form method="POST">
+  
+{% for eachElement in elementData.elements %}
+
+{% from "elements/" + eachElement.type + ".njk" import element %}
+
+{{ element(eachElement) }}
+{% endfor %}
+
+</form>
+{% endmacro %}
+
+

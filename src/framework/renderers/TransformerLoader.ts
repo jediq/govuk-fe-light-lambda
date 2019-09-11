@@ -8,7 +8,7 @@ transformers["govuk"] = require("./govuk/Transformer");
 transformers["raw"] = require("./govuk/Transformer");
 
 export class TransformerLoader {
-    public getTransormer(renderer: string): ElementTransformer {
+    public getTransformer(renderer: string): ElementTransformer {
         return transformers[renderer];
     }
 }

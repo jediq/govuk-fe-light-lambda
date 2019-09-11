@@ -1,0 +1,24 @@
+{% macro element(elementData) %}
+
+<h3>{{elementData.title}}</h3>
+
+<table class="wb-tables table table-striped table-hover" data-wb-tables='{ "ordering" : false, "searching": false, "info": false, "paging":false }'>
+<thead>
+   <tr>
+      <th>Name</th>
+      <th>Value</th>
+      <th>Action</th>
+   </tr>
+</thead>
+<tbody>
+   
+{% for summaryDataItem in elementData.summaryDataItems %}
+<tr>
+   <td>{{ summaryDataItem.key }}</td>
+   <td>{{ summaryDataItem.value }}</td>
+   <td><a href="{{summaryDataItem.link}}">{{summaryDataItem.linkText}}</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endmacro %}

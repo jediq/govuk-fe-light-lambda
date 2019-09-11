@@ -1,0 +1,18 @@
+{% macro element(elementData) %}
+
+<fieldset>
+
+{% for eachOption in elementData.options %}
+
+<input type="checkbox" class="form-item js-form-item form-type-checkbox js-form-type-checkbox checkbox" name="{{elementData.name}}-{{eachOption.value}}" value="{{eachOption.value}}"  {% if eachOption.value %} checked="true" {%endif%}">
+<label for="{{elementData.name}}">{{eachOption.value}}</label>
+
+{% endfor %}
+
+{% if elementData.invalid %}
+  error : {{ elementData.validation.error }}
+{% endif %}
+
+  
+</fieldset>
+{% endmacro %}

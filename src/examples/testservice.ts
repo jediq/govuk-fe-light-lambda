@@ -86,22 +86,22 @@ const service: FrameworkService = {
                 ])
             ]
         }
-    ],
-    confirmation: {
-        description: "Make sure the details are correct.",
-        preRequisiteData: ["field1Field", "field1Field", "field3Field", "field4Field"],
-        groups: [
-            {
-                title: "Fields 1 & 2",
-                items: ["field1Field", "field2Field"],
-                ancillary: []
-            },
-            {
-                title: "Fields 3 & 4",
-                items: ["field3Field", "field4Field"],
-                ancillary: []
-            }
-        ]
-    }
+    ] //,
+    // confirmation: {
+    //     description: "Make sure the details are correct.",
+    //     preRequisiteData: ["field1Field", "field1Field", "field3Field", "field4Field"],
+    //     groups: [
+    //         {
+    //             title: "Fields 1 & 2",
+    //             items: ["field1Field", "field2Field"],
+    //             ancillary: []
+    //         },
+    //         {
+    //             title: "Fields 3 & 4",
+    //             items: ["field3Field", "field4Field"],
+    //             ancillary: []
+    //         }
+    //     ]
+    // }
 };
 export default service;

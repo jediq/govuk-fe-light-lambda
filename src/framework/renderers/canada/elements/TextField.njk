@@ -1,0 +1,14 @@
+{% macro element(elementData) %}
+<fieldset>
+<label class="control-label js-form-required form-required" for="{{elementData.name}}">{{elementData.displayText}}</label>
+<br/>
+<input type="text" class="webform-email form-email required form-control" id="{{elementData.name}}" name="{{elementData.name}}" value="{{elementData.value}}"/>
+
+{% if elementData.invalid %}
+  error : {{ elementData.validation.error }}
+{% endif %}
+  
+</fieldset>
+{% endmacro %}
+
+

@@ -256,23 +256,23 @@ const service: FrameworkService = {
                 }
             ]
         }
-    ],
-    confirmation: {
-        description: "Check your new licence details.",
-        preRequisiteData: ["channelField", "contactField"],
-        groups: [
-            {
-                title: "Personal details",
-                items: ["firstNameField", "lastNameField", "channelField", "contactField", "dateOfBirthField", "addressField"],
-                ancillary: []
-            },
-            {
-                title: "Licence details",
-                items: ["typeField", "durationField", "startDateField"],
-                ancillary: []
-            }
-        ]
-    }
+    ] // ,
+    // confirmation: {
+    //     description: "Check your new licence details.",
+    //     preRequisiteData: ["channelField", "contactField"],
+    //     groups: [
+    //         {
+    //             title: "Personal details",
+    //             items: ["firstNameField", "lastNameField", "channelField", "contactField", "dateOfBirthField", "addressField"],
+    //             ancillary: []
+    //         },
+    //         {
+    //             title: "Licence details",
+    //             items: ["typeField", "durationField", "startDateField"],
+    //             ancillary: []
+    //         }
+    //     ]
+    // }
 };
 
 export default service;

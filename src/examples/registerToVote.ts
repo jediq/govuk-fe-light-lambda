@@ -355,18 +355,18 @@ const service: FrameworkService = {
                 }
             ]
         }
-    ],
-    confirmation: {
-        description: "Check your answers before sending your application.",
-        preRequisiteData: ["channelField", "contactField"],
-        groups: [
-            {
-                title: "",
-                items: ["firstNameField", "middleNamesField", "lastNameField"],
-                ancillary: []
-            }
-        ]
-    }
+    ] //,
+    // confirmation: {
+    //     description: "Check your answers before sending your application.",
+    //     preRequisiteData: ["channelField", "contactField"],
+    //     groups: [
+    //         {
+    //             title: "",
+    //             items: ["firstNameField", "middleNamesField", "lastNameField"],
+    //             ancillary: []
+    //         }
+    //     ]
+    // }
 };
 
 export default service;

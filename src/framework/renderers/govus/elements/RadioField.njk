@@ -1,0 +1,20 @@
+{% macro element(elementData) %}
+
+<fieldset class="usa-fieldset">
+{% for eachOption in elementData.options %}
+
+<div class="usa-radio">
+  <input class="usa-radio__input" id="{{elementData.name}}-{{eachOption.value}}" type="radio" {% if eachOption.value === elementData.value %} checked="true" {%endif%} name="{{elementData.name}}" value="{{eachOption.value}}">
+  <label class="usa-radio__label" for="{{elementData.name}}-{{eachOption.value}}">{{eachOption.value}}</label>
+</div>
+
+{% endfor %}
+
+{% if elementData.invalid %}
+  error : {{ elementData.validation.error }}
+{% endif %}
+  
+</fieldset>
+{% endmacro %}
+
+

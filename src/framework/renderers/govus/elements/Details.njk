@@ -1,0 +1,16 @@
+{% macro element(elementData) %}
+<div class="usa-accordion usa-accordion--bordered">
+  <h2 class="usa-accordion__heading">
+    <button class="usa-accordion__button"
+      aria-expanded="false"
+      aria-controls="{{elementData.summaryText}}">
+      {{elementData.summaryText}}
+    </button>
+  </h2>
+  <div id="{{elementData.summaryText}}" class="usa-accordion__content usa-prose">
+    {{elementData.text}}
+  </div>
+</div>
+{% endmacro %}
+
+

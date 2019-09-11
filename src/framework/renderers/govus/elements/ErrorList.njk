@@ -1,0 +1,19 @@
+{% macro element(elementData) %}
+
+{% if elementData.errorItems|length %}
+<h3>{{elementData.title}}</h3>
+<ul>
+
+{% for eachItem in elementData.errorItems %}
+<li>
+<a href="#{{eachItem.element.name}}">{{eachItem.element.name}} : {{ eachItem.element.validation.error}}</a>
+</li>
+{% endfor %}
+
+</ul>
+{% endif %}
+  
+
+{% endmacro %}
+
+

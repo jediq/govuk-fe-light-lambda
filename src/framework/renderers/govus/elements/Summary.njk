@@ -1,0 +1,25 @@
+{% macro element(elementData) %}
+
+<h3>{{elementData.title}}</h3>
+<table class="usa-table grid-col-12">
+<thead>
+   <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Value</th>
+      <th scope="col">Action</th>
+   </tr>
+</thead>
+<tbody>
+   
+{% for summaryDataItem in elementData.summaryDataItems %}
+<tr>
+   <th scope="row"><strong>{{ summaryDataItem.key }}</strong></td>
+   <td>{{ summaryDataItem.value }}</td>
+   <td><a href="{{summaryDataItem.link}}">{{summaryDataItem.linkText}}</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endmacro %}
+

@@ -1,0 +1,25 @@
+{% macro element(elementData) %}
+
+{% if elementData.invalid %}
+
+<fieldset class="usa-fieldset">  
+  <div class="usa-form-group usa-form-group--error">
+    <label class="usa-label usa-label--error" for="input-error">Text input error</label>
+    <span class="usa-error-message" id="{{elementData.name}}-error-message" role="alert">{{elementData.validation.error}}</span>
+    <input class="usa-input usa-input--error" id="{{elementData.name}}" name="{{elementData.name}}" type="text" value="{{elementData.value}}" aria-describedby="{{elementData.name}}-error-message">
+
+  </div>
+</fieldset>
+
+{% else %}
+  
+<fieldset class="usa-fieldset">  
+  <label class="usa-label" for="{{elementData.name}}">{{elementData.displayText}}</label>
+  <input class="usa-input" id="{{elementData.name}}" name="{{elementData.name}}" type="text" value="{{elementData.value}}">
+</fieldset>
+
+{% endif %}
+
+{% endmacro %}
+
+

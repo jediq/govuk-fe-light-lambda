@@ -17967,8 +17967,7 @@ table.nws-tbl>thead>tr>th {
 .ctr-xpr-ad.bg-one,
 .ctr-xpr-bnr.bg-one,
 .ctr-xpr-ad.bg-one .container,
-.ctr-xpr-bnr.bg-one .container,
-  {
+.ctr-xpr-bnr.bg-one .container {
   background: transparent;
   background-repeat: repeat-x
 }

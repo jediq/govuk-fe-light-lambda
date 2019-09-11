@@ -91,7 +91,7 @@ const service: FrameworkService = {
                     ({
                         name: "channelField",
                         displayText: "Contact channel",
-                        type: "RadioField",
+                        type: "CheckboxField",
                         hint: "Reminder type",
                         validation: {
                             regex: ".+",

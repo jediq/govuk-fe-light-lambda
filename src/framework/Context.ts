@@ -7,7 +7,7 @@ import FrameworkService, { Page, Element, ContainerElement } from "../types/fram
 import { SessionManager } from "./SessionManager";
 import { ServiceManager } from "./ServiceManager";
 
-var serviceConfig = process.env.npm_config_service || process.env.service || "examples";
+var serviceConfig = process.env.npm_config_service || process.env.service || "examples/testservice";
 logger.info("serviceConfig : " + serviceConfig);
 
 const serviceManager: ServiceManager = new ServiceManager(serviceConfig);

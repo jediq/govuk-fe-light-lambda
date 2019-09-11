@@ -4,15 +4,15 @@ Read.me stolen from the typescript starter. Needs updating.
 
 ## Build and run the mot-reminders service example
 
-`rm -rf dist && npm run build && npm run start --service=examples/reminders --debug=true`
+`npm run watch --renderer=govuk --debug --service=examples/reminders`
 
 ## Build and run all services in the `examples` folder
 
-`rm -rf dist && npm run build && npm run start --service=examples --debug=true`
+`npm run watch --renderer=govuk --debug --service=examples`
 
 ## Build and run the 111 service using the NHS renderer
 
-`rm -rf dist && npm run build && npm run start --service=examples/111 --debug=true --renderer=nhs`
+`npm run watch --renderer=govuk --debug --service=examples/111`
 
 # TODO
 

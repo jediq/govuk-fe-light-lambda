@@ -10,10 +10,10 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "npm run serve",
-    "build": "npm run version-ts && npm run build-sass && npm run build-ts && npm run lint && npm run copy-static-assets",
+    "build": "npm run version-ts && npm run build-sass && npm run build-ts && npm run lint && npm run copy-node-assets && npm run copy-public-assets",
     "serve": "node dist/framework/server.js",
     "watch-node": "nodemon dist/framework/server.js",
-    "watch": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run watch-node\"",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" --handle-input \"npm:watch-node\" \"npm:watch-sass\" \"npm:watch-ts\" \"npm:watch-copy-node-assets\" \"npm:watch-copy-public-assets\"",
     "test": "jest --forceExit --coverage --verbose --detectOpenHandles",
     "watch-test": "npm run test -- --watchAll",
     "build-ts": "tsc",
@@ -22,7 +22,10 @@
     "build-sass": "node-sass src/public/css/main.scss dist/public/css/main.css",
     "watch-sass": "node-sass -w src/public/css/main.scss dist/public/css/main.css",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
-    "copy-static-assets": "ts-node copyStaticAssets.ts",
+    "copy-node-assets": "ts-node copyNodeAssets.ts",
+    "copy-public-assets": "ts-node copyPublicAssets.ts",
+    "watch-copy-node-assets": "onchange 'node-modules' -- npm run copy-node-assets",
+    "watch-copy-public-assets": "onchange 'src/framework/**/*.njk' -- npm run copy-public-assets",
     "debug": "npm run build && npm run watch-debug",
     "serve-debug": "nodemon --inspect dist/framework/server.js",
     "watch-debug": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run serve-debug\""
@@ -42,6 +45,7 @@
     "lodash": "^4.17.15",
     "nhsuk-frontend": "^2.3.0",
     "nunjucks": "^3.2.0",
+    "onchange": "^6.1.0",
     "uuid": "^3.3.3",
     "winston": "^3.2.1"
   },

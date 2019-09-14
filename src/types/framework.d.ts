@@ -18,7 +18,6 @@ interface Session {}
 
 interface Page {
   id: string;
-  description?: string;
   nextPage: (context: Context) => string;
   preRequisiteData: Array<string>;
   items?: Array<Item>;

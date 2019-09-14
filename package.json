@@ -10,15 +10,13 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "npm run serve",
-    "build": "npm run version-ts && npm run build-sass && npm run build-ts && npm run lint && npm run copy-node-assets && npm run copy-public-assets",
+    "build": "npm run build-sass && npm run build-ts && npm run lint && npm run copy-node-assets && npm run copy-public-assets",
     "serve": "node dist/framework/server.js",
     "watch-node": "nodemon dist/framework/server.js",
-    "watch": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" --handle-input \"npm:watch-node\" \"npm:watch-sass\" \"npm:watch-ts\" \"npm:watch-copy-node-assets\" \"npm:watch-copy-public-assets\"",
+    "watch": "concurrently -k --handle-input npm:watch-node npm:watch-ts npm:watch-copy-node-assets npm:watch-copy-public-assets npm:watch-sass",
     "test": "jest --forceExit --coverage --verbose --detectOpenHandles",
-    "watch-test": "npm run test -- --watchAll",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
-    "version-ts": "echo 'TSC version:' && tsc -version",
     "build-sass": "node-sass src/public/css/main.scss dist/public/css/main.css",
     "watch-sass": "node-sass -w src/public/css/main.scss dist/public/css/main.css",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
@@ -27,8 +25,8 @@
     "watch-copy-node-assets": "onchange 'node-modules' -- npm run copy-node-assets",
     "watch-copy-public-assets": "onchange 'src/framework/**/*.njk' -- npm run copy-public-assets",
     "debug": "npm run build && npm run watch-debug",
-    "serve-debug": "nodemon --inspect dist/framework/server.js",
-    "watch-debug": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run serve-debug\""
+    "debug-serve": "nodemon --inspect dist/framework/server.js",
+    "debug-watch": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run serve-debug\""
   },
   "dependencies": {
     "acorn": "^6.2.1",

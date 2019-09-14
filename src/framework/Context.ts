@@ -29,7 +29,6 @@ export class Context {
       var flat: Element[] = this.flattenElements(page.elements, page);
       page.allElements = flat;
       this.allElements.push(...flat);
-      logger.debug(`page ${page.id} has ${flat.length} elements`);
     });
 
     logger.debug(`service hash for ${this.service.name} is ${this.service.hash}`);
@@ -42,8 +41,12 @@ export class Context {
     }
 
     // add any form data into the context
-    req.body && Object.keys(req.body).forEach(key => (this.data[key] = req.body[key]));
-    logger.debug("this.data after fields: " + JSON.stringify(this.data));
+    req.body &&
+      Object.keys(req.body).forEach(key => {
+        logger.debug(`adding data for ${key} : ${req.body[key]}`);
+        this.data[key] = req.body[key];
+      });
+    //logger.debug("this.data after fields: " + JSON.stringify(this.data));
 
     // create the page object
     const pageId = req.params["page"];
@@ -66,22 +69,35 @@ export class Context {
   }
 
   private augmentPage() {
-    this.page.items && this.page.items.forEach(() => this.augmentItem);
-    this.page.elements && this.page.elements.forEach(() => this.augmentItem);
+    logger.debug("augmenting page : " + JSON.stringify(this.page.allElements.length));
+
+    //this.page.items && this.page.items.forEach(() => this.augmentItem);
+    this.page.allElements && this.page.allElements.forEach((item: any) => this.augmentItem(item));
   }
 
   private augmentItem(item: any) {
-    if (item.options && !Array.isArray(item.options)) {
-      item.options = this.data[item.options];
+    logger.debug(`Augmenting item : ${item.name} (${item.type}) = ${this.data[item.name]}`);
+    if (item.options) {
+      if (!Array.isArray(item.options)) {
+        item.options = this.data[item.options];
+        //logger.debug("Using dynamic options :  " + JSON.stringify(item.options));
+      } else {
+        //logger.debug("Using static options :  " + JSON.stringify(item.options));
+      }
+
+      if (typeof item.options[0] === "string") {
+        for (var i = 0; i < item.options.length; i++) {
+          item.options[i] = {
+            text: item.options[i],
+            value: item.options[i]
+          };
+        }
+      }
     }
+
     // Conflate date fields together
     if (item.type === "datePicker") {
       this.data[item.id] = this.data[item.id + "-day"] + "-" + this.data[item.id + "-month"] + "-" + this.data[item.id + "-year"];
-    }
-    if (item.elements) {
-      for (var child of item.elements) {
-        this.augmentItem(child);
-      }
     }
   }
 
@@ -96,12 +112,12 @@ export class Context {
     }
     logger.info(`page ${this.page.id} has pre-requisite data: ` + JSON.stringify(this.page.preRequisiteData));
     return this.page.preRequisiteData.every((key: string) => {
-      logger.info(`key ${key} in data? ` + JSON.stringify(this.data));
+      logger.info(`key ${key} in data? ` + (key in this.data) + " - " + JSON.stringify(this.data));
       return key in this.data;
     });
   }
 
-  public getCookieData() {
+  public getDataForCookie() {
     return sessionManager.saveSession(this.data, this.service);
   }
 

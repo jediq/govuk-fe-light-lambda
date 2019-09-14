@@ -9,9 +9,9 @@ const sessionIdKey = "_SESSION-ID_";
 
 export class SessionManager {
     public loadSession(encryptedReference: string, service: FrameworkService) {
-        logger.debug("encrypted reference : " + encryptedReference);
+    // logger.debug("encrypted reference : " + encryptedReference);
         var decryptedReference = this.decode(encryptedReference, service.cookieSecret);
-        logger.debug("decrypted reference : " + decryptedReference);
+        // logger.debug("decrypted reference : " + decryptedReference);
 
         // TODO add external calls if necessary
 

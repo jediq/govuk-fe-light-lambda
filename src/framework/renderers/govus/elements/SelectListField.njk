@@ -6,7 +6,7 @@
 <select name="{{elementData.name}}">
 {% for eachOption in elementData.options %}
 
-<option {% if eachOption.value === elementData.value %} selected="true" {%endif%}>{{eachOption.text}}<option>
+<option {% if eachOption === elementData.value %} selected="true" {%endif%}>{{eachOption.text}}<option>
 
 {% endfor %}
 </select>

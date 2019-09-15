@@ -1,372 +1,477 @@
 import FrameworkService from "../types/framework";
+import {
+  TextField,
+  SubmitButton,
+  Form,
+  Heading,
+  SubHeading,
+  RadioField,
+  SelectListField,
+  Paragraph,
+  ErrorList,
+  DatePickerField,
+  Summary
+} from "../framework/elements/Elements";
 
 const service: FrameworkService = {
-    name: "Register to vote",
-    slug: "register-to-vote",
-    targetUrl: "https://someurl.gov.uk",
-    gdsPhase: "alpha",
-    firstPage: "location",
-    successMessage: "Your details where saved correctly",
-    failureMessage: "Your details failed to be saved",
-    cookieSecret: "8y/BBC(G+KbPeShVmYq3t6w9z$C&F)H@",
-    pages: [
-        {
-            id: "location",
-            description: "Where do you live?",
-            nextPage: () => "nationality",
-            preRequisiteData: [],
-            items: [
-                {
-                    id: "locationField",
-                    label: "Location",
-                    type: "radio",
-                    options: [
-                        "England",
-                        "Scotland",
-                        "Wales",
-                        "Northern Ireland",
-                        "British citizen or eligible Irish citizen living in another country (including the Channel Islands or Isle of Man)"
-                    ],
-                    validation: {
-                        regex: ".+",
-                        error: "Choose your location"
-                    }
-                }
-            ]
-        },
-        {
-            id: "nationality",
-            description: "What is your nationality?",
-            nextPage: () => "dateOfBirth",
-            preRequisiteData: ["locationField"],
-            items: [
-                {
-                    id: "nationalityField",
-                    label: "Nationality",
-                    type: "radio",
-                    options: [
-                        "British (including English, Scottish, Welsh or from Northern Ireland)",
-                        "Irish (including from Northern Ireland)",
-                        "Citizen of a different country"
-                    ],
-                    validation: {
-                        regex: ".+",
-                        error: "Choose your nationality"
-                    }
-                }
-            ]
-        },
-        {
-            id: "dateOfBirth",
-            description: "What is your date of birth?",
-            nextPage: () => "addressLookup",
-            preRequisiteData: ["locationField"],
-            items: [
-                {
-                    id: "dateOfBirthField",
-                    type: "datePicker",
-                    label: "Date of Birth",
-                    hint: "For example, 31 12 1970",
-
-                    validation: {
-                        regex: "^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}$",
-                        error: "Enter your date of birth"
-                    }
-                }
-            ]
-        },
-        {
-            id: "name",
-            description: "What is your full name?",
-            hint: "Enter all your names in full - don't use initials",
-            nextPage: () => "nationalInsurance",
-            preRequisiteData: ["dateOfBirth"],
-            items: [
-                {
-                    id: "firstNameField",
-                    type: "text",
-                    label: "First name",
-
-                    validation: {
-                        regex: ".+",
-
-                        error: "Enter your first name"
-                    }
-                },
-                {
-                    id: "middleNamesField",
-                    type: "text",
-                    label: "Middle names",
-
-                    validation: {
-                        regex: ".*",
-                        error: "Enter your middle names"
-                    }
-                },
-                {
-                    id: "lastNameField",
-                    type: "text",
-                    label: "Last name",
-
-                    validation: {
-                        regex: ".+",
-                        error: "Enter your last name"
-                    }
-                },
-                {
-                    id: "changedNameField",
-                    label: "Changed name?",
-                    hint: "Have you ever changed your name?",
-                    type: "radio",
-                    options: ["No, I haven’t changed my name", "Yes, I changed my name", "Prefer not to say"],
-
-                    validation: {
-                        regex: ".+",
-                        error: "Select one option"
-                    }
-                }
-            ]
-        },
-        {
-            id: "nationalInsurance",
-            description: "What is your National Insurance number?",
-            preRequisiteData: ["channelField"],
-            nextPage: () => "addressLookup",
-            items: [
-                {
-                    id: "contactField",
-                    type: "text",
-                    label: "Email address",
-                    hint: "Example: QQ 12 34 56 C",
-                    width: "one-third",
-                    validation: {
-                        regex: ".+",
-                        error: "Enter your National Insurance number"
-                    }
-                }
-            ]
-        },
-        {
-            id: "addressLookup",
-            description: "What's your home address?",
-            nextPage: () => "chooseAddress",
-            preRequisiteData: ["dateOfBirthField-day", "dateOfBirthField-month", "dateOfBirthField-year"],
-            items: [
-                {
-                    id: "homePostcodeField",
-                    label: "Enter your postcode",
-                    type: "text",
-                    width: "one-third",
-                    validation: {
-                        regex: "^.+$",
-                        error: "Enter your postcode"
-                    }
-                }
-            ],
-            preValidation: [
-                {
-                    id: "addressList",
-                    url: "https://api.getAddress.io/find/{{homePostcodeField}}?api-key=z3s2qP97vkWJN7gyhpFtaQ14238",
-
-                    debugUrl: "https://api.getAddress.io/find/HU120HE?api-key=z3s2qP97vkWJN7gyhpFtaQ14238",
-                    headers: {
-                        accept: "application/json"
-                    },
-                    postProcess(data: any) {
-                        return data.addresses.map((str: any) => str.replace(" ,", ""));
-                    }
-                }
+  name: "Register to vote",
+  slug: "register-to-vote",
+  targetUrl: "https://someurl.gov.uk",
+  gdsPhase: "alpha",
+  firstPage: "location",
+  successMessage: "Your details where saved correctly",
+  failureMessage: "Your details failed to be saved",
+  cookieSecret: "8y/BBC(G+KbPeShVmYq3t6w9z$C&F)H@",
+  pages: [
+    {
+      id: "location",
+      nextPage: () => "nationality",
+      preRequisiteData: [],
+      elements: [
+        new Heading("Where do you live?"),
+        new ErrorList("There is a problem"),
+        new Form([
+          ({
+            name: "locationField",
+            displayText: "Location",
+            type: "RadioField",
+            options: [
+              "England",
+              "Scotland",
+              "Wales",
+              "Northern Ireland",
+              "British citizen or eligible Irish citizen living in another country (including the Channel Islands or Isle of Man)"
             ],
             validation: {
-                validator: (context: any) => {
-                    return context.data.addressList && context.data.addressList.length > 0;
-                },
-                error: "We couldn't find that postcode"
+              regex: ".+",
+              error: "Choose your location"
             }
+          } as any) as RadioField,
+          new SubmitButton("Save and Continue")
+        ])
+      ]
+    },
+    {
+      id: "nationality",
+      nextPage: () => "dateOfBirth",
+      preRequisiteData: ["locationField"],
+      elements: [
+        new Heading("What is your nationality?"),
+        new ErrorList("There is a problem"),
+        new Form([
+          ({
+            name: "nationalityField",
+            displayText: "Nationality",
+            type: "RadioField",
+            options: [
+              "British (including English, Scottish, Welsh or from Northern Ireland)",
+              "Irish (including from Northern Ireland)",
+              "Citizen of a different country"
+            ],
+            validation: {
+              regex: ".+",
+              error: "Choose your nationality"
+            }
+          } as any) as RadioField,
+          new SubmitButton("Save and Continue")
+        ])
+      ]
+    },
+    {
+      id: "dateOfBirth",
+      nextPage: () => "name",
+      preRequisiteData: ["locationField"],
+      elements: [
+        new Heading("What is your date of birth?"),
+        new Paragraph("For example, 31 12 1970"),
+        new ErrorList("There is a problem"),
+        new Form([
+          ({
+            name: "dateOfBirthField",
+            type: "DatePickerField",
+            displayText: "Date of Birth",
+            validation: {
+              regex: "^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}$",
+              error: "Enter your date of birth"
+            }
+          } as any) as DatePickerField,
+          new SubmitButton("Save and Continue")
+        ])
+      ]
+    },
+    {
+      id: "name",
+      nextPage: () => "nationalInsurance",
+      preRequisiteData: [], //["dateOfBirth"], // TODO : Need to post-process date fields properly
+      elements: [
+        new Heading("What is your full name?"),
+        new Paragraph("Enter all your names in full - don't use initials"),
+        new ErrorList("There is a problem"),
+        new Form([
+          ({
+            name: "firstNameField",
+            type: "TextField",
+            displayText: "First name",
+            validation: {
+              regex: "^.+$",
+              error: "Enter your first name"
+            }
+          } as any) as TextField,
+          ({
+            name: "middleNamesField",
+            type: "TextField",
+            displayText: "Middle names",
+            validation: {
+              regex: "^.+$",
+              error: "Enter your middle names"
+            }
+          } as any) as TextField,
+          ({
+            name: "lastNameField",
+            type: "TextField",
+            displayText: "Last name",
+            validation: {
+              regex: "^.+$",
+              error: "Enter your last name"
+            }
+          } as any) as TextField,
+          new Paragraph("Have you ever changed your name?"),
+          ({
+            name: "changedNameField",
+            type: "RadioField",
+            displayText: "Changed name?",
+            options: ["No, I haven’t changed my name", "Yes, I changed my name", "Prefer not to say"],
+            validation: {
+              regex: ".+",
+              error: "Select one option"
+            }
+          } as any) as RadioField,
+          new SubmitButton("Save and Continue")
+        ])
+      ],
+      items: [
+        {
+          id: "middleNamesField",
+          type: "text",
+          label: "Middle names",
+
+          validation: {
+            regex: ".*",
+            error: "Enter your middle names"
+          }
         },
         {
-            id: "chooseAddress",
-            description: "Select your address",
-            hint: "Choose your address from the list",
-            nextPage: () => "secondAddressQuestion",
-            preRequisiteData: ["addressList"],
-            items: [
-                {
-                    id: "addressField",
-                    options: "addressList",
-                    placeholder: "select one address",
-                    type: "inputSelect",
-                    label: "Home address",
-                    width: "one-third",
+          id: "lastNameField",
+          type: "text",
+          label: "Last name",
 
-                    validation: {
-                        regex: "^(?!select one address).*",
-                        error: "Please choose an address"
-                    }
-                }
-            ]
+          validation: {
+            regex: ".+",
+            error: "Enter your last name"
+          }
         },
         {
-            id: "secondAddressQuestion",
-            description: "Do you also live at a second address?",
-            nextPage: () => "openRegisterQuestion",
-            preRequisiteData: ["addressField"],
-            items: [
-                {
-                    id: "secondAddressQuestionField",
-                    label: "Second address?",
-                    type: "radio",
-                    options: ["No", "Yes, I spend time living at two homes", "Yes, I’m a student with home and term-time addresses"],
+          id: "changedNameField",
+          label: "Changed name?",
+          hint: "Have you ever changed your name?",
+          type: "radio",
+          options: ["No, I haven’t changed my name", "Yes, I changed my name", "Prefer not to say"],
 
-                    validation: {
-                        regex: ".+",
-                        error: "Choose a second address option"
-                    }
-                }
-            ]
-        },
-
-        {
-            id: "openRegisterQuestion",
-            description: "Do you want to include your name and address on the open register?",
-            hint:
-        "The open register is an extract of the electoral register, but is not used for elections. It can be bought by any person, company or organisation. For example, it is used by businesses and charities to confirm name and address details.  Your decision won’t affect your right to vote.",
-            nextPage: () => "postalVoteQuestion",
-            preRequisiteData: ["secondAddressQuestionField"],
-            items: [
-                {
-                    id: "openRegisterField",
-                    label: "Open register?",
-                    type: "checkbox",
-                    options: ["No, I don’t want my name and address on the open register"],
-
-                    validation: {
-                        regex: ".",
-                        error: "Choose a open register option"
-                    }
-                }
-            ]
-        },
-        {
-            id: "postalVoteQuestion",
-            description: "Do you want to apply for a postal vote?",
-            nextPage: () => "otherVoters",
-            preRequisiteData: ["secondAddressQuestionField"],
-            items: [
-                {
-                    id: "postalVoteField",
-                    label: "Postal vote?",
-                    type: "radio",
-                    options: [
-                        "No, I prefer to vote in person",
-                        "No, I already have a postal vote",
-                        "Yes, email me a postal vote application form",
-                        "Yes, post me a postal vote application form"
-                    ],
-
-                    validation: {
-                        regex: ".+",
-                        error: "Choose a postal vote option"
-                    }
-                }
-            ]
-        },
-        {
-            id: "otherVoters",
-            description: "Is there anyone else aged 16 or over living at your current address?",
-            nextPage: () => "channel-selection",
-            preRequisiteData: ["secondAddressQuestionField"],
-            items: [
-                {
-                    id: "otherVotersField",
-                    label: "Other voters?",
-                    type: "radio",
-                    options: ["Yes", "No", "Not sure", "Prefer not to say"],
-
-                    validation: {
-                        regex: ".+",
-                        error: "Choose an option"
-                    }
-                }
-            ]
-        },
-        {
-            id: "channel-selection",
-            description: "If we have questions about your application, how should we contact you?",
-            preRequisiteData: [],
-            nextPage(context: any) {
-                if (context.data.channelField === "Email") {
-                    return "email";
-                } else {
-                    return "phone-number";
-                }
-            },
-            items: [
-                {
-                    id: "channelField",
-                    type: "radio",
-                    label: "Contact type",
-                    options: ["Email", "Text to my mobile phone"],
-
-                    validation: {
-                        regex: ".+",
-                        error: "Choose which channel you want"
-                    }
-                }
-            ]
-        },
-        {
-            id: "email",
-            description: "What is your email address?",
-            preRequisiteData: ["channelField"],
-            nextPage: () => "confirmation",
-            items: [
-                {
-                    id: "contactField",
-                    type: "text",
-                    label: "Email address",
-                    hint: "We'll use this to contact you",
-                    width: "one-third",
-
-                    validation: {
-                        regex: "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$",
-                        error: "Enter your email address"
-                    }
-                }
-            ]
-        },
-        {
-            id: "phone-number",
-            description: "What is your mobile number?",
-            preRequisiteData: ["channelField"],
-            nextPage: () => "confirmation",
-            items: [
-                {
-                    id: "contactField",
-                    type: "text",
-                    label: "Mobile phone number",
-                    hint: "We'll use this to contact you",
-                    width: "one-third",
-
-                    validation: {
-                        regex: "^d{5} ?d{3} ?d{3}$",
-                        error: "Enter your mobile number"
-                    }
-                }
-            ]
+          validation: {
+            regex: ".+",
+            error: "Select one option"
+          }
         }
-    ] //,
-    // confirmation: {
-    //     description: "Check your answers before sending your application.",
-    //     preRequisiteData: ["channelField", "contactField"],
-    //     groups: [
-    //         {
-    //             title: "",
-    //             items: ["firstNameField", "middleNamesField", "lastNameField"],
-    //             ancillary: []
-    //         }
-    //     ]
-    // }
+      ]
+    },
+    {
+      id: "nationalInsurance",
+      preRequisiteData: ["channelField"],
+      nextPage: () => "addressLookup",
+      elements: [
+        new Heading("What is your National Insurance number?"),
+        new Paragraph("Example: QQ 12 34 56 C"),
+        new ErrorList("There is a problem"),
+        new Form([
+          ({
+            name: "nationalInsurance",
+            type: "TextField",
+            displayText: "NI Number",
+            validation: {
+              regex: "^.+$",
+              error: "Enter your National Insurance number"
+            }
+          } as any) as TextField,
+          new SubmitButton("Save and Continue")
+        ])
+      ]
+    },
+
+    {
+      id: "addressLookup",
+      nextPage: () => "chooseAddress",
+      preRequisiteData: ["dateOfBirthField-day", "dateOfBirthField-month", "dateOfBirthField-year"],
+      elements: [
+        new Heading("What's your home address?"),
+        new ErrorList("There is a problem"),
+        new Form([
+          ({
+            name: "homePostcodeField",
+            type: "TextField",
+            displayText: "Postcode",
+            validation: {
+              regex: "^.+$",
+              error: "Choose an address"
+            }
+          } as any) as TextField,
+          new SubmitButton("Save and Continue")
+        ])
+      ],
+      preValidation: [
+        {
+          id: "addressList",
+          url: "https://api.getAddress.io/find/{{homePostcodeField}}?api-key=z3s2qP97vkWJN7gyhpFtaQ14238",
+
+          debugUrl: "https://api.getAddress.io/find/HU120HE?api-key=z3s2qP97vkWJN7gyhpFtaQ14238",
+          headers: {
+            accept: "application/json"
+          },
+          postProcess(data: any) {
+            return data.addresses.map((str: any) => str.replace(" ,", "")).splice(0, 5);
+          }
+        }
+      ],
+      validation: {
+        validator: (context: any) => {
+          return context.data.addressList && context.data.addressList.length > 0;
+        },
+        error: "We couldn't find that postcode"
+      }
+    },
+    {
+      id: "chooseAddress",
+      hint: "Choose your address from the list",
+      nextPage: () => "secondAddressQuestion",
+      preRequisiteData: ["addressList"],
+      elements: [
+        new Heading("What's your home address?"),
+        new ErrorList("There is a problem"),
+        new Form([
+          ({
+            name: "addressField",
+            type: "SelectListField",
+            options: "addressList",
+            displayText: "Home Address",
+            validation: {
+              regex: "^(?!select one address).*",
+              error: "Please choose an address"
+            }
+          } as any) as SelectListField,
+          new SubmitButton("Save and Continue")
+        ])
+      ]
+    },
+    {
+      id: "secondAddressQuestion",
+      nextPage: () => "openRegisterQuestion",
+      preRequisiteData: ["addressField"],
+      elements: [
+        new Heading("Do you also live at a second address?"),
+        new ErrorList("There is a problem"),
+        new Form([
+          ({
+            name: "secondAddressField",
+            displayText: "Second address",
+            type: "RadioField",
+            options: ["No", "Yes, I spend time living at two homes", "Yes, I’m a student with home and term-time addresses"],
+            validation: {
+              regex: ".+",
+              error: "Choose a second address option"
+            }
+          } as any) as RadioField,
+          new SubmitButton("Save and Continue")
+        ])
+      ]
+    },
+
+    {
+      id: "openRegisterQuestion",
+      nextPage: () => "postalVoteQuestion",
+      preRequisiteData: ["secondAddressQuestionField"],
+      elements: [
+        new Heading("Do you want to include your name and address on the open register?"),
+        new ErrorList("There is a problem"),
+        new Paragraph(
+          "The open register is an extract of the electoral register, but is not used for elections. It can be bought by any person, company or organisation. For example, it is used by businesses and charities to confirm name and address details.  Your decision won’t affect your right to vote."
+        ),
+        new Form([
+          ({
+            name: "openRegisterField",
+            displayText: "Open register",
+            type: "RadioField",
+            options: ["No", "Yes, I spend time living at two homes", "Yes, I’m a student with home and term-time addresses"],
+            validation: {
+              regex: ".+",
+              error: "Choose an open register option"
+            }
+          } as any) as RadioField,
+          new SubmitButton("Save and Continue")
+        ])
+      ]
+    },
+    {
+      id: "postalVoteQuestion",
+      nextPage: () => "otherVoters",
+      preRequisiteData: ["secondAddressQuestionField"],
+      elements: [
+        new Heading("Do you want to apply for a postal vote?"),
+        new ErrorList("There is a problem"),
+        new Form([
+          ({
+            name: "postalVoteField",
+            displayText: "Postal vote",
+            type: "RadioField",
+            options: [
+              "No, I prefer to vote in person",
+              "No, I already have a postal vote",
+              "Yes, email me a postal vote application form",
+              "Yes, post me a postal vote application form"
+            ],
+            validation: {
+              regex: ".+",
+              error: "Choose a postal vote option"
+            }
+          } as any) as RadioField,
+          new SubmitButton("Save and Continue")
+        ])
+      ]
+    },
+    {
+      id: "otherVoters",
+      nextPage: () => "channel-selection",
+      preRequisiteData: ["secondAddressQuestionField"],
+      elements: [
+        new Heading("Is there anyone else aged 16 or over living at your current address?"),
+        new ErrorList("There is a problem"),
+        new Form([
+          ({
+            name: "otherVotersField",
+            displayText: "Other voters",
+            type: "RadioField",
+            options: ["Yes", "No", "Not sure", "Prefer not to say"],
+            validation: {
+              regex: ".+",
+              error: "Choose an option"
+            }
+          } as any) as RadioField,
+          new SubmitButton("Save and Continue")
+        ])
+      ]
+    },
+    {
+      id: "channel-selection",
+      preRequisiteData: [],
+      nextPage(context: any) {
+        if (context.data.channelField === "Email") {
+          return "email";
+        } else {
+          return "phone-number";
+        }
+      },
+      elements: [
+        new Heading("If we have questions about your application, how should we contact you?"),
+        new ErrorList("There is a problem"),
+        new Form([
+          ({
+            name: "channelField",
+            displayText: "Contact channel",
+            type: "RadioField",
+            options: ["Email", "Text to my mobile phone", "Post"],
+            validation: {
+              regex: ".+",
+              error: "Choose which channel you want"
+            }
+          } as any) as RadioField,
+          new SubmitButton("Save and Continue")
+        ])
+      ]
+    },
+    {
+      id: "email",
+      preRequisiteData: ["channelField"],
+      nextPage: () => "summary",
+      elements: [
+        new Heading("What is your email address?"),
+        new ErrorList("There is a problem"),
+        new Form([
+          ({
+            name: "emailField",
+            type: "TextField",
+            displayText: "Email",
+            validation: {
+              regex: "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$",
+              error: "Enter your email address"
+            }
+          } as any) as TextField,
+          new SubmitButton("Save and Continue")
+        ])
+      ]
+    },
+    {
+      id: "phone-number",
+      preRequisiteData: ["channelField"],
+      nextPage: () => "summary",
+      elements: [
+        new Heading("What is your mobile number?"),
+        new ErrorList("There is a problem"),
+        new Form([
+          ({
+            name: "telephoneField",
+            type: "TextField",
+            displayText: "Mobile phone number",
+            validation: {
+              regex: "^d{5} ?d{3} ?d{3}$",
+              error: "Enter your mobile number"
+            }
+          } as any) as TextField,
+          new SubmitButton("Save and Continue")
+        ])
+      ]
+    },
+    {
+      id: "summary",
+      preRequisiteData: ["channelField"],
+      nextPage: () => null,
+      elements: [
+        new Form([
+          new Heading("Check your new licence details"),
+          new Summary("Personal details", [
+            "firstNameField",
+            "middleNamesField",
+            "lastNameField",
+            "changedNameField",
+            "dateOfBirthField",
+            "nationalityField",
+            "nationalInsurance",
+            "addressField",
+            "secondAddressField",
+            "openRegisterField",
+            "postalVoteField",
+            "otherVotersField",
+            "channelField",
+            "contactField",
+            "dateOfBirthField"
+          ]),
+          new SubHeading("Send your application"),
+          new Paragraph("By sending your application you confirm that the information you have provided is true."),
+          new Paragraph(
+            "Your information may be shared with other government departments to check your identity and that you’re entitled to register to vote."
+          ),
+          new SubmitButton("Finish")
+        ])
+      ]
+    }
+  ]
 };
 
 export default service;

@@ -263,7 +263,7 @@ const service: FrameworkService = {
     {
       id: "email",
       preRequisiteData: ["channelField"],
-      nextPage: () => "confirmation",
+      nextPage: () => "summary",
       elements: [
         new Heading("What is your email address?"),
         new ErrorList("There is a problem"),
@@ -284,7 +284,7 @@ const service: FrameworkService = {
     {
       id: "phone-number",
       preRequisiteData: ["channelField"],
-      nextPage: () => "confirmation",
+      nextPage: () => "summary",
       elements: [
         new Heading("What is your mobile number?"),
         new ErrorList("There is a problem"),
@@ -304,7 +304,7 @@ const service: FrameworkService = {
     },
     {
       id: "summary",
-      preRequisiteData: ["channelField", "contactField"],
+      preRequisiteData: ["channelField"],
       nextPage: () => null,
       elements: [
         new Form([

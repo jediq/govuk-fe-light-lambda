@@ -19,11 +19,9 @@ interface Session {}
 interface Page {
   id: string;
   nextPage: (context: Context) => string;
-  preRequisiteData: Array<string>;
-  items?: Array<Item>;
-  elements?: Array<Element>;
+  preRequisiteData?: Array<string>;
+  elements: Array<Element>;
   allElements?: Array<Element>;
-  hint?: string;
   preValidation?: Array<HttpCall>;
   validation?: Validation;
   invalidElements?: Array<Element>;

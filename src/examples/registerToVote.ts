@@ -148,40 +148,6 @@ const service: FrameworkService = {
           } as any) as RadioField,
           new SubmitButton("Save and Continue")
         ])
-      ],
-      items: [
-        {
-          id: "middleNamesField",
-          type: "text",
-          label: "Middle names",
-
-          validation: {
-            regex: ".*",
-            error: "Enter your middle names"
-          }
-        },
-        {
-          id: "lastNameField",
-          type: "text",
-          label: "Last name",
-
-          validation: {
-            regex: ".+",
-            error: "Enter your last name"
-          }
-        },
-        {
-          id: "changedNameField",
-          label: "Changed name?",
-          hint: "Have you ever changed your name?",
-          type: "radio",
-          options: ["No, I haven’t changed my name", "Yes, I changed my name", "Prefer not to say"],
-
-          validation: {
-            regex: ".+",
-            error: "Select one option"
-          }
-        }
       ]
     },
     {
@@ -250,11 +216,11 @@ const service: FrameworkService = {
     },
     {
       id: "chooseAddress",
-      hint: "Choose your address from the list",
       nextPage: () => "secondAddressQuestion",
       preRequisiteData: ["addressList"],
       elements: [
         new Heading("What's your home address?"),
+        new Paragraph("Choose your address from the list"),
         new ErrorList("There is a problem"),
         new Form([
           ({

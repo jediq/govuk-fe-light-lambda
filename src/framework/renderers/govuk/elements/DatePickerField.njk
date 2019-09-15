@@ -7,9 +7,25 @@
   namePrefix:elementData.name,
   hint: {
     text: elementData.hint
-  }
+  },
+
+items: [
+    {
+      name: "day",
+      classes: "govuk-input--width-2",
+      value: elementData.context.data[elementData.name + '-day']
+    },
+    {
+      name: "month",
+      classes: "govuk-input--width-2",
+      value: elementData.context.data[elementData.name + '-month']
+    },
+    {
+      name: "year",
+      classes: "govuk-input--width-4",
+      value: elementData.context.data[elementData.name + '-year']
+    }
+  ]
 }) }}
 
 {% endmacro %}
-
-

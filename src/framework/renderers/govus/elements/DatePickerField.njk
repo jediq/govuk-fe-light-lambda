@@ -3,9 +3,9 @@
 <fieldset>
 
 <label for="{{elementData.name}}">{{elementData.displayText}}</label>
-Day:<input type="text" name="{{elementData.name}}-day">
-Month:<input type="text" name="{{elementData.name}}-month">
-Year:<input type="text" name="{{elementData.name}}-year">
+Day:<input type="text" name="{{elementData.name}}-day" value="{{elementData.context.data[elementData.name + '-day']}}">
+Month:<input type="text" name="{{elementData.name}}-month" value="{{elementData.context.data[elementData.name + '-month']}}">
+Year:<input type="text" name="{{elementData.name}}-year" value="{{elementData.context.data[elementData.name + '-year']}}">
 
 
 {% if elementData.invalid %}

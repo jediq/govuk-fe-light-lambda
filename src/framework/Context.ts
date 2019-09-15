@@ -96,8 +96,10 @@ export class Context {
     }
 
     // Conflate date fields together
-    if (item.type === "datePicker") {
-      this.data[item.id] = this.data[item.id + "-day"] + "-" + this.data[item.id + "-month"] + "-" + this.data[item.id + "-year"];
+    if ("DatePickerField" === item.type) {
+      logger.debug("date picker : " + item.name);
+      this.data[item.name] = this.data[item.name + "-day"] + "-" + this.data[item.name + "-month"] + "-" + this.data[item.name + "-year"];
+      logger.debug("augmented date field : " + this.data[item.name]);
     }
   }
 

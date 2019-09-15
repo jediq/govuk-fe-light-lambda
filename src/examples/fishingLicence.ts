@@ -76,7 +76,6 @@ const service: FrameworkService = {
     },
     {
       id: "dateofbirth",
-      hint: "We use this information to find out if you're eligible for a senior or junior concession.",
       nextPage: () => "addressLookup",
       preRequisiteData: ["firstNameField", "lastNameField"],
       elements: [
@@ -140,11 +139,11 @@ const service: FrameworkService = {
     },
     {
       id: "chooseAddress",
-      hint: "Choose your address from the list",
       nextPage: () => "startType",
       preRequisiteData: ["addressList"],
       elements: [
         new Heading("What's your home address?"),
+        new Paragraph("Choose your address from the list"),
         new ErrorList("There is a problem"),
         new Form([
           ({

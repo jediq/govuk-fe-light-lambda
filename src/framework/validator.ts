@@ -101,19 +101,8 @@ function validateElements(context: Context, page: any) {
 
 function enrichPage(page: any, context: any) {
   page.valid = true;
-  if (page.items) {
-    for (var item of page.items) {
-      item.value = context.data[item.id];
-      item.valid = validate(item.validation, context.data[item.id]);
-      item.invalid = !item.valid;
-      page.valid = page.valid && item.valid;
-      page.invalid = !page.valid;
-    }
-  }
 
-  if (page.elements) {
-    validateElements(context, page);
-  }
+  validateElements(context, page);
 
   if (context.page.validation && context.page.validation.validator) {
     var pageValid = context.page.validation.validator(context);

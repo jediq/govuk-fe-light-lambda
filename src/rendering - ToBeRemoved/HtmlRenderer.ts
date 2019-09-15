@@ -46,16 +46,16 @@ export class HtmlRenderer implements Renderer {
         var id = items[i];
         logger.debug("item : " + JSON.stringify(id));
 
-        var { page, item }: any = findItem(id, context);
-        if (item) {
-          items[i] = {
-            id: id,
-            type: item.type,
-            label: item.label,
-            value: context.data[id],
-            page: page.id
-          };
-        }
+        //var { page, item }: any = findItem(id, context);
+        // if (item) {
+        //   items[i] = {
+        //     id: id,
+        //     type: item.type,
+        //     label: item.label,
+        //     value: context.data[id],
+        //     page: page.id
+        //   };
+        // }
       }
     }
 

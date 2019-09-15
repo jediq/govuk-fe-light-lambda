@@ -33,8 +33,7 @@ const service: FrameworkService = {
         new Heading("Intro page"),
         new ErrorList("There is a problem"),
         new Form([
-          new TextField("tf", "STTTF"),
-          new RadioField("radios", "Radio buttons", ["radio 1", "radio 2", "radio 3"]),
+          new TextField("constructedTF", "Constructed Text Field"),
           new Paragraph("This is the paragraph in the middle of the form"),
           new CheckboxField("checkboxes", "Checkbox", ["checkbox 1", "checkbox 2", "checkbox 3"]),
           new SelectListField("selectlist", "Select list", ["select 1", "select 2", "select 3"]),
@@ -53,9 +52,9 @@ const service: FrameworkService = {
         new ErrorList("There is a problem"),
         new Form([
           ({
-            name: "textField",
+            name: "objectTF",
             type: "TextField",
-            displayText: "Text Field",
+            displayText: "Object Text Field",
             shortText: "Txt Fld",
             hint: "The text field",
             validation: {
@@ -63,10 +62,8 @@ const service: FrameworkService = {
               error: "Enter the vehicle’s registration"
             }
           } as any) as TextField,
+
           new RadioField("radios", "Radio buttons", ["radio 1", "radio 2", "radio 3"]),
-          new Paragraph("This is the paragraph in the middle of the form"),
-          new CheckboxField("checkboxes", "Checkbox", ["checkbox 1", "checkbox 2", "checkbox 3"]),
-          new SelectListField("selectlist", "Select list", ["select 1", "select 2", "select 3"]),
           new DatePickerField("datePicker", "Date Picker"),
           new SubmitButton("Save and Continue")
         ])
@@ -80,9 +77,9 @@ const service: FrameworkService = {
       elements: [
         new Form([
           new Heading("Please check your info"),
-          new Summary("Summary 1", ["textField", "checkboxes", "selectlist", "datePicker"]),
+          new Summary("Intro page", ["constructedTF", "checkboxes", "selectlist"]),
           new Paragraph("spacer"),
-          new Summary("Summary 2", ["radios"]),
+          new Summary("Page 1", ["objectTF", "radios", "datePicker"]),
           new SubmitButton("Finish")
         ])
       ]

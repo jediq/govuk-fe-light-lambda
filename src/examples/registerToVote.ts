@@ -102,7 +102,7 @@ const service: FrameworkService = {
     {
       id: "name",
       nextPage: () => "nationalInsurance",
-      preRequisiteData: [], //["dateOfBirth"], // TODO : Need to post-process date fields properly
+      preRequisiteData: ["dateOfBirth"], // TODO : Need to post-process date fields properly
       elements: [
         new Heading("What is your full name?"),
         new Paragraph("Enter all your names in full - don't use initials"),

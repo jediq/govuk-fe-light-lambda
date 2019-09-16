@@ -21,7 +21,6 @@ export class NunjucksRenderer implements Renderer {
     context.allElements.forEach(element => (element.transformed = transformer.transform(element)));
 
     context.page.elements && this.recurseElementsAddingContext(context.page.elements, context);
-    console.log("Rendering someing");
     this.configureNunjucks();
     return nunjucks.render("Page.njk", context);
   }
@@ -35,7 +34,6 @@ export class NunjucksRenderer implements Renderer {
     var ren = environment.renderer as string;
     var path = "/framework/renderers/";
     var nunjucksPaths = _.get(allNunjucksPaths, ren, []).concat(["src" + path + ren, "dist" + path + ren, path + ren]);
-    console.log("NunjucksPaths : " + JSON.stringify(nunjucksPaths));
     nunjucks.configure(nunjucksPaths, {
       autoescape: false
     });

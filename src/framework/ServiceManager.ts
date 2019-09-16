@@ -15,7 +15,9 @@ export class ServiceManager {
     if (fileOrFolderStat.isDirectory()) {
       logger.debug("it's a directory, scanning");
       fs.readdirSync(serviceFileOrFolder).forEach(file => {
+        logger.debug("inspecting file : " + file);
         if (file.includes(".ts") && !file.includes(".test.ts")) {
+          logger.debug(`Adding ${file} to potential service list`);
           files.push(location + "/" + file);
         }
       });

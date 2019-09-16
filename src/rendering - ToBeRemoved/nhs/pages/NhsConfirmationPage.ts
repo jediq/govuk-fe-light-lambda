@@ -7,13 +7,13 @@ import _ from "lodash";
 
 export class NhsConfirmationPage extends NhsPage {
     private findItem(id: any, context: Context) {
-        for (var page of context.service.pages) {
-            for (var item of page.items) {
-                if (item.id == id) {
-                    return { page, item };
-                }
-            }
-        }
+    // for (var page of context.service.pages) {
+    //     for (var item of page.items) {
+    //         if (item.id == id) {
+    //             return { page, item };
+    //         }
+    //     }
+    // }
     }
     public renderContent(context: Context): string {
         var opts = this.transformContext(context);

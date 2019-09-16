@@ -1,0 +1,15 @@
+{% macro element(elementData) %}
+
+{% from "components/select/macro.njk" import select %}
+{{ select({
+  id: elementData.name,
+  name: elementData.name,
+  label: {
+    text: elementData.displayText
+  },
+  items: elementData.options
+}) }}
+
+{% endmacro %}
+
+

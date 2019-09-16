@@ -1,0 +1,13 @@
+{% macro element(elementData) %}
+
+{% from "components/checkboxes/macro.njk" import checkboxes %}
+
+{{ checkboxes({
+  idPrefix: elementData.name,
+  name: elementData.name,
+  items: elementData.options
+}) }}
+
+{% endmacro %}
+
+

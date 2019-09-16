@@ -1,0 +1,17 @@
+{% macro element(elementData) %}
+
+
+{% if elementData.errorItems|length %}
+
+{% from "components/error-summary/macro.njk" import errorSummary %}
+
+{{ errorSummary({
+  titleText: elementData.title,
+  errorList: elementData.errorItems
+}) }}
+
+{% endif %}
+
+{% endmacro %}
+
+

@@ -1,6 +1,5 @@
 {% macro element(elementData) %}
 
-<fieldset>
 {% for eachOption in elementData.options %}
 
 <div class="radio">
@@ -13,7 +12,6 @@
   error : {{ elementData.validation.error }}
 {% endif %}
   
-</fieldset>
 {% endmacro %}
 
 

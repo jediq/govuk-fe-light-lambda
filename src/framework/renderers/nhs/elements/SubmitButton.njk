@@ -1,0 +1,9 @@
+{% macro element(elementData) %}
+
+{% from "components/button/macro.njk" import button %}
+
+{{ button({
+  text: elementData.displayText
+}) }}
+
+{% endmacro %}

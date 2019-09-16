@@ -1,0 +1,14 @@
+{% macro element(elementData) %}
+
+<div class="nhsuk-width-container">
+<div class="phase-banner" role="banner">
+        <span class="banner--{{elementData.phase}}">{{elementData.phase}}</span>
+        <span class="phase-message">
+                {{elementData.text}}
+        </span>
+    </div>
+  </div>
+
+{% endmacro %}
+
+

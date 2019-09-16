@@ -1,0 +1,14 @@
+{% macro element(elementData) %}
+
+{% from "components/radios/macro.njk" import radios %}
+
+{{ radios({
+  idPrefix: elementData.name,
+  name: elementData.name,
+  items: elementData.options
+}) }}
+
+
+{% endmacro %}
+
+

@@ -7,15 +7,15 @@ import _ from "lodash";
 
 export class GovUkConfirmationPage extends GovUkPage {
     private findItem(id: any, context: Context) {
-        for (var page of context.service.pages) {
-            var items = page.items;
-            if (!items) return;
-            for (var item of items) {
-                if (item.id == id) {
-                    return { page, item };
-                }
-            }
-        }
+    // for (var page of context.service.pages) {
+    //     var items = page.items;
+    //     if (!items) return;
+    //     for (var item of items) {
+    //         if (item.id == id) {
+    //             return { page, item };
+    //         }
+    //     }
+    // }
     }
     public renderContent(context: Context): string {
         var opts = this.transformContext(context);

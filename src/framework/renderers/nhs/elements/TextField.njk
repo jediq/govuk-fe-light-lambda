@@ -1,0 +1,42 @@
+{% macro element(elementData) %}
+
+{% from "components/input/macro.njk" import input %}
+
+
+{% if elementData.valid %}
+
+{{ input({
+  label: {
+    text: elementData.displayText
+  },
+  id: elementData.name,
+  name: elementData.name,
+  hint: {
+    text: elementData.hint
+  },
+  value: elementData.value
+}) }}
+
+{% else %}
+
+{{ input({
+  label: {
+    text: elementData.displayText
+  },
+  id: elementData.name,
+  name: elementData.name,
+  hint: {
+    text: elementData.hint
+  },
+  errorMessage: {
+    text: elementData.validation.error
+  },
+  value: elementData.value
+}) }}
+
+
+{% endif %}
+
+{% endmacro %}
+
+

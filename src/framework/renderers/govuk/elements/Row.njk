@@ -1,0 +1,16 @@
+{% macro element(elementData) %}
+
+<div class="govuk-grid-row">
+{% for eachElement in elementData.elements %}
+<!--LOOP: {{elementData.fractionWords[elementData.columnWidths[loop.index0]]}} -->
+
+  <div class="govuk-grid-column-{{elementData.fractionWords[elementData.columnWidths[loop.index0]]}}">
+{% from "elements/" + eachElement.type + ".njk" import element %}
+{{ element(eachElement) }}
+
+  </div>
+{% endfor %}
+
+</div>
+
+{% endmacro %}

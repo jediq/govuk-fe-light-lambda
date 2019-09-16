@@ -94,10 +94,6 @@ export class Context {
         }
       }
       for (var option of item.options) {
-        console.log(
-          `this.data[item.name] (${this.data[item.name]}) = option.value (${option.value}) = ` +
-            (this.data[item.name] && this.data[item.name].includes(option.value))
-        );
         if (this.data[item.name] && this.data[item.name].includes(option.value)) {
           option.checked = true;
           option.selected = true;
@@ -107,9 +103,7 @@ export class Context {
 
     // Conflate date fields together
     if ("DatePickerField" === item.type) {
-      logger.debug("date picker : " + item.name);
       this.data[item.name] = this.data[item.name + "-day"] + "-" + this.data[item.name + "-month"] + "-" + this.data[item.name + "-year"];
-      logger.debug("augmented date field : " + this.data[item.name]);
     }
   }
 

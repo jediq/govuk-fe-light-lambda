@@ -10,6 +10,8 @@ import SelectListField from "./SelectListField";
 import Paragraph from "./Paragraph";
 import Phase from "./Phase";
 import DatePickerField from "./DatePickerField";
+import PlainMarkup from "./PlainMarkup";
+import Row from "./Row";
 import Summary from "./Summary";
 import ErrorList from "./ErrorList";
 
@@ -26,6 +28,8 @@ export {
   Paragraph,
   Phase,
   DatePickerField,
+  PlainMarkup,
+  Row,
   Summary,
   ErrorList
 };

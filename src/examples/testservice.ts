@@ -11,7 +11,9 @@ import {
   Phase,
   SelectListField,
   DatePickerField,
-  CheckboxField
+  CheckboxField,
+  PlainMarkup,
+  Row
 } from "../framework/elements/Elements";
 
 const service: FrameworkService = {
@@ -32,6 +34,8 @@ const service: FrameworkService = {
         new Phase("BETA", "This is a beta project"),
         new Heading("Intro page"),
         new ErrorList("There is a problem"),
+        new Row([3, 4, 4], [new PlainMarkup("three"), new PlainMarkup("four"), new PlainMarkup("four")]),
+        new PlainMarkup(`<div style="color:red;">Plain markup</div>`),
         new Form([
           new TextField("constructedTF", "Constructed Text Field"),
           new Paragraph("This is the paragraph in the middle of the form"),

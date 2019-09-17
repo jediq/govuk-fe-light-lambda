@@ -37,15 +37,7 @@ export class ServiceManager {
   }
 
   private findServiceFileOrFolder(location: string): string {
-    var existing: string = this.findExistingFileOrFolder(
-      location,
-      "src/" + location,
-      "dist/" + location,
-      location + ".ts",
-      location + ".ts",
-      "src/" + location + ".ts",
-      "dist/" + location + ".ts"
-    );
+    var existing: string = this.findExistingFileOrFolder(location, "dist/" + location, location + ".js", "dist/" + location + ".js");
     return existing;
   }
 
@@ -58,13 +50,10 @@ export class ServiceManager {
   }
 
   /*
-  It looks for files in the src/dist folder, but 'require' is a little bit needy
+  munge filename so 'require' can pick it up as it is a little bit needy
   */
   private jiggeryPokeyFilename(file: string) {
-    if (file.indexOf("src/") == 0) {
-      file = file.substring(4);
-    }
-    file = file.substring(0, file.lastIndexOf(".ts"));
+    file = file.substring(0, file.lastIndexOf(".js"));
     if (file.indexOf("../") == -1) {
       file = "../" + file;
     }

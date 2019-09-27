@@ -1,0 +1,22 @@
+{% macro element(elementData) %}
+
+<div class="form-group">
+<label for="{{elementData.name}}" class="control-label">{{elementData.displayText}}</label>
+
+                <div id="radio-vertical" class="controls-vertical">
+{% for eachOption in elementData.options %}
+
+    <label class="block-label" for="group-2-yes">
+      <input type="radio" name="{{elementData.name}}" value="{{eachOption.value}}"  {% if eachOption.value === elementData.value %} checked="true" {%endif%}>
+      {{eachOption.value}}
+    </label>
+{% endfor %}
+
+{% if elementData.invalid %}
+  error : {{ elementData.validation.error }}
+{% endif %}
+  </div>
+</div>
+{% endmacro %}
+
+

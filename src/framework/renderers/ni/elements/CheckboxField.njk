@@ -1,0 +1,46 @@
+{% macro element(elementData) %}
+<div class="form-group">
+                <label class="control-label">
+                    How many do you require?
+                </label>
+                <div id="checkbox" class="controls-vertical">
+                    <label class="block-label" for="group-3-one">
+                        <input type="checkbox" name="group-3" id="group-3-one">
+                        One
+                    </label>
+                    <label class="block-label" for="group-3-two">
+                        <input type="checkbox" name="group-3" id="group-3-two">
+                        Two
+                    </label>
+                    <label class="block-label" for="group-3-three">
+                        <input type="checkbox" name="group-3" id="group-3-three">
+                        Three
+                    </label>
+                </div>
+            </div>
+
+
+<div class="form-group">
+
+
+<label for="{{elementData.name}}" class="control-label">{{elementData.displayText}}</label>
+
+                <div id="checkbox" class="controls-vertical">
+{% for eachOption in elementData.options %}
+
+                    <label class="block-label" for="{{elementData.name}}-{{eachOption.value}}">
+<input type="checkbox" name="{{elementData.name}}-{{eachOption.value}}" value="{{eachOption.value}}"  {% if eachOption.value %} checked="true" {%endif%}">
+{{eachOption.value}}
+</label>
+{% endfor %}
+</div>
+
+{% if elementData.invalid %}
+  error : {{ elementData.validation.error }}
+{% endif %}
+
+  
+</div>
+{% endmacro %}
+
+

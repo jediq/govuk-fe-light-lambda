@@ -1,0 +1,18 @@
+{% macro element(elementData) %}
+
+<div class="form-group">
+<label for="{{elementData.name}}" class="control-label" >{{elementData.displayText}}</label>
+<select name="{{elementData.name}}" class="form-control form-control-short" >
+{% for eachOption in elementData.options %}
+<option {% if eachOption.value === elementData.value %} selected="true" {%endif%}>{{eachOption.text}}</option>
+{% endfor %}
+</select>
+
+{% if elementData.invalid %}
+  error : {{ elementData.validation.error }}
+{% endif %}
+  
+</div>
+{% endmacro %}
+
+

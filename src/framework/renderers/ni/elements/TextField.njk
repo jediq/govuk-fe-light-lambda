@@ -1,0 +1,15 @@
+{% macro element(elementData) %}
+
+<div class="form-group  {% if elementData.invalid %}validation{% endif %}" id="txtinput1">
+  <label class="control-label" for="{{elementData.name}}">{{elementData.displayText}}
+  {% if elementData.invalid %}
+  <span class="validation-error">{{ elementData.validation.error }}</span>
+  {% endif %}
+  </label>
+  <input type="text" id="{{elementData.name}}" name="{{elementData.name}}" value="{{elementData.value}}" class="form-control" />
+
+  
+</div>
+{% endmacro %}
+
+

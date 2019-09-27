@@ -1,0 +1,38 @@
+{% macro element(elementData) %}
+
+<div class="form-group">
+
+            <a href="#" id="example-show" class="showLink" onclick="$(this).children().toggle();return false;" style="display: block;">{{elementData.summaryText}}</a>
+            
+            
+            
+            <div id="example" class="help-more" style="">
+                <a href="#" id="example-hide" class="hideLink" onclick="$(this).().toggle();return false;">{{elementData.summaryText}}</a>
+                <div class="help-content">
+                    <p>{{elementData.text}}</p>
+                </div>
+            </div>
+        </div>
+
+<style>
+
+.details-content { display:none; }
+
+.details-input:checked ~ .details-content {
+  display:block !important;
+}
+
+</style>
+
+<span class="details">
+<label for="details-input-{{elementData.summaryText}}">{{elementData.summaryText}}</label>
+<input type=checkbox class="details-input" name="details-input-{{elementData.summaryText}}"/>
+<span class="details-content">{{elementData.text}}</span>
+</span>
+
+
+
+
+{% endmacro %}
+
+

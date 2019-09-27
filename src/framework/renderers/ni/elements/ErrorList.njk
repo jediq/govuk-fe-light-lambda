@@ -1,0 +1,26 @@
+{% macro element(elementData) %}
+
+
+{% if elementData.errorItems|length %}
+<div class="error-summary">
+            <div class="error-heading">
+                Please review and correct the following errors:
+            </div>
+            <div class="error-body">
+                <ul>
+{% for eachItem in elementData.errorItems %}
+<li>
+<a href="#{{eachItem.element.name}}">{{eachItem.element.name}} : {{ eachItem.element.validation.error}}</a>
+</li>
+{% endfor %}
+
+                </ul>
+            </div>
+        </div>
+
+{% endif %}
+  
+
+{% endmacro %}
+
+

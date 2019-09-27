@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" class="gr__uxm_nidirect_gov_uk"><head>
+
+    <!-- Google Tag Manager -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/gtm/js?id=GTM-P2CHD98&amp;t=gtm1&amp;cid=1965176156.1568974030&amp;aip=true"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-K7W6P9W"></script><script>(function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-K7W6P9W');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+
+    <title>{{service.name}} | nidirect</title>
+
+    <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="favicon.ico">
+
+    <!--Develop-->
+    <!--<link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="/assets/ni/css/UX-theme.css" rel="stylesheet" />
+    <link href="/assets/ni/css/jquery-ui.css" rel="stylesheet" />
+    <link href="/assets/ni/css/bootstrap-uxm.css" rel="stylesheet" />
+    <link href="/assets/ni/css/bootstrap-uxm-responsive.css" rel="stylesheet" />
+    <link href="/assets/ni/css/controls-uxm.css" rel="stylesheet" />-->
+
+    <!--Live-->
+    <link href="/assets/ni/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/ni/css/UX-theme.min.css" rel="stylesheet">
+    <link href="/assets/ni/css/jquery-ui.min.css" rel="stylesheet">
+    <link href="/assets/ni/css/bootstrap-uxm.min.css" rel="stylesheet">
+    <link href="/assets/ni/css/bootstrap-uxm-responsive.min.css" rel="stylesheet">
+    <link href="/assets/ni/css/controls-uxm.min.css" rel="stylesheet">
+
+</head>
+
+<body data-gr-c-s-loaded="true">
+
+    <div class="skip-link">
+        <a class="element-invisible element-focusable" href="#main-content">Skip to content</a>
+    </div>
+
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand">
+                    <img src="/assets/ni/img/nidirect-logo.png" alt="n i direct government services">
+                </a>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><abbr title="User Experience Model"></abbr><a href="index.html">Home</a></li>
+                    <li><a href="principles.html">Principles</a></li>
+                    <li><a href="usability-testing.html">Usability testing</a></li>
+                    <li class="dropdown active">
+                        <a aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">Style guide <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="applying-uxm.html">Applying the UXM</a></li>
+                            <li><a href="writing-guide.html">Writing guide</a></li>
+                            <li><a href="page-layout.html">Page layout</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">Controls <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="input-controls.html">Input controls</a></li>
+                            <li><a href="navigation-controls.html">Navigation controls</a></li>
+                            <li><a href="information-controls.html">Information controls</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">Design patterns <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="control-patterns.html">Control patterns</a></li>
+                            <li><a href="information-patterns.html">Information patterns</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="jumbotron service-name-uxm">
+        <div class="container">
+            {{service.name}}
+        </div>
+    </div>
+
+    <div class="container">
+
+{% for eachElement in page.elements %}
+{% from "elements/" + eachElement.type + ".njk" import element %}
+{{ element(eachElement) }}
+{% endfor %}
+
+<br/>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <ul>
+                    <li>
+                        <a href="http://www.nidirect.gov.uk/crown-copyright" target="_blank" rel="nofollow" title="(external link opens in a new window / tab)">
+                            © Crown copyright
+                            <span class="element-invisible">(external link opens in a new window / tab)</span>
+                            <span class="elink"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.nidirect.gov.uk/terms-and-conditions" target="_blank" rel="nofollow" title="(external link opens in a new window / tab)">
+                            Terms and conditions
+                            <span class="element-invisible">(external link opens in a new window / tab)</span>
+                            <span class="elink"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.nidirect.gov.uk/privacy" target="_blank" rel="nofollow" title="(external link opens in a new window / tab)">
+                            Privacy
+                            <span class="element-invisible">(external link opens in a new window / tab)</span>
+                            <span class="elink"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.nidirect.gov.uk/cookies" target="_blank" rel="nofollow" title="(external link opens in a new window / tab)">
+                            Cookies
+                            <span class="element-invisible">(external link opens in a new window / tab)</span>
+                            <span class="elink"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="resources.html">Resources</a>
+                    </li>
+                    <li>
+                        <a href="accessibility.html">Accessibility</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!--Develop-->
+    <!--<script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/jquery-ui.js" type="text/javascript"></script>
+    <script src="js/bootstrap.js" type="text/javascript"></script>
+    <script src="js/controls-uxm.js" type="text/javascript"></script>-->
+
+    <!--Live-->
+    <script src="/assets/ni/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/assets/ni/js/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="/assets/ni/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/assets/ni/js/controls-uxm.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $('#topnav-tabs li').click(function () {
+            var tab_id = $(this).attr('data-tab');
+
+            $('#topnav-tabs li').removeClass('current');
+            $('#tabs .tab-content').removeClass('current');
+
+            $(this).addClass('current');
+            $("#" + tab_id).addClass('current');
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-toggle').dropdown();
+            $('body').removeClass('no-js');
+        });
+    </script>
+
+
+</body></html>
